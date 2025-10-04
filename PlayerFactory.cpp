@@ -4,11 +4,13 @@
 #include "attacksEffects.H"
 #include "include/json.hpp"
     using json = nlohmann::json;
+    using ordered_json = nlohmann::ordered_json;
 
 #include <string>
     using std::string;
 #include <fstream>
     using std::ifstream;
+    using std::ofstream;
 #include <iostream>
     using std::cin;
     using std::cout;
@@ -26,6 +28,57 @@ Player PlayerFactory::createPlayer()
     allocateStatPoints(healthValue, strengthValue, dexterityValue, mindValue, nameValue);
 
     Player newPlayer(healthValue, healthValue, strengthValue, dexterityValue, mindValue, nameValue, 1 , 0, 50);
+
+//default combat inventory
+    ofstream combatF;
+    ordered_json j;
+    ordered_json attackIDs = j["Attack IDs"];
+
+    combatF.open("playerData/playerCombatBook.json");
+
+    attackIDs["Attack IDs"][0]["ID"] = "normal";
+    attackIDs["Attack IDs"][1]["ID"] = "normal";
+    attackIDs["Attack IDs"][2]["ID"] = "normal";
+    attackIDs["Attack IDs"][3]["ID"] = "normal";
+    attackIDs["Attack IDs"][4]["ID"] = "magicPunch";
+    attackIDs["Attack IDs"][5]["ID"] = "magicPunch";
+    attackIDs["Attack IDs"][6]["ID"] = "magicPunch";
+    attackIDs["Attack IDs"][7]["ID"] = "magicPunch";
+    
+
+    combatF << attackIDs;
+
+    std::ofstream outAttacks("playerData/playerCombatBook.json");
+    outAttacks << attackIDs.dump(3);
+
+    combatF.close();
+
+    
+
+    Attacks load;
+
+    vector<Attacks> attacksFile = load.loadAttacks("playerData/PlayerAction/attacks.json");
+
+    vector<Attacks> actionsToPlayer;
+
+    cout << attacksFile.size() << "\n";
+
+    for(size_t i = 0; i < attacksFile.size(); i++)
+    {
+        for(size_t o = 0; o < attackIDs["Attack IDs"].size(); o++)
+        {
+            if(attacksFile.at(i).id == attackIDs["Attack IDs"][o]["ID"])
+            {
+                actionsToPlayer.push_back(attacksFile.at(i));
+            }
+        }
+        
+    }
+
+
+    newPlayer.setAllCombat(actionsToPlayer);
+
+    
     
     return newPlayer;
 };

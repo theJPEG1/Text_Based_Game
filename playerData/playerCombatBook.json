@@ -4,25 +4,25 @@
          "ID": "normal"
       },
       {
-         "ID": "light"
+         "ID": "normal"
       },
       {
-         "ID": "percisionStrike"
+         "ID": "normal"
       },
       {
-         "ID": "heavy"
-      },
-      {
-         "ID": "fireBall"
+         "ID": "normal"
       },
       {
          "ID": "magicPunch"
       },
       {
-         "ID": "lightningBlast"
+         "ID": "magicPunch"
       },
       {
-         "ID": "vindBind"
+         "ID": "magicPunch"
+      },
+      {
+         "ID": "magicPunch"
       }
    ]
 }
