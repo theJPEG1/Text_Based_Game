@@ -1,0 +1,142 @@
+{
+   "Attacks": [
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 5,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "physical"
+            }
+         ],
+         "ID": "normal",
+         "Name": "Normal Attack"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 3,
+               "bindChance": 0,
+               "dexModi": 3,
+               "type": "physical"
+            }
+         ],
+         "ID": "light",
+         "Name": "Light Attack"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 3,
+               "bindChance": 0,
+               "dexModi": 5,
+               "type": "physical"
+            }
+         ],
+         "ID": "percisionStrike",
+         "Name": "Percision Strike"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 8,
+               "bindChance": 0,
+               "dexModi": -3,
+               "type": "physical"
+            }
+         ],
+         "ID": "heavy",
+         "Name": "Heavy Attack"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 5,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "magical"
+            }
+         ],
+         "ID": "fireBall",
+         "Name": "Fire Ball"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 3,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "magical"
+            }
+         ],
+         "ID": "magicPunch",
+         "Name": "Magic Punch"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 10,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "magical"
+            },
+            {
+               "ID": "selfDamage",
+               "baseDmg": 2,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "magical"
+            }
+         ],
+         "ID": "lightningBlast",
+         "Name": "Lightning Blast"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 3,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "magical"
+            },
+            {
+               "ID": "healing",
+               "baseDmg": 0,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "magical"
+            }
+         ],
+         "ID": "siphon",
+         "Name": "Siphon"
+      },
+      {
+         "Effects": [
+            {
+               "ID": "damage",
+               "baseDmg": 3,
+               "bindChance": 0,
+               "dexModi": 0,
+               "type": "magical"
+            },
+            {
+               "ID": "bind",
+               "baseDmg": 0,
+               "bindChance": 50,
+               "dexModi": 0,
+               "type": "magical"
+            }
+         ],
+         "ID": "vindBing",
+         "Name": "Vine Bind"
+      }
+   ]
+}

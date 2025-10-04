@@ -1,0 +1,141 @@
+{
+    "Enemies": [
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Squirel",
+            "PhysicalRes": 0,
+            "MagicalRes": 0,
+            "Boss": false,
+            "Health": 2,
+            "Strength": 2,
+            "Dexterity": 25,
+            "MinExp": 1,
+            "MaxExp": 4
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Rabbit",
+            "PhysicalRes": 0,
+            "MagicalRes": 0,
+            "Boss": false,
+            "Health": 2,
+            "Strength": 2,
+            "Dexterity": 35,
+            "MinExp": 3,
+            "MaxExp": 5
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Slime",
+            "PhysicalRes": 0.1,
+            "MagicalRes": 0,
+            "Boss": false,
+            "Health": 10,
+            "Strength": 5,
+            "Dexterity": 8,
+            "MinExp": 3,
+            "MaxExp": 7
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Wolf",
+            "PhysicalRes": 0,
+            "MagicalRes": 0,
+            "Boss": false,
+            "Health": 16,
+            "Strength": 8,
+            "Dexterity": 10,
+            "MinExp": 5,
+            "MaxExp": 10
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Boar",
+            "PhysicalRes": 0.2,
+            "MagicalRes": 0,
+            "Boss": false,
+            "Health": 16,
+            "Strength": 10,
+            "Dexterity": 11,
+            "MinExp": 6,
+            "MaxExp": 12
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Bear",
+            "PhysicalRes": 0.3,
+            "MagicalRes": 0,
+            "Boss": false,
+            "Health": 20,
+            "Strength": 13,
+            "Dexterity": 10,
+            "MinExp": 9,
+            "MaxExp": 15
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Sprig",
+            "PhysicalRes": 0.2,
+            "MagicalRes": 0.5,
+            "Boss": false,
+            "Health": 26,
+            "Strength": 11,
+            "Dexterity": 13,
+            "MinExp": 15,
+            "MaxExp": 20
+        },
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Stump Golem",
+            "PhysicalRes": 0.5,
+            "MagicalRes": 0,
+            "Boss": false,
+            "Health": 32,
+            "Strength": 16,
+            "Dexterity": 8,
+            "MinExp": 18,
+            "MaxExp": 25
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "",
+            "PhysicalRes": 0,
+            "MagicalRes": 0.4,
+            "EnemyType": "Fairy",
+            "Boss": false,
+            "Health": 5,
+            "Strength": 5,
+            "Dexterity": 25,
+            "MinExp": 22,
+            "MaxExp": 30
+        },
+        {
+            "Region": "Forest",
+            "Name": "",
+            "EnemyType": "Dragon",
+            "PhysicalRes": 0.3,
+            "MagicalRes": 0.3,
+            "Boss": false,
+            "Health": 37,
+            "Strength": 15,
+            "Dexterity": 15,
+            "MinExp": 30,
+            "MaxExp": 60
+        }
+    ]
+}

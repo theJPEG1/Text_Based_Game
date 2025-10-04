@@ -1,0 +1,28 @@
+{
+   "Attack IDs": [
+      {
+         "ID": "normal"
+      },
+      {
+         "ID": "light"
+      },
+      {
+         "ID": "percisionStrike"
+      },
+      {
+         "ID": "heavy"
+      },
+      {
+         "ID": "fireBall"
+      },
+      {
+         "ID": "magicPunch"
+      },
+      {
+         "ID": "lightningBlast"
+      },
+      {
+         "ID": "vindBind"
+      }
+   ]
+}

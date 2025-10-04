@@ -1,0 +1,183 @@
+{
+    "Attacks": 
+    [
+        {
+            "ID": "normal",
+            "Name": "Normal Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                }
+            ]
+        },
+
+        {
+            "ID": "light",
+            "Name": "Light Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "dexModi": 3,
+                    "critChance": 30
+                }
+            ]
+        },
+
+        {
+            "ID": "percisionStrike",
+            "Name": "Percision Strike",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "dexModi": 5,
+                    "critChance": 50
+                }
+            ]
+        },
+
+        {
+            "ID": "heavy",
+            "Name": "Heavy Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "dexModi": -3,
+                    "critChance": 30
+                }
+            ]
+        },
+
+        {
+            "ID": "fireBall",
+            "Name": "Fire Ball",
+            "type": "spell",
+            "Mana": 10,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                }
+            ]
+        },
+
+        {
+            "ID": "magicPunch",
+            "Name": "Magic Punch",
+            "type": "spell",
+            "Mana": 5,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 3,
+                    "critChance": 30
+                }
+            ]
+        },
+
+        {
+            "ID": "lightningBlast",
+            "Name": "Lightning Blast",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 10,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "selfDamage",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 30,
+                    "selfDamage": true
+                }
+            ]
+        },
+
+        {
+            "ID": "vindBind",
+            "Name": "Vine Bind",
+            "type": "spell",
+            "Mana": 15,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 3,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "bind",
+                    "type": "magical",
+                    "bindChance": 50
+                }
+            ]
+        },
+
+        {
+            "ID": "siphon",
+            "Name": "Siphon",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 3,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "healing",
+                    "type": "magical",
+                    "baseHealing": 2
+                }
+            ]
+        },
+        {
+            "ID": "rob",
+            "Name": "Robs Attack",
+            "type": "attack",
+            "Effects":
+               [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 3,
+                    "critChance": 30
+                }
+            ]
+        }
+
+        
+    ]
+}

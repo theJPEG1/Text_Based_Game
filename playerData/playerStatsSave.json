@@ -1,0 +1,15 @@
+{
+   "name": "JPEG",
+   "hp": 410,
+   "maxHp": 410,
+   "strength": 204,
+   "dexterity": 204,
+   "mind": 204,
+   "level": 5,
+   "xp": 1,
+   "xpToNextLevel": 112,
+   "healthPotions": 24,
+   "manaPotions": 3,
+   "strengthPotions": 2,
+   "dexterityPotions": 1
+}
