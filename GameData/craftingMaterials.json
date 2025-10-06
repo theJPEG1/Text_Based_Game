@@ -1,0 +1,36 @@
+{
+    "Crafting Materials":
+    [
+        {
+            "ID": "wood",
+            "Name": "Wood",
+            "Rarity": 1,
+            "Cost": 3,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 1,
+                    "critChance": 5
+                }
+            ]
+        },
+
+        {
+            "ID": "vampFang",
+            "Name": "Vampire Fang",
+            "Rarity": 3,
+            "Cost": 15,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 5,
+                    "critChance": 5
+                }
+            ]
+        }
+    ]
+}

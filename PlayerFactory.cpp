@@ -53,8 +53,6 @@ Player PlayerFactory::createPlayer()
 
     combatF.close();
 
-    
-
     Attacks load;
 
     vector<Attacks> attacksFile = load.loadAttacks("playerData/PlayerAction/attacks.json");
