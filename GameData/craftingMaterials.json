@@ -2,6 +2,22 @@
     "Crafting Materials":
     [
         {
+            "ID": "leaf",
+            "Name": "Leaf",
+            "Rarity": 0,
+            "Cost": 0,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 0,
+                    "critChance": 0
+                }
+            ]
+        },
+
+        {
             "ID": "wood",
             "Name": "Wood",
             "Rarity": 1,

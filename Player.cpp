@@ -5,6 +5,8 @@
 #include <iostream>
     using std::cout;
     using std::cin;
+#include <map>
+    using std::map;
 
 #include "Enemy.H"
 
@@ -182,21 +184,6 @@ void Player::displayStats()
     color.clearScreen();
 };
 
-// void Player::displaySpells()
-// {
-//     if(!spellBook.empty())
-//     {
-//         for(size_t i = 0; i < spellBook.size(); i++)
-//         {
-//             spellBook.at(i).displaySpell();
-//         }
-//     }
-
-//     else
-//     {
-//         cout << color.RED << "\n!SPELL BOOK IS EMPTY!\n" << color.DEFAULT;
-//     }
-// };
 
 Attacks Player::getRandAttack()
 {
@@ -223,69 +210,6 @@ void Player::dealDamage(Enemy& target, int damage)
 {
     target.takeDamage(damage);
 };
-
-// Getters
-/**
- * @brief Returns a matieral from either the spell inventory or weapon inventoory.
- * 
- * SPELLMAT |--| WEAPONMAT
- * 
- * @param matName Name of mateiral to find
- * @param invType Type of inventory to use
- * 
- * @return A crafing material for a spell or a weapon
- */
-// CraftingMaterial Player::getMaterial(string matName, string invType)
-// {
-//     CraftingMaterial matReturn;
-
-//     if(invType == "SPELLMAT")
-//     {
-//         for(size_t i = 0; i < spellMatInventory.size(); i++)
-//         {
-//             if(spellMatInventory.at(i).getName() == matName)
-//             {
-//                 matReturn = spellMatInventory.at(i);
-//             }
-//         }
-//     }
-
-//     else if(invType == "WEAPONMAT")
-//     {
-//         for(size_t i = 0; i < weaponMatInventory.size(); i++)
-//         {
-//             if(weaponMatInventory.at(i).getName() == matName)
-//             {
-//                 matReturn = weaponMatInventory.at(i);
-//             }
-//         }
-//     }
-
-//     return matReturn;
-// };
-
-// Spells Player::getSpell(string name)
-// {
-//     Spells spell;
-
-//     if(!spellBook.empty())
-//     {
-//         for (size_t i = 0; i < spellBook.size(); i++)
-//         {
-//             if(spellBook[i].getName() == name)
-//             {
-//                 spell = spellBook[i];
-//             }
-//         }
-//     }
-
-//     else
-//     {
-//         cout << color.RED << "\n!SPELL BOOK IS EMPTY!\n" << color.DEFAULT;
-//     }
-
-//     return spell;
-// }
 
 // Setters
 /**
@@ -316,101 +240,34 @@ void Player::setMana(int newMana)
 };
 
 
-// void Player::setCombatBook(int index, Spells newSpell)
-// {
-//     combatBook.at(index) = newSpell;
-// };
 
-// void Player::addSpell(Spells newSpell)
-// {
-//     bool spellExists = false;
+void Player::addToInventory(CraftingMaterials material, int amount)
+{
+    if(inventory.find(material) == inventory.end())
+    {
+        inventory[material] = amount;
+    }
 
-//     if(!spellBook.empty())
-//     {
-//         for(size_t i = 0; i < spellBook.size(); i++)
-//         {
-//             if(spellBook.at(i).getName() == newSpell.getName())
-//             {
-//                 spellExists = true;
-//             }
-//         }
+    else
+    {
+        inventory[material] += amount;
+    }
+};
 
-//         if(!spellExists)
-//         {
-//             spellBook.push_back(newSpell);
-//         }
-//     }
+void Player::printInventory()
+{
+    int count = 0;
+    for (const auto& [material, amount] : inventory) 
+    {
+        if (amount > 0) 
+        {
+            std::cout << material.name << ": " << amount << "\t";
+            count++;
 
-//     else
-//     {
-//         spellBook.push_back(newSpell);
-//     }
-// };
-
-// void Player::addToInventory(CraftingMaterial material, int amount, string type)
-// {
-//     bool foundItem = false;
-//     int index = 0;
-
-//     if(type == "SPELL")
-//     {   
-//         if(spellMatInventory.size() == 0)
-//         {
-//             spellMatInventory.at(index).setInventoryAmount(amount);
-//         }
-
-//         else
-//         {
-//             for(size_t i = 0; i < spellMatInventory.size(); i++)
-//             {
-//                 if(spellMatInventory.at(i).getName() == material.getName() && !foundItem)
-//                 {
-//                     foundItem = true;
-//                     index = i;
-//                 }
-//             }
-
-//             if(foundItem)
-//             {
-//                 spellMatInventory.at(index).setInventoryAmount(amount);
-//             }
-
-//             else 
-//             {
-//                 spellMatInventory.push_back(material);
-//             }
-//         }
-        
-//     }
-
-//     else if(type == "WEAPON")
-//     {
-        
-//         if(weaponMatInventory.size() == 0)
-//         {
-//             weaponMatInventory.at(index).setInventoryAmount(amount);
-//         }
-
-//         else
-//         {
-//             for(size_t i = 0; i < weaponMatInventory.size(); i++)
-//             {
-//                 if(weaponMatInventory.at(i).getName() == material.getName() && !foundItem)
-//                 {
-//                     foundItem = true;
-//                     index = i;
-//                 }
-//             }
-
-//             if(foundItem)
-//             {
-//                 weaponMatInventory.at(index).setInventoryAmount(amount);
-//             }
-
-//             else 
-//             {
-//                 weaponMatInventory.push_back(material);
-//             }
-//         }
-//     }
-// };
+            if (count % 3 == 0) 
+            {
+                std::cout << "\n";
+            }
+        }
+    }
+};

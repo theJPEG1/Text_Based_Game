@@ -79,6 +79,16 @@ Player PlayerFactory::createPlayer()
     }
 
     newPlayer.setAllCombat(actionsToPlayer);
+
+    //inventorty
+    CraftingMaterials cLoad;
+
+    vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
+
+    for(size_t i = 0; i < cMats.size(); i++)
+    {
+        newPlayer.addToInventory(cMats.at(i), 0);
+    }
     
     return newPlayer;
 };

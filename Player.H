@@ -8,6 +8,8 @@
     using std::string;
 #include <vector>
     using std::vector;
+#include <map>
+    using std::map;
 
 class Enemy;
 
@@ -81,12 +83,11 @@ class Player
         void    setHealth(int newHp);
         void    setMana(int newMana);
 
-        // void setCombatBook(int index, Spells newSpell);
-        // void                 addSpell(Spells newSpell);
-
-        // void addToInventory(CraftingMaterial material, int amount, string type);
 
         void setEmptyInventory();
+        
+        void addToInventory(CraftingMaterials mat, int amount);
+        void printInventory();
 
         void setCombatAttacks(vector<Attacks> atks) {combatAttacks = atks;};
         void setCombatSpells(vector<Attacks> spels) {combatSpells = spels;};
@@ -103,6 +104,8 @@ class Player
         vector<Attacks>& getCustomAtks() {return customAtks;};
         
         Attacks getRandAttack();
+
+        void addQuest(string newQuest) {questLog.push_back(newQuest);};
 
 
     private:
@@ -125,6 +128,10 @@ class Player
         vector<Attacks> customAtks;
 
         vector<Attacks> allCombat {8};
+
+        vector<string> questLog;
+
+        map <CraftingMaterials, int> inventory;
 
 
         

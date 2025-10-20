@@ -205,6 +205,13 @@ struct CraftingMaterials
 
         return materials;
     };
+
+    // Add this operator to enable sorting
+    bool operator<(const CraftingMaterials& other) const 
+    {
+        return name < other.name;
+    };
+
 };
 
 
@@ -342,35 +349,26 @@ struct Attacks
 
         for(size_t i = 0; i < mats.size(); i++)
         {
-            cout << "| " << mats.at(i).id << " |\n";
-
             for(size_t k = 0; k < mats.at(i).matEffects.size(); k++)
             {
-                cout << "| " << mats.at(i).matEffects.at(k).id << " |\n";
-
                 if(customEffects.empty())
                 {
-                    cout << "\n Effects Vector is empty. Pushing " << mats.at(i).matEffects.at(k).id << "\n";
                     customEffects.push_back(mats.at(i).matEffects.at(k));
                 }
 
                 else
                 {
-                    cout << "\n Effects Vector is not empty. Attempting Pushing " << mats.at(i).matEffects.at(k).id<< "\n";
-
                     for(size_t j = 0; j < customEffects.size(); j++)
                     {
                         //combine like effects
                         if(mats.at(i).matEffects.at(k).id == customEffects.at(j).id)
                         {
-                            cout << "\n Effects exists in vector. Cp,bining " << mats.at(i).matEffects.at(k).id<< "\n";
                             customEffects.at(j) += mats.at(i).matEffects.at(k);
                         }
 
                         else
                         {
-                            cout << "\n Effects doesnt in vector. Pushing " << mats.at(i).matEffects.at(k).id<< "\n";
-                            customEffects.push_back(mats.at(i).matEffects.at(k));
+                             customEffects.push_back(mats.at(i).matEffects.at(k));
                         }   
                     }
                 }
