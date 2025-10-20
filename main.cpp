@@ -90,19 +90,19 @@ int main()
         playerExists = true;
     }
 
-    cout << "making load\n";
-    CraftingMaterials load;
+    // cout << "making load\n";
+    // CraftingMaterials load;
 
     
-    vector<CraftingMaterials> mats = load.loadCraftingMaterialss("GameData/craftingMaterials.json");
+    // vector<CraftingMaterials> mats = load.loadCraftingMaterialss("GameData/craftingMaterials.json");
 
-    Attacks newAtk = Attacks::createAttack(mats.at(0), mats.at(1), mats.at(2));
+    // Attacks newAtk = Attacks::createAttack(mats.at(0), mats.at(1), mats.at(2));
 
-    newPlayer.addCustomAtk(newAtk);
+    // newPlayer.addCustomAtk(newAtk);
 
-    newPlayer.setSpecificSlot(newAtk, 0);
+    // newPlayer.setSpecificSlot(newAtk, 0);
 
-    cout << newAtk.thisEffects.size();
+    // cout << newAtk.thisEffects.size();
 
     while(newPlayer.getHealth() > 0)
     {

@@ -13,7 +13,9 @@
                     "baseDmg": 5,
                     "critChance": 30
                 }
-            ]
+            ],
+
+            "desc": "A normal attack."
         },
 
         {
@@ -29,7 +31,9 @@
                     "dexModi": 3,
                     "critChance": 30
                 }
-            ]
+            ],
+
+            "desc": "A light attack. (+Dexterity, -Damage)"
         },
 
         {
@@ -45,7 +49,9 @@
                     "dexModi": 5,
                     "critChance": 50
                 }
-            ]
+            ],
+
+            "desc": "High crit, High dex, low damage"
         },
 
         {
@@ -61,23 +67,69 @@
                     "dexModi": -3,
                     "critChance": 30
                 }
-            ]
+            ],
+
+            "desc": "A heavy attack. (-Dexterity, +Damage)"
         },
 
         {
-            "ID": "fireBall",
-            "Name": "Fire Ball",
+            "ID": "kShield",
+            "Name": "Knights Shield",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "shield",
+                    "type": "physical",
+                    "shieldDuration": 2
+                }
+            ],
+
+            "desc": "Nullifies physical enemy Damage"
+        },
+
+        {
+            "ID": "WLS",
+            "Name": "Wizards's Last Stand",
             "type": "spell",
-            "Mana": 10,
+            "Mana": 1,
             "Effects": 
             [
                 {
                     "ID": "damage",
                     "type": "magical",
-                    "baseDmg": 5,
-                    "critChance": 30
+                    "baseDmg": 2,
+                    "critChance": 100
+                },
+
+                {
+                    "ID": "selfDamage",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 30,
+                    "selfDamage": true
                 }
-            ]
+            ],
+
+            "desc": "A spell explosion using all mana and leaving you one 1 hp. Destroys all in que"
+        },
+
+        {
+            "ID": "MLS",
+            "Name": "Mage's Last Stand",
+            "type": "spell",
+            "Mana": 1,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 2,
+                    "critChance": 100
+                }
+            ],
+
+            "desc": "Wait this is just brass knuckles"
         },
 
         {
@@ -93,7 +145,75 @@
                     "baseDmg": 3,
                     "critChance": 30
                 }
-            ]
+            ],
+
+            "desc": "A punch imbueded with magic"
+        },
+
+        {
+            "ID": "fireBall",
+            "Name": "Fire Ball",
+            "type": "spell",
+            "Mana": 10,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                }
+            ],
+
+            "desc": "I CAST FIREBALL"
+        },
+
+        {
+            "ID": "iceSpike",
+            "Name": "Ice Spike",
+            "type": "spell",
+            "Mana": 10,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "freeze",
+                    "type": "magical",
+                    "freezeChance": 30
+                }
+            ],
+
+            "desc": "Small chance to freeze enemies"
+        },
+
+        {
+            "ID": "vindBind",
+            "Name": "Vine Bind",
+            "type": "spell",
+            "Mana": 15,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 3,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "bind",
+                    "type": "magical",
+                    "bindChance": 50
+                }
+            ],
+
+            "desc": "Moderate chance to bind enemies"
         },
 
         {
@@ -117,30 +237,12 @@
                     "critChance": 30,
                     "selfDamage": true
                 }
-            ]
+            ],
+
+            "desc": "High damage to enemies and recoil to you"
         },
 
-        {
-            "ID": "vindBind",
-            "Name": "Vine Bind",
-            "type": "spell",
-            "Mana": 15,
-            "Effects": 
-            [
-                {
-                    "ID": "damage",
-                    "type": "magical",
-                    "baseDmg": 3,
-                    "critChance": 30
-                },
-
-                {
-                    "ID": "bind",
-                    "type": "magical",
-                    "bindChance": 50
-                }
-            ]
-        },
+       
 
         {
             "ID": "siphon",
@@ -161,8 +263,106 @@
                     "type": "magical",
                     "baseHealing": 2
                 }
-            ]
+            ],
+
+            "desc": "Steal enemy hp"
+        },
+
+        {
+            "ID": "pushBack",
+            "Name": "Push Back",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "push",
+                    "type": "magical",
+                    "pushBack": true
+                }
+            ],
+
+            "desc": "Pushes and enemy backwards in the que"
+        },
+
+        {
+            "ID": "fireSplatter",
+            "Name": "Fire Splatter",
+            "type": "spell",
+            "Mana": 25,
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 70
+                },
+
+                {
+                    "ID": "splatter",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 70,
+                    "enemyJump": 3
+                }
+            ],
+
+            "desc": "Hight crit, low damage, can damage other enemies in the que"
+        },
+
+        {
+            "ID": "counter",
+            "Name": "Counter",
+            "type": "spell",
+            "Mana": 30,
+            "Effects": 
+            [
+                {
+                    "ID": "counter",
+                    "type": "physical",
+                    "counter": true
+                }
+            ],
+
+            "desc": "Reverses all enemy damage"
+        },
+
+        {
+            "ID": "mShield",
+            "Name": "Magic Shield",
+            "type": "spell",
+            "Mana": 30,
+            "Effects": 
+            [
+                {
+                    "ID": "shield",
+                    "type": "magical",
+                    "shieldDuration": 2
+                }
+            ],
+
+            "desc": "Nullifies magical enemy Damage"
+        },
+
+        {
+            "ID": "multiCast",
+            "Name": "???",
+            "type": "spell",
+            "Mana": 30,
+            "Effects": 
+            [
+                {
+                    "ID": "multiCast",
+                    "type": "magical",
+                    "spellCount": 2
+                }
+            ],
+
+            "desc": "Randomly casts 2 more spells"
         }
+
+        
 
         
     ]

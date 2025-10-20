@@ -1,7 +1,7 @@
 {
    "Attack IDs": [
       {
-         "ID": "TESTER"
+         "ID": "ester"
       },
       {
          "ID": "normal"
@@ -22,7 +22,7 @@
          "ID": "magicPunch"
       },
       {
-         "ID": "magicPunch"
+         "ID": "multiCast"
       }
    ]
 }

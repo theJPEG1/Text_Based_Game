@@ -20,16 +20,25 @@
 
 struct Effects
 {
-    string id = "";
-    string name = "";
+    string         id = "";
+    string       name = "";
     string effectType = "";
 
-    int baseDmg = 0;
-    int dexModi = 0;
-    bool selfDamage = 0;
+    int    baseDmg = 0;
+    int    dexModi = 0;
     int bindChance = 0;
     int critChance = 0;
     int healingAmt = 0;
+
+    int         shield = 0; //not done. Apply in combat
+    int       multCast = 0; //not done (high importance). Apply in combat after attacj
+    int   freezeChance = 0;
+    int splatterAmount = 0; //not done (not on high importance)
+    
+
+    bool    counter = false; 
+    bool   pushBack = false; //not done (not on high importance)
+    bool selfDamage = false;
 
 
     void applyEffect(Enemy& target)
@@ -42,7 +51,24 @@ struct Effects
                 target.setBind(true);
             }
 
-            else {cout << "\nNOBOUND\n";}
+            else {cout << "\nNo Bind\n";}
+        }
+
+        if(freezeChance > 0)
+        {
+            if(rand() % 100 + 1 < freezeChance)
+            {
+                cout << "";
+                target.setBind(true);
+            }
+
+            else {cout << "\nNo Freeze\n";}
+        }
+
+        if(counter)
+        {
+            cout << "\nYour next attack will be countered!\n";
+            target.setCounter(true);
         }
 
         if(selfDamage)
@@ -103,6 +129,12 @@ struct CraftingMaterials
                 e.id = CraftingArray[i]["Effects"][o]["ID"];
 
                 e.effectType = CraftingArray[i]["Effects"][o]["type"];
+                
+                //include new effects and evetything!!!!
+                if(!CraftingArray[i]["Effects"][o]["type"].is_null())
+                {
+                    e.effectType = CraftingArray[i]["Effects"][o]["type"];
+                }
 
                 if(!CraftingArray[i]["Effects"][o]["baseDmg"].is_null())
                 {
@@ -133,6 +165,37 @@ struct CraftingMaterials
                 {   
                     e.healingAmt = CraftingArray[i]["Effects"][o]["baseHealing"];
                 }
+                
+                if(!CraftingArray[i]["Effects"][o]["freezeChance"].is_null())
+                {   
+                    e.freezeChance = CraftingArray[i]["Effects"][o]["freezeChance"];
+                }
+
+                if(!CraftingArray[i]["Effects"][o]["pushBack"].is_null())
+                {   
+                    e.pushBack = CraftingArray[i]["Effects"][o]["pushBack"];
+                }
+
+                if(!CraftingArray[i]["Effects"][o]["enemyJump"].is_null())
+                {   
+                    e.splatterAmount = CraftingArray[i]["Effects"][o]["enemyJump"];
+                }
+
+                if(!CraftingArray[i]["Effects"][o]["counter"].is_null())
+                {   
+                    e.counter = CraftingArray[i]["Effects"][o]["counter"];
+                }
+
+                if(!CraftingArray[i]["Effects"][o]["shieldDuration"].is_null())
+                {   
+                    e.shield = CraftingArray[i]["Effects"][o]["shieldDuration"];
+                }
+
+                if(!CraftingArray[i]["Effects"][o]["spellCount"].is_null())
+                {   
+                    e.multCast = CraftingArray[i]["Effects"][o]["spellCount"];
+                }
+
 
             craftMat.matEffects.push_back(e);
             }
@@ -218,6 +281,36 @@ struct Attacks
                     e.healingAmt = attackArray[i]["Effects"][o]["baseHealing"];
                 }
 
+                if(!attackArray[i]["Effects"][o]["freezeChance"].is_null())
+                {   
+                    e.freezeChance = attackArray[i]["Effects"][o]["freezeChance"];
+                }
+
+                if(!attackArray[i]["Effects"][o]["pushBack"].is_null())
+                {   
+                    e.pushBack = attackArray[i]["Effects"][o]["pushBack"];
+                }
+
+                if(!attackArray[i]["Effects"][o]["enemyJump"].is_null())
+                {   
+                    e.splatterAmount = attackArray[i]["Effects"][o]["enemyJump"];
+                }
+
+                if(!attackArray[i]["Effects"][o]["counter"].is_null())
+                {   
+                    e.counter = attackArray[i]["Effects"][o]["counter"];
+                }
+
+                if(!attackArray[i]["Effects"][o]["shieldDuration"].is_null())
+                {   
+                    e.shield = attackArray[i]["Effects"][o]["shieldDuration"];
+                }
+
+                if(!attackArray[i]["Effects"][o]["spellCount"].is_null())
+                {   
+                    e.multCast = attackArray[i]["Effects"][o]["spellCount"];
+                }
+
                 atk.thisEffects.push_back(e);
 
                
@@ -240,8 +333,6 @@ struct Attacks
         mats.push_back(mat1);
         mats.push_back(mat2);
         mats.push_back(mat3);
-
-        bool foundEffect = false;
 
         //physical attack
         Attacks atk;
@@ -267,32 +358,23 @@ struct Attacks
                 {
                     cout << "\n Effects Vector is not empty. Attempting Pushing " << mats.at(i).matEffects.at(k).id<< "\n";
 
-                    
-        
-                        for(size_t j = 0; j < customEffects.size(); j++)
+                    for(size_t j = 0; j < customEffects.size(); j++)
+                    {
+                        //combine like effects
+                        if(mats.at(i).matEffects.at(k).id == customEffects.at(j).id)
                         {
-                            //combine like effects
-                            if(mats.at(i).matEffects.at(k).id == customEffects.at(j).id)
-                            {
-                                cout << "\n Effects exists in vector. Cp,bining " << mats.at(i).matEffects.at(k).id<< "\n";
-                                customEffects.at(j) += mats.at(i).matEffects.at(k);
-                                foundEffect = true;
-                            }
-
-                            else
-                            {
-                                cout << "\n Effects doesnt in vector. Pushing " << mats.at(i).matEffects.at(k).id<< "\n";
-                                customEffects.push_back(mats.at(i).matEffects.at(k));
-                                foundEffect = true;
-                            }
-
-                            
+                            cout << "\n Effects exists in vector. Cp,bining " << mats.at(i).matEffects.at(k).id<< "\n";
+                            customEffects.at(j) += mats.at(i).matEffects.at(k);
                         }
-                    
+
+                        else
+                        {
+                            cout << "\n Effects doesnt in vector. Pushing " << mats.at(i).matEffects.at(k).id<< "\n";
+                            customEffects.push_back(mats.at(i).matEffects.at(k));
+                        }   
+                    }
                 }
             }
-
-            foundEffect = false;
         }
 
         atk.thisEffects = customEffects;

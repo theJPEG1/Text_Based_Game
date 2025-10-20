@@ -91,7 +91,9 @@ class Player
         void setCombatAttacks(vector<Attacks> atks) {combatAttacks = atks;};
         void setCombatSpells(vector<Attacks> spels) {combatSpells = spels;};
         void setAllCombat(vector<Attacks> combat) {allCombat = combat;};
+
         void addCustomAtk(Attacks atkToAdd) {customAtks.push_back(atkToAdd);};
+        void addCombatSpells(Attacks atkToAdd) {spellList.push_back(atkToAdd);};
 
         void setSpecificSlot(Attacks newSlot, int index) {allCombat.at(index) = newSlot;};
 
@@ -99,6 +101,8 @@ class Player
         vector<Attacks>& getCombatSpells() {return combatSpells;};
         vector<Attacks>& getAllCombat() {return allCombat;};
         vector<Attacks>& getCustomAtks() {return customAtks;};
+        
+        Attacks getRandAttack();
 
 
     private:
@@ -115,8 +119,8 @@ class Player
 
         vector<Attacks> attackList {};
         vector<Attacks> combatAttacks {4};
-        vector<Attacks> spellList {0};
-        vector<Attacks> combatSpells {4};
+        vector<Attacks> spellList;
+        vector<Attacks> combatSpells;
 
         vector<Attacks> customAtks;
 

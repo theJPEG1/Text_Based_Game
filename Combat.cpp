@@ -342,6 +342,14 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
                 {
                     player.setHealth(damageToApply);
                 }
+
+                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
+                {
+                    for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
+                    {
+                        handleAttack(gen, color, player.getRandAttack());
+                    }
+                }
             }
 
             damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
@@ -380,6 +388,14 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
                 if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
                 {
                     player.setHealth(damageToApply);
+                }
+
+                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
+                {
+                    for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
+                    {
+                        handleAttack(gen, color, player.getRandAttack());
+                    }
                 }
             }
 
@@ -434,6 +450,14 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
                     {
                         player.setHealth(damageToApply);
                     }
+
+                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
+                    {
+                        for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
+                        {
+                            handleAttack(gen, color, player.getRandAttack());
+                        }
+                    }
                 }
 
                 damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
@@ -472,9 +496,14 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
                         player.setHealth(damageToApply);
                     }
 
-                    
+                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
+                    {
+                        for(int k = 0; k < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; k++)
+                        {
+                            handleAttack(gen, color, player.getRandAttack());
+                        }
+                    }
 
-                    damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
                     damageToApply *= player.getMind() / 5;
                 }
             }
@@ -494,7 +523,58 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
     
 };
 
+void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpell)
+{
+    cout << "\nYou casted " << multSpell.name << "!\n";
+    int damageToApply = 0;
 
+    damageToApply = multSpell.thisEffects.at(0).baseDmg;
+
+    for(size_t i = 0; i < multSpell.thisEffects.size(); i++)
+    {
+        multSpell.thisEffects.at(i).applyEffect(curEnemy);
+
+        if(multSpell.thisEffects.at(i).critChance > 0)
+        {
+            if(rand() % 100 + 1 < multSpell.thisEffects.at(i).critChance)
+            {
+                cout << "\nCRIT\n";
+                damageToApply *= 2;
+            }
+        }
+
+        if(multSpell.thisEffects.at(i).selfDamage)
+        {
+            cout << "\nYou hit yourself for " << (damageToApply / 2) << "\n";
+            player.setHealth(-damageToApply / 2);
+
+        }
+
+        if(multSpell.thisEffects.at(i).healingAmt > 0)
+        {
+            cout << "\nYou healed yourself for " << (damageToApply) << "\n";
+            player.setHealth(damageToApply);
+        }
+
+        if(multSpell.thisEffects.at(i).multCast > 0)
+        {
+            for(int k = 0; k < multSpell.thisEffects.at(i).multCast; k++)
+            {
+                handleAttack(gen, color, player.getRandAttack());
+            }
+        }
+    }
+
+    damageToApply *= player.getStrength() / 5;
+
+    if(curEnemy.getPhysRes() != 0)
+    {
+        damageToApply *= curEnemy.getPhysRes();
+    }
+
+    cout <<"\nYou hit " << curEnemy.getName() << curEnemy.getType() << " for " << color.RED << damageToApply << " Damage\n" << color.DEFAULT;
+    player.dealDamage(curEnemy, damageToApply);
+}
 
 
 /**

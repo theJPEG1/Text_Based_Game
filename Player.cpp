@@ -198,6 +198,13 @@ void Player::displayStats()
 //     }
 // };
 
+Attacks Player::getRandAttack()
+{
+    int spellIndex = rand() % spellList.size();
+
+    return spellList.at(spellIndex);
+};
+
 /**
  * @brief Reduces player's health by the given damage amount.
  * @param damage Amount of damage to take

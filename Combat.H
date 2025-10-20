@@ -5,6 +5,7 @@
 #include "Enemy.H"
 #include "PrettyColors.H"
 #include "WeightedGen.H"
+#include "attacksEffects.H"
 
 #include <vector>
     using std::vector;
@@ -46,6 +47,7 @@ class Combat
 
         //action field
         void handleAttack(WeightedGen& gen, PrettyColors& color, int& lowestDamage, int strengthBuff, int dexBuff, string type);
+        void handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpell);
         void handlePotion(PrettyColors& color, string type);
         void handleEnemyAttack(WeightedGen& gen, PrettyColors& color, int dexBuff = 0);
 

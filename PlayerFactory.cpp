@@ -69,6 +69,11 @@ Player PlayerFactory::createPlayer()
             {
                 actionsToPlayer.push_back(attacksFile.at(i));
             }
+
+            if(attacksFile.at(i).type == "spell")
+            {
+                newPlayer.addCombatSpells(attacksFile.at(i));
+            }
         }
         
     }
@@ -131,6 +136,7 @@ Player PlayerFactory::loadFromFile(const string& filename)
 
     vector<Attacks> customAtks = load.loadAttacks("playerData/PlayerAction/customAttacks.json");
 
+    cout << customAtks.size() << "\n";
     for(size_t i = 0; i < customAtks.size(); i++)
     {
         for(size_t o = 0; o < attackIDs["Attack IDs"].size(); o++)
@@ -140,11 +146,19 @@ Player PlayerFactory::loadFromFile(const string& filename)
                 actionsToPlayer.push_back(customAtks.at(i));
             }
         }
+
+        if(customAtks.at(i).type == "spell")
+        {
+            newPlayer.addCombatSpells(customAtks.at(i));
+        }
         
+
+        newPlayer.addCustomAtk(customAtks.at(i));
     }
 
     vector<Attacks> attacksFile = load.loadAttacks("playerData/PlayerAction/attacks.json");
 
+    cout << attacksFile.size() << "\n";
     for(size_t i = 0; i < attacksFile.size(); i++)
     {
         for(size_t o = 0; o < attackIDs["Attack IDs"].size(); o++)
@@ -154,7 +168,11 @@ Player PlayerFactory::loadFromFile(const string& filename)
                 actionsToPlayer.push_back(attacksFile.at(i));
             }
         }
-        
+
+        if(attacksFile.at(i).type == "spell")
+        {
+            newPlayer.addCombatSpells(attacksFile.at(i));
+        }
     }
 
     newPlayer.setAllCombat(actionsToPlayer);
