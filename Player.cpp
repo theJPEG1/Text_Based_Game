@@ -43,13 +43,6 @@ Player::Player(int hp, int maxHp, int str, int dex, int mind, string name, int p
     strengthPotionCount = 2;
     healthPotionCount = 3;
     manaPotionCount = 3;
-
-    for(int i = 0; i < 4; i++)//initalize combat book
-    {
-        setCombatBook(i, Spells("Magic Punch", 10, "A punch imbued with magic that does damage."));
-    };
-
-    addSpell(Spells("Magic Punch", 10, "A punch imbued with magic that does damage."));
 };
 
 /**
@@ -189,21 +182,21 @@ void Player::displayStats()
     color.clearScreen();
 };
 
-void Player::displaySpells()
-{
-    if(!spellBook.empty())
-    {
-        for(size_t i = 0; i < spellBook.size(); i++)
-        {
-            spellBook.at(i).displaySpell();
-        }
-    }
+// void Player::displaySpells()
+// {
+//     if(!spellBook.empty())
+//     {
+//         for(size_t i = 0; i < spellBook.size(); i++)
+//         {
+//             spellBook.at(i).displaySpell();
+//         }
+//     }
 
-    else
-    {
-        cout << color.RED << "\n!SPELL BOOK IS EMPTY!\n" << color.DEFAULT;
-    }
-};
+//     else
+//     {
+//         cout << color.RED << "\n!SPELL BOOK IS EMPTY!\n" << color.DEFAULT;
+//     }
+// };
 
 /**
  * @brief Reduces player's health by the given damage amount.
@@ -235,57 +228,57 @@ void Player::dealDamage(Enemy& target, int damage)
  * 
  * @return A crafing material for a spell or a weapon
  */
-CraftingMaterial Player::getMaterial(string matName, string invType)
-{
-    CraftingMaterial matReturn;
+// CraftingMaterial Player::getMaterial(string matName, string invType)
+// {
+//     CraftingMaterial matReturn;
 
-    if(invType == "SPELLMAT")
-    {
-        for(size_t i = 0; i < spellMatInventory.size(); i++)
-        {
-            if(spellMatInventory.at(i).getName() == matName)
-            {
-                matReturn = spellMatInventory.at(i);
-            }
-        }
-    }
+//     if(invType == "SPELLMAT")
+//     {
+//         for(size_t i = 0; i < spellMatInventory.size(); i++)
+//         {
+//             if(spellMatInventory.at(i).getName() == matName)
+//             {
+//                 matReturn = spellMatInventory.at(i);
+//             }
+//         }
+//     }
 
-    else if(invType == "WEAPONMAT")
-    {
-        for(size_t i = 0; i < weaponMatInventory.size(); i++)
-        {
-            if(weaponMatInventory.at(i).getName() == matName)
-            {
-                matReturn = weaponMatInventory.at(i);
-            }
-        }
-    }
+//     else if(invType == "WEAPONMAT")
+//     {
+//         for(size_t i = 0; i < weaponMatInventory.size(); i++)
+//         {
+//             if(weaponMatInventory.at(i).getName() == matName)
+//             {
+//                 matReturn = weaponMatInventory.at(i);
+//             }
+//         }
+//     }
 
-    return matReturn;
-};
+//     return matReturn;
+// };
 
-Spells Player::getSpell(string name)
-{
-    Spells spell;
+// Spells Player::getSpell(string name)
+// {
+//     Spells spell;
 
-    if(!spellBook.empty())
-    {
-        for (size_t i = 0; i < spellBook.size(); i++)
-        {
-            if(spellBook[i].getName() == name)
-            {
-                spell = spellBook[i];
-            }
-        }
-    }
+//     if(!spellBook.empty())
+//     {
+//         for (size_t i = 0; i < spellBook.size(); i++)
+//         {
+//             if(spellBook[i].getName() == name)
+//             {
+//                 spell = spellBook[i];
+//             }
+//         }
+//     }
 
-    else
-    {
-        cout << color.RED << "\n!SPELL BOOK IS EMPTY!\n" << color.DEFAULT;
-    }
+//     else
+//     {
+//         cout << color.RED << "\n!SPELL BOOK IS EMPTY!\n" << color.DEFAULT;
+//     }
 
-    return spell;
-}
+//     return spell;
+// }
 
 // Setters
 /**
@@ -316,101 +309,101 @@ void Player::setMana(int newMana)
 };
 
 
-void Player::setCombatBook(int index, Spells newSpell)
-{
-    combatBook.at(index) = newSpell;
-};
+// void Player::setCombatBook(int index, Spells newSpell)
+// {
+//     combatBook.at(index) = newSpell;
+// };
 
-void Player::addSpell(Spells newSpell)
-{
-    bool spellExists = false;
+// void Player::addSpell(Spells newSpell)
+// {
+//     bool spellExists = false;
 
-    if(!spellBook.empty())
-    {
-        for(size_t i = 0; i < spellBook.size(); i++)
-        {
-            if(spellBook.at(i).getName() == newSpell.getName())
-            {
-                spellExists = true;
-            }
-        }
+//     if(!spellBook.empty())
+//     {
+//         for(size_t i = 0; i < spellBook.size(); i++)
+//         {
+//             if(spellBook.at(i).getName() == newSpell.getName())
+//             {
+//                 spellExists = true;
+//             }
+//         }
 
-        if(!spellExists)
-        {
-            spellBook.push_back(newSpell);
-        }
-    }
+//         if(!spellExists)
+//         {
+//             spellBook.push_back(newSpell);
+//         }
+//     }
 
-    else
-    {
-        spellBook.push_back(newSpell);
-    }
-};
+//     else
+//     {
+//         spellBook.push_back(newSpell);
+//     }
+// };
 
-void Player::addToInventory(CraftingMaterial material, int amount, string type)
-{
-    bool foundItem = false;
-    int index = 0;
+// void Player::addToInventory(CraftingMaterial material, int amount, string type)
+// {
+//     bool foundItem = false;
+//     int index = 0;
 
-    if(type == "SPELL")
-    {   
-        if(spellMatInventory.size() == 0)
-        {
-            spellMatInventory.at(index).setInventoryAmount(amount);
-        }
+//     if(type == "SPELL")
+//     {   
+//         if(spellMatInventory.size() == 0)
+//         {
+//             spellMatInventory.at(index).setInventoryAmount(amount);
+//         }
 
-        else
-        {
-            for(size_t i = 0; i < spellMatInventory.size(); i++)
-            {
-                if(spellMatInventory.at(i).getName() == material.getName() && !foundItem)
-                {
-                    foundItem = true;
-                    index = i;
-                }
-            }
+//         else
+//         {
+//             for(size_t i = 0; i < spellMatInventory.size(); i++)
+//             {
+//                 if(spellMatInventory.at(i).getName() == material.getName() && !foundItem)
+//                 {
+//                     foundItem = true;
+//                     index = i;
+//                 }
+//             }
 
-            if(foundItem)
-            {
-                spellMatInventory.at(index).setInventoryAmount(amount);
-            }
+//             if(foundItem)
+//             {
+//                 spellMatInventory.at(index).setInventoryAmount(amount);
+//             }
 
-            else 
-            {
-                spellMatInventory.push_back(material);
-            }
-        }
+//             else 
+//             {
+//                 spellMatInventory.push_back(material);
+//             }
+//         }
         
-    }
+//     }
 
-    else if(type == "WEAPON")
-    {
+//     else if(type == "WEAPON")
+//     {
         
-        if(weaponMatInventory.size() == 0)
-        {
-            weaponMatInventory.at(index).setInventoryAmount(amount);
-        }
+//         if(weaponMatInventory.size() == 0)
+//         {
+//             weaponMatInventory.at(index).setInventoryAmount(amount);
+//         }
 
-        else
-        {
-            for(size_t i = 0; i < weaponMatInventory.size(); i++)
-            {
-                if(weaponMatInventory.at(i).getName() == material.getName() && !foundItem)
-                {
-                    foundItem = true;
-                    index = i;
-                }
-            }
+//         else
+//         {
+//             for(size_t i = 0; i < weaponMatInventory.size(); i++)
+//             {
+//                 if(weaponMatInventory.at(i).getName() == material.getName() && !foundItem)
+//                 {
+//                     foundItem = true;
+//                     index = i;
+//                 }
+//             }
 
-            if(foundItem)
-            {
-                weaponMatInventory.at(index).setInventoryAmount(amount);
-            }
+//             if(foundItem)
+//             {
+//                 weaponMatInventory.at(index).setInventoryAmount(amount);
+//             }
 
-            else 
-            {
-                weaponMatInventory.push_back(material);
-            }
-        }
-    }
-};
+//             else 
+//             {
+//                 weaponMatInventory.push_back(material);
+//             }
+//         }
+//     }
+// };

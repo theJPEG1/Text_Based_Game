@@ -44,6 +44,7 @@ void Saving::saveToFile(Player& playerToSave, const string& statsFile, const str
     playerStats["strengthPotions"] = playerToSave.getStrengthPotionCount();
     playerStats["dexterityPotions"] = playerToSave.getDexterityPotionCount();
 
+
     json j;
     ordered_json playerCombatAttacks;
 
@@ -75,38 +76,68 @@ void Saving::saveToFile(Player& playerToSave, const string& statsFile, const str
 void Saving::saveAttacks(const std::string& filename, vector<Attacks> atks)
 {
     PrettyColors color;
-    ofstream attacks;
+    ofstream out;
 
-    json j;
-
-    ordered_json playerStats;
-    ordered_json attackArray = j["Attacks"];
-    attacks.open(filename);
+    ordered_json attackArray = ordered_json::array();
+    out.open(filename);
 
     for(size_t i = 0; i < atks.size(); i++)
     {
-        attackArray[i]["ID"] = atks.at(i).id;
-        attackArray[i]["Name"] = atks.at(i).name;
+        ordered_json attackObj;
 
+        attackObj["ID"] = atks.at(i).id;
+        attackObj["Name"] = atks.at(i).name;
+        attackObj["type"] = atks.at(i).type;
+
+        ordered_json effectsArray = ordered_json::array();
         for(size_t o = 0; o < atks.at(i).thisEffects.size(); o++)
         {
-            attackArray[i]["Effects"][o]["ID"] = atks.at(i).thisEffects.at(o).id;
-            attackArray[i]["Effects"][o]["type"] = atks.at(i).thisEffects.at(o).effectType;
-            attackArray[i]["Effects"][o]["baseDmg"] = atks.at(i).thisEffects.at(o).baseDmg;
-            attackArray[i]["Effects"][o]["dexModi"] = atks.at(i).thisEffects.at(o).dexModi;
-            attackArray[i]["Effects"][o]["bindChance"] = atks.at(i).thisEffects.at(o).bindChance;
+            ordered_json effectObj;
+            effectObj["ID"] = atks.at(i).thisEffects.at(o).id;
+            effectObj["type"] = atks.at(i).thisEffects.at(o).effectType; 
+
+            if(atks.at(i).thisEffects.at(o).baseDmg != 0)
+            {
+                effectObj["baseDmg"] = atks.at(i).thisEffects.at(o).baseDmg;
+            }
+
+            if(atks.at(i).thisEffects.at(o).dexModi != 0)
+            {
+                effectObj["dexModi"] = atks.at(i).thisEffects.at(o).dexModi;;
+            }
+
+            if(atks.at(i).thisEffects.at(o).bindChance != 0)
+            {
+               effectObj["bindChance"] = atks.at(i).thisEffects.at(o).bindChance;;
+            }
+
+            if(atks.at(i).thisEffects.at(o).critChance != 0)
+            {
+                effectObj["critChance"] = atks.at(i).thisEffects.at(o).critChance;;
+            }
+
+            if(atks.at(i).thisEffects.at(o).selfDamage != 0)
+            {
+                effectObj["selfDamage"] = atks.at(i).thisEffects.at(o).selfDamage;;
+            }
+
+            if(atks.at(i).thisEffects.at(o).healingAmt != 0)
+            {   
+                effectObj["baseHealing"] = atks.at(i).thisEffects.at(o).healingAmt;;
+            }
+
+            effectsArray.push_back(effectObj);
         }
+
+        attackObj["Effects"] = effectsArray;
+        attackArray.push_back(attackObj);
+
     }
 
-    
+    ordered_json playerStats;
     playerStats["Attacks"] = attackArray;
 
-    attacks << playerStats;
-    std::ofstream out(filename);
-
-    j["Attacks"] = attackArray;
-    out << j.dump(3);
-
-    attacks.close();
+    out << playerStats.dump(3);
+    out.close();
 
 };

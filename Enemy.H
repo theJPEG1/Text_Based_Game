@@ -20,7 +20,7 @@ class Enemy
         double magiRes;
         double physiRes;
 
-        int minExp, maxExp;
+        int minExp, maxExp, level;
 
         bool bound = false;
         bool counter = false;
@@ -29,7 +29,11 @@ class Enemy
         int dotDuration;
 
     public:
-        Enemy(string thisRegion="none", string thisName="?", string enemyType="?", double phyRes=0, double magRes=0, bool isBoss=false, int health=1, int strength=1, int dexterity=1, int minExp=1, int maxExp=5);
+        Enemy(string thisRegion="none", string thisName="?", string enemyType="?", 
+              double phyRes=0, double magRes=0, bool isBoss=false, int health=1, 
+              int strength=1, int dexterity=1, int minExp=1, int maxExp=5, 
+              int level=1);
+        
         void takeDamage(int damage);
         void dealDamage(Player& target, int damage);
 
@@ -41,6 +45,7 @@ class Enemy
         int getMaxHp();
         int getStrength();
         int getDexterity();
+        int getLevel() {return level;};
 
         double getPhysRes() {return physiRes;};
         double getMagiRes() {return magiRes;};

@@ -1,0 +1,23 @@
+{
+   "Attacks": [
+      {
+         "ID": "TESTER",
+         "Name": "TESTER",
+         "type": "attack",
+         "Effects": [
+            {
+               "ID": "damage",
+               "type": "physical",
+               "baseDmg": 11,
+               "dexModi": 4,
+               "critChance": 20
+            },
+            {
+               "ID": "healing",
+               "type": "magical",
+               "baseHealing": 4
+            }
+         ]
+      }
+   ]
+}

@@ -52,7 +52,7 @@
  * @param currentRegionEnemy Vector of enemies in the current region.
  * @param currentRegion Name of the current region.
  */
-Combat::Combat(Player& thisPlayer, vector<Enemy> currentRegionEnemy, string currentRegion)
+Combat::Combat(Player& thisPlayer, vector<vector<Enemy>> currentRegionEnemy, string currentRegion)
     : player(thisPlayer)
 {
     regionToUse = currentRegionEnemy;

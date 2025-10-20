@@ -16,7 +16,7 @@
  * @param minExp Minimum XP awarded on defeat.
  * @param maxExp Maximum XP awarded on defeat.
  */
-Enemy::Enemy(string thisRegion, string thisName, string enemyType, double phyRes, double magRes, bool isBoss, int health, int strength, int dexterity, int minExp, int maxExp)
+Enemy::Enemy(string thisRegion, string thisName, string enemyType, double phyRes, double magRes, bool isBoss, int health, int strength, int dexterity, int minExp, int maxExp, int level)
 {
     region = thisRegion;
     name = thisName;
@@ -28,6 +28,7 @@ Enemy::Enemy(string thisRegion, string thisName, string enemyType, double phyRes
 
     this->minExp = minExp;
     this->maxExp = maxExp;
+    this->level = level;
 };
 
 /**

@@ -1,5 +1,5 @@
 {
-    "Enemies": [
+    "Forest": [
         {
             "Region": "Forest",
             "Name": "",
@@ -11,7 +11,8 @@
             "Strength": 2,
             "Dexterity": 25,
             "MinExp": 1,
-            "MaxExp": 4
+            "MaxExp": 4,
+            "Level": 1
         },
 
         {
@@ -25,7 +26,8 @@
             "Strength": 2,
             "Dexterity": 35,
             "MinExp": 3,
-            "MaxExp": 5
+            "MaxExp": 5,
+            "Level": 1
         },
 
         {
@@ -39,7 +41,8 @@
             "Strength": 5,
             "Dexterity": 8,
             "MinExp": 3,
-            "MaxExp": 7
+            "MaxExp": 7,
+            "Level": 1
         },
 
         {
@@ -53,7 +56,8 @@
             "Strength": 8,
             "Dexterity": 10,
             "MinExp": 5,
-            "MaxExp": 10
+            "MaxExp": 10,
+            "Level": 2
         },
 
         {
@@ -67,7 +71,8 @@
             "Strength": 10,
             "Dexterity": 11,
             "MinExp": 6,
-            "MaxExp": 12
+            "MaxExp": 12,
+            "Level": 2
         },
 
         {
@@ -81,7 +86,8 @@
             "Strength": 13,
             "Dexterity": 10,
             "MinExp": 9,
-            "MaxExp": 15
+            "MaxExp": 15,
+            "Level": 3
         },
 
         {
@@ -95,7 +101,8 @@
             "Strength": 11,
             "Dexterity": 13,
             "MinExp": 15,
-            "MaxExp": 20
+            "MaxExp": 20,
+            "Level": 3
         },
         {
             "Region": "Forest",
@@ -108,7 +115,8 @@
             "Strength": 16,
             "Dexterity": 8,
             "MinExp": 18,
-            "MaxExp": 25
+            "MaxExp": 25,
+            "Level": 4
         },
 
         {
@@ -122,7 +130,8 @@
             "Strength": 5,
             "Dexterity": 25,
             "MinExp": 22,
-            "MaxExp": 30
+            "MaxExp": 30,
+            "Level": 4
         },
         {
             "Region": "Forest",
@@ -135,7 +144,8 @@
             "Strength": 15,
             "Dexterity": 15,
             "MinExp": 30,
-            "MaxExp": 60
+            "MaxExp": 60,
+            "Level": 5
         }
     ]
 }

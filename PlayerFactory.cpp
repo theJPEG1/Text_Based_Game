@@ -73,10 +73,7 @@ Player PlayerFactory::createPlayer()
         
     }
 
-
     newPlayer.setAllCombat(actionsToPlayer);
-
-    
     
     return newPlayer;
 };
@@ -130,12 +127,23 @@ Player PlayerFactory::loadFromFile(const string& filename)
     combatMagicFile >> attackIDs;
 
     Attacks load;
-
-    vector<Attacks> attacksFile = load.loadAttacks("playerData/PlayerAction/attacks.json");
-
     vector<Attacks> actionsToPlayer;
 
-    cout << attacksFile.size() << "\n";
+    vector<Attacks> customAtks = load.loadAttacks("playerData/PlayerAction/customAttacks.json");
+
+    for(size_t i = 0; i < customAtks.size(); i++)
+    {
+        for(size_t o = 0; o < attackIDs["Attack IDs"].size(); o++)
+        {
+            if(customAtks.at(i).id == attackIDs["Attack IDs"][o]["ID"])
+            {
+                actionsToPlayer.push_back(customAtks.at(i));
+            }
+        }
+        
+    }
+
+    vector<Attacks> attacksFile = load.loadAttacks("playerData/PlayerAction/attacks.json");
 
     for(size_t i = 0; i < attacksFile.size(); i++)
     {
@@ -148,7 +156,6 @@ Player PlayerFactory::loadFromFile(const string& filename)
         }
         
     }
-
 
     newPlayer.setAllCombat(actionsToPlayer);
 

@@ -18,6 +18,22 @@
         },
 
         {
+            "ID": "steel",
+            "Name": "Steel",
+            "Rarity": 2,
+            "Cost": 10,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 10
+                }
+            ]
+        },
+
+        {
             "ID": "vampFang",
             "Name": "Vampire Fang",
             "Rarity": 3,
@@ -27,8 +43,14 @@
                 {
                     "ID": "damage",
                     "type": "physical",
-                    "baseDmg": 5,
+                    "baseDmg": 1,
                     "critChance": 5
+                },
+
+                {
+                    "ID": "healing",
+                    "type": "magical",
+                    "baseHealing": 2
                 }
             ]
         }

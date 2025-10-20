@@ -28,7 +28,7 @@ WeightedGen::WeightedGen()
  * @return      An enemy from the vector
  *
 **/
-Enemy WeightedGen::generateEnemy(int playerLevel, vector<Enemy> enemiesToUse)// low to high
+Enemy WeightedGen::generateEnemy(int playerLevel, vector<vector<Enemy>> enemiesToUse)// low to high
 {
     Enemy determinedEnemy;
     int enemyIndex = 0;
@@ -36,83 +36,41 @@ Enemy WeightedGen::generateEnemy(int playerLevel, vector<Enemy> enemiesToUse)// 
     double rarityChance = rand() % 100 + 1;
 
     //low to high are the chances
-    if(playerLevel > 5 && enemiesToUse.at(0).getRegion() == "Forest")
-    {   
-        if(rarityChance > enemyGen[5].at(0))
-        {
-            //0-2
-            enemyIndex = rand() % 2;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-        }
-
-        else if(rarityChance < enemyGen[5].at(0) && rarityChance >= enemyGen[5].at(1))
-        {
-            //3-4
-            enemyIndex = (rand() % 2) + 2;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-            
-        }
-
-        else if(rarityChance < enemyGen[5].at(1) && rarityChance >= enemyGen[5].at(2))
-        {
-            //5-6
-            enemyIndex = (rand() % 2) + 4;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-            
-        }
-
-        else if(rarityChance < enemyGen[5].at(2) && rarityChance >= enemyGen[5].at(3))
-        {
-            //7
-            determinedEnemy = enemiesToUse.at(7);
-        }
-
-        else if(rarityChance < enemyGen[5].at(3) && rarityChance >= enemyGen[5].at(4))
-        {
-            //8-10
-            enemyIndex = (rand() % 2) + 8;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-        }
-    }
-
-    else 
+    if(rarityChance >= enemyGen.find(playerLevel)->second.at(0))
     {
-        if(rarityChance >= enemyGen.find(playerLevel)->second.at(0))
-        {
-            //0-2
-            enemyIndex = rand() % 2;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-        }
-
-        else if(rarityChance < enemyGen.find(playerLevel)->second.at(0) && rarityChance >= enemyGen.find(playerLevel)->second.at(1))
-        {
-            //3-4
-            enemyIndex = (rand() % 2) + 2;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-            
-        }
-
-        else if(rarityChance < enemyGen.find(playerLevel)->second.at(1) && rarityChance >= enemyGen.find(playerLevel)->second.at(2))
-        {
-            //5-6
-            enemyIndex = (rand() % 2) + 4;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-            
-        }
-
-        else if(rarityChance < enemyGen.find(playerLevel)->second.at(2) && rarityChance >= enemyGen.find(playerLevel)->second.at(3))
-        {
-            //7
-            determinedEnemy = enemiesToUse.at(7);
-        }
-
-        else if(rarityChance < enemyGen.find(playerLevel)->second.at(3))
-        {
-            //8-10
-            enemyIndex = (rand() % 2) + 8;
-            determinedEnemy = enemiesToUse.at(enemyIndex);
-        }
+        //lowest level
+        enemyIndex = rand() % enemiesToUse.at(0).size();
+        determinedEnemy = enemiesToUse.at(0).at(enemyIndex);
     }
+
+    else if(rarityChance < enemyGen.find(playerLevel)->second.at(0) && rarityChance >= enemyGen.find(playerLevel)->second.at(1))
+    {
+        //second
+        enemyIndex = rand() % enemiesToUse.at(1).size();
+        determinedEnemy = enemiesToUse.at(1).at(enemyIndex);
+    }
+
+    else if(rarityChance < enemyGen.find(playerLevel)->second.at(1) && rarityChance >= enemyGen.find(playerLevel)->second.at(2))
+    {
+        //Third
+        enemyIndex = rand() % enemiesToUse.at(2).size();
+        determinedEnemy = enemiesToUse.at(2).at(enemyIndex);
+    }
+
+    else if(rarityChance < enemyGen.find(playerLevel)->second.at(2) && rarityChance > enemyGen.find(playerLevel)->second.at(3))
+    {
+        //Fourth
+        enemyIndex = rand() % enemiesToUse.at(3).size();
+        determinedEnemy = enemiesToUse.at(3).at(enemyIndex);
+    }
+
+    else if(rarityChance < enemyGen.find(playerLevel)->second.at(3))
+    {
+        //Fifth
+        enemyIndex = rand() % enemiesToUse.at(4).size();
+        determinedEnemy = enemiesToUse.at(4).at(enemyIndex);
+    }
+    
 
     return determinedEnemy;
 };

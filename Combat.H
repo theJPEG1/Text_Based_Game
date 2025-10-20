@@ -16,7 +16,7 @@
 class Combat
 {
     public:
-        Combat(Player& thisPlayer, vector<Enemy> currentRegionEnemy, string currentRegion);
+        Combat(Player& thisPlayer, vector<vector<Enemy>> currentRegionEnemy, string currentRegion);
         void determineEnemy();
         void printGui();
 
@@ -27,7 +27,7 @@ class Combat
 
     private:
         Player& player;
-        vector<Enemy> regionToUse;
+        vector<vector<Enemy>> regionToUse;
         string region;
         Enemy curEnemy;
         map <string, vector<string>> enemyNameMap;

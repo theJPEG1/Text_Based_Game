@@ -5,7 +5,6 @@
 #include "Combat.H"
 #include "PrettyColors.H"
 #include "Saving.H"
-#include "Spells.H"
 
 #include "attacksEffects.H"
 
@@ -91,13 +90,30 @@ int main()
         playerExists = true;
     }
 
-    int i = 0;
-    while(i < 5)
+    cout << "making load\n";
+    CraftingMaterials load;
+
+    
+    vector<CraftingMaterials> mats = load.loadCraftingMaterialss("GameData/craftingMaterials.json");
+
+    Attacks newAtk = Attacks::createAttack(mats.at(0), mats.at(1), mats.at(2));
+
+    newPlayer.addCustomAtk(newAtk);
+
+    newPlayer.setSpecificSlot(newAtk, 0);
+
+    cout << newAtk.thisEffects.size();
+
+    while(newPlayer.getHealth() > 0)
     {
         combat(newPlayer, color);
+        cout << "saving player\n";
         Saving::saveToFile(newPlayer, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
-        i++;
+        cout << "saved player, now saving cus attacks.";
+        Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", newPlayer.getCustomAtks());
     }
+
+    
     
 
     return 0;
@@ -116,7 +132,7 @@ void combat(Player& newPlayer, PrettyColors& color)
     // Enemy e9 = EnemyFactory::createEnemy("Forest", "", " the ???", 20, 5, 5, 20, 30);
     // Enemy e10 = EnemyFactory::createEnemy("Forest", "", " the Dragon", 37, 15, 15, 30, 60);
 
-    vector<Enemy> forest = EnemyFactory::loadRegionEnemy("Forest");
+    vector<vector<Enemy>> forest = EnemyFactory::loadRegionEnemy("Forest");
 
     Combat forestCombat(newPlayer, forest, "Forest");
 
@@ -126,38 +142,4 @@ void combat(Player& newPlayer, PrettyColors& color)
     forestCombat.newCombatTest();
 
     cout << color.YELLOW << "You survived the encounter!\n" << color.DEFAULT;
-};
-
-void craftSpell(Player& newPlayer, PrettyColors& color)
-{
-    vector<CraftingMaterial> matsUsed;
-    vector<CraftingMaterial> allSpellMats { CraftingMaterial("?", "SPELL", 1, 4, 320, "NOTHING"), CraftingMaterial("Multi", "SPELL", 1, 4, 320, "MULTICAST"), CraftingMaterial ("Strap", "SPELL", 1, 4, 320, "BIND"), CraftingMaterial("Counter", "Spell", 5, 5, 320, "COUNTER") };
-
-    cout << "Choose up to 3 spell materials:\n[0] Empty\t";
-
-    for(size_t i = 1; i < allSpellMats.size(); i ++)
-    {
-        cout << "[" << i << "] " << allSpellMats.at(i).getName() << " | Effect: " << allSpellMats.at(i).getEffect() << "\t";
-
-        if(i % 2 == 0)
-        {
-            cout << "\n";
-        }
-    }
-
-    cout << matsUsed.size();
-
-    int keyboardInput = -1;
-    while(matsUsed.size() < 3)
-    {
-        cout << "-> ";
-        cin >> keyboardInput;
-
-        matsUsed.push_back(allSpellMats.at(keyboardInput));
-
-        cout << "\n" << matsUsed.at(matsUsed.size() - 1).getName() << " Selected.\n";
-    }
-
-    Spells newSpell = Spells::craftedSpell(matsUsed.at(0), matsUsed.at(1), matsUsed.at(2));
-    newPlayer.setCombatBook(0, newSpell);
 };

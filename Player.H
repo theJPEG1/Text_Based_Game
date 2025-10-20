@@ -2,8 +2,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Spells.H"
-#include "CraftingMaterial.H"
 #include "attacksEffects.H"
 
 #include<string>
@@ -55,16 +53,16 @@ class Player
         int      getManaPotionCount()        {return manaPotionCount;};
 
     //inventory getters
-        vector<CraftingMaterial> getWeaponMatInv() {return weaponMatInventory;};
-        vector<CraftingMaterial>  getSpellMatInv()  {return spellMatInventory;};
+        // vector<CraftingMaterial> getWeaponMatInv() {return weaponMatInventory;};
+        // vector<CraftingMaterial>  getSpellMatInv()  {return spellMatInventory;};
 
-        CraftingMaterial getMaterial(string materialName, string invType);
+        // CraftingMaterial getMaterial(string materialName, string invType);
 
     //spell books getters
-        vector<Spells> getCombatBook()  {return combatBook;};
-        vector<Spells>  getSpellBook()   {return spellBook;};
+        // vector<Spells> getCombatBook()  {return combatBook;};
+        // vector<Spells>  getSpellBook()   {return spellBook;};
 
-        Spells getSpell(string name);
+        // Spells getSpell(string name);
 
     //setters
         void   setDexterity(int newDex) {dexterityStat = newDex;};        
@@ -83,20 +81,24 @@ class Player
         void    setHealth(int newHp);
         void    setMana(int newMana);
 
-        void setCombatBook(int index, Spells newSpell);
-        void                 addSpell(Spells newSpell);
+        // void setCombatBook(int index, Spells newSpell);
+        // void                 addSpell(Spells newSpell);
 
-        void addToInventory(CraftingMaterial material, int amount, string type);
+        // void addToInventory(CraftingMaterial material, int amount, string type);
 
         void setEmptyInventory();
 
         void setCombatAttacks(vector<Attacks> atks) {combatAttacks = atks;};
         void setCombatSpells(vector<Attacks> spels) {combatSpells = spels;};
         void setAllCombat(vector<Attacks> combat) {allCombat = combat;};
+        void addCustomAtk(Attacks atkToAdd) {customAtks.push_back(atkToAdd);};
+
+        void setSpecificSlot(Attacks newSlot, int index) {allCombat.at(index) = newSlot;};
 
         vector<Attacks>& getCombatAttacks() {return combatAttacks;};
         vector<Attacks>& getCombatSpells() {return combatSpells;};
         vector<Attacks>& getAllCombat() {return allCombat;};
+        vector<Attacks>& getCustomAtks() {return customAtks;};
 
 
     private:
@@ -106,15 +108,17 @@ class Player
         //weapon class
         string playerName;
         
-        vector<Spells> spellBook {};
-        vector<Spells> combatBook {4};
-        vector<CraftingMaterial> weaponMatInventory {};
-        vector<CraftingMaterial> spellMatInventory  {};
+        // vector<Spells> spellBook {};
+        // vector<Spells> combatBook {4};
+        // vector<CraftingMaterial> weaponMatInventory {};
+        // vector<CraftingMaterial> spellMatInventory  {};
 
         vector<Attacks> attackList {};
         vector<Attacks> combatAttacks {4};
         vector<Attacks> spellList {0};
         vector<Attacks> combatSpells {4};
+
+        vector<Attacks> customAtks;
 
         vector<Attacks> allCombat {8};
 

@@ -162,20 +162,6 @@
                     "baseHealing": 2
                 }
             ]
-        },
-        {
-            "ID": "rob",
-            "Name": "Robs Attack",
-            "type": "attack",
-            "Effects":
-               [
-                {
-                    "ID": "damage",
-                    "type": "magical",
-                    "baseDmg": 3,
-                    "critChance": 30
-                }
-            ]
         }
 
         

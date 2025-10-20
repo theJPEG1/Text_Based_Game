@@ -14,7 +14,7 @@ class WeightedGen
     
     public:
         WeightedGen();
-        Enemy generateEnemy(int playerLevel, vector<Enemy> enemiesToUse);
+        Enemy generateEnemy(int playerLevel, vector<vector<Enemy>> enemiesToUse);
 
         bool dodgeChance(int playerDex, int enemyDex, string turn);
         bool dodgeChance(int playerDex, int enemyDex, double modifier, string turn);
