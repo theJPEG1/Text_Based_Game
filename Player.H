@@ -43,6 +43,8 @@ class Player
         int   getMaxMana()          {return maxMana;};
         int      getMana()             {return mana;};
         
+        int getNovas() {return novas;};
+
     //player level up getters
         int getXpToNextLevel()  {return xpToNextLevel;};
         int    getExperience()      {return currentXp;};
@@ -76,18 +78,19 @@ class Player
         void setDexterityPotionCount(int newDexterityPotionCount)   {dexterityPotionCount = newDexterityPotionCount;};   
         void   setStrengthPotionCount(int newStrengthPotionCount)     {strengthPotionCount = newStrengthPotionCount;};
         void       setHealthPotionCount(int newHealthPotionCount)        {healthPotionCount += newHealthPotionCount;};  
-        void           setManaPotionCount(int newManaPotionCount)             {manaPotionCount = newManaPotionCount;};
+        void           setManaPotionCount(int newManaPotionCount)             {manaPotionCount += newManaPotionCount;};
 
         void setExperience(int newXp)   {currentXp += newXp;};
 
         void    setHealth(int newHp);
         void    setMana(int newMana);
 
+        void increaseNovas(int amount) {novas += amount;};
 
         void setEmptyInventory();
         
         void addToInventory(CraftingMaterials mat, int amount);
-        void printInventory();
+        void printInventory(int rarity);
 
         void setCombatAttacks(vector<Attacks> atks) {combatAttacks = atks;};
         void setCombatSpells(vector<Attacks> spels) {combatSpells = spels;};
@@ -95,6 +98,7 @@ class Player
 
         void addCustomAtk(Attacks atkToAdd) {customAtks.push_back(atkToAdd);};
         void addCombatSpells(Attacks atkToAdd) {spellList.push_back(atkToAdd);};
+        void addCombatAttacks(Attacks atkToAdd) {attackList.push_back(atkToAdd);};
 
         void setSpecificSlot(Attacks newSlot, int index) {allCombat.at(index) = newSlot;};
 
@@ -114,14 +118,16 @@ class Player
         int level, currentXp, xpToNextLevel;
         //weapon class
         string playerName;
+
+        int novas = 0;
         
         // vector<Spells> spellBook {};
         // vector<Spells> combatBook {4};
         // vector<CraftingMaterial> weaponMatInventory {};
         // vector<CraftingMaterial> spellMatInventory  {};
 
-        vector<Attacks> attackList {};
-        vector<Attacks> combatAttacks {4};
+        vector<Attacks> attackList;
+        vector<Attacks> combatAttacks;
         vector<Attacks> spellList;
         vector<Attacks> combatSpells;
 

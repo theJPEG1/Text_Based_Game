@@ -5,7 +5,7 @@
 #include "Combat.H"
 #include "PrettyColors.H"
 #include "Saving.H"
-
+#include "Actions.H"
 #include "attacksEffects.H"
 
 #include "include/json.hpp"
@@ -25,371 +25,6 @@
 //void newNames(vector<string>& nameSetter);
 void combat(Player& newPlayer, PrettyColors& color);
 void craftSpell(Player& newPlayer, PrettyColors& color);
-
-struct locations
-{
-    /*
-        State Reminders
-
-        T1 = town 1
-        T1D = town 1 day
-        T1N = town 1 night
-
-        CR1 = Cross Roads 1 (Forest or Town)
-
-        F1 = Forest 1
-    */
-
-    PrettyColors color;
-
-    locations(Player& player) 
-    {
-        p = player;
-        CraftingMaterials cLoad;
-
-        cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
-    };
-
-    string state;
-    Player p;
-    vector<CraftingMaterials> cMats;
-
-    void loadCrossRoads()
-    {
-        color.clearScreen();
-
-        if(state == "CR1")
-        {
-            int keyboardInput = 0;
-            cout << "You see a clearing towards a town and a path South into the woods?\n"
-                << "[1] Go To Town \t[2] Follow South\n";
-            cout << "-> ";
-
-            while(keyboardInput <= 0 || keyboardInput > 2)
-            {
-                cin >> keyboardInput;
-
-                if(keyboardInput == 1)
-                {
-                    state = "T1";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 2)
-                {
-
-                }
-
-                else
-                {
-                    cout << "!Invalid Input!\n";
-                    keyboardInput = 0;
-                }
-            }
-        }
-    };
-
-    void loadForest()
-    {
-        color.clearScreen();
-
-        if(state == "F1")
-        {
-            int keyboardInput = 0;
-            cout << "You see a path that leads North and a path that leads South. What do you do?\n"
-                << "[1] Follow North \t[2] Follow South\n"
-                << "[3] Explore the Woods \t[4] Forage for materials\n";
-            cout << "-> ";
-
-            while(keyboardInput <= 0 || keyboardInput > 4)
-            {
-                cin >> keyboardInput;
-
-                if(keyboardInput == 1)
-                {
-                    state = "T1";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 2)
-                {
-
-                }
-
-                else
-                {
-                    cout << "!Invalid Input!\n";
-                    keyboardInput = 0;
-                }
-            }
-        }
-    };
-
-    void loadTown()
-    {
-        p.addToInventory(cMats.at(0), 5);
-        color.clearScreen();
-
-        if(state == "T1" || state == "T1D" || state == "T1N")
-        {
-            int keyboardInput = 0;
-            cout << "Welcome to the town. What would you like to do?\n"
-                << "[1] Enter Blacksmith \t[2] Enter Shop\n"
-                << "[3] Enter Guild Center\t[4] Town Center\n"
-                << "[5] Leave Town\t\t[6] Save + Quit\n";
-            cout << "-> ";
-
-            while(keyboardInput <= 0 || keyboardInput > 6)
-            {
-                cin >> keyboardInput;
-
-                if(keyboardInput == 1)
-                {
-                    loadBlacksmith();
-                }
-
-                else if(keyboardInput == 2)
-                {
-                    loadShop();
-                }
-
-                else if(keyboardInput == 3)
-                {
-                    loadGuildCenter();
-                }
-
-                else if(keyboardInput == 4)
-                {
-                    loadTownCenter();
-                }
-
-                else if(keyboardInput == 5)
-                {
-                    state = "CR1";
-                    loadCrossRoads();
-                }
-
-                else if(keyboardInput == 6)
-                {
-                    Saving::saveToFile(p, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
-                    Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", p.getCustomAtks());
-                }
-
-                else
-                {
-                    cout << "!Invalid Input!\n";
-                    keyboardInput = 0;
-                }
-            }
-        }
-    };
-
-    void loadBlacksmith()
-    {
-        color.clearScreen();
-
-        if(state == "T1" || state == "T1D" || state == "T1N")
-        {
-            int keyboardInput = 0;
-            cout << "Welcome to the Blacksmith. What would you like to do?\n"
-                << "[1] Buy \t[2] Craft\n"
-                << "[3] Rumor\t[4] Leave\n";
-            cout << "-> ";
-
-            while(keyboardInput <= 0 || keyboardInput > 4)
-            {
-                cin >> keyboardInput;
-
-                if(keyboardInput == 1)
-                {
-                    cout << "something about buying\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 2)
-                {
-                    p.printInventory();
-                    color.pauseTerminal(3);
-                    loadTown();
-                }
-
-                else if(keyboardInput == 3)
-                {
-                    cout << "something about rumors\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 4)
-                {
-                    loadTown();
-                }
-
-                else 
-                {
-                    cout << "!Invalid Input!\n";
-                    keyboardInput = 0;
-                }
-            }
-        }
-    };
-
-    void loadShop()
-    {
-        color.clearScreen();
-
-        if(state == "T1" || state == "T1D")
-        {
-            int keyboardInput = 0;
-            cout << "Welcome to the Shop. What would you like to do?\n"
-                << "[1] Buy \t[2] Sell\n"
-                << "[3] Rumor\t[4] Leave\n";
-            cout << "-> ";
-
-            while(keyboardInput <= 0 || keyboardInput > 4)
-            {
-                cin >> keyboardInput;
-
-                if(keyboardInput == 1)
-                {
-                    cout << "something about buying\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 2)
-                {
-                    cout << "something about selling\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 3)
-                {
-                    cout << "something about rumors\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 4)
-                {
-                    loadTown();
-                }
-
-                else 
-                {
-                    cout << "!Invalid Input!\n";
-                    keyboardInput = 0;
-                }
-            }
-        }
-
-        else if(state == "T1N")
-        {
-
-        }
-    };
-
-    void loadGuildCenter()
-    {
-        color.clearScreen();
-
-        if(state == "T1" || state == "T1D" || state == "T1N")
-        {
-            int keyboardInput = 0;
-            cout << "Welcome to the Guild Center. What would you like to do?\n"
-                << "[1] Guild Card \t[2] check inventory\n"
-                << "[3] Quest Log\t[4] Leave\n";
-            cout << "-> ";
-
-            while(keyboardInput <= 0 || keyboardInput > 4)
-            {
-                cin >> keyboardInput;
-
-                if(keyboardInput == 1)
-                {
-                    cout << "something about guild card\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 2)
-                {
-                    cout << "something about inventory\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 3)
-                {
-                    cout << "something about quest logs\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 4)
-                {
-                    loadTown();
-                }
-
-                else 
-                {
-                    cout << "!Invalid Input!\n";
-                    keyboardInput = 0;
-                }
-            }
-        }
-    };
-
-    void loadTownCenter()
-    {
-        color.clearScreen();
-
-        if(state == "T1" || state == "T1D")
-        {
-            int keyboardInput = 0;
-            cout << "Welcome to the Town Center. What would you like to do?\n"
-                << "[1] Talk to people \t[2] Toss in a coin\n"
-                << "[3] wait till night\t[4] Leave\n";
-            cout << "-> ";
-
-
-            while(keyboardInput <= 0 || keyboardInput > 4)
-            {
-                cin >> keyboardInput;
-
-                if(keyboardInput == 1)
-                {
-                    cout << "something about buying\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 2)
-                {
-                    cout << "something about selling\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 3)
-                {
-                    cout << "something about rumors\n";
-                    loadTown();
-                }
-
-                else if(keyboardInput == 4)
-                {
-                    loadTown();
-                }
-
-                else 
-                {
-                    cout << "!Invalid Input!\n";
-                    keyboardInput = 0;
-                }
-            }
-        }
-
-        else if(state == "T1N")
-        {
-
-        }
-    };
-
-    
-};
 
 int main()
 {
@@ -455,21 +90,33 @@ int main()
 
     inGame = true;
 
-    while(inGame)
-    {
-        locations l(newPlayer);
-        l.state = "T1";
+    // while(inGame)
+    // {
+    //     locations l(newPlayer);
+    //     l.state = "T1";
 
-        l.loadTown();
+    //     l.loadTown();
 
-        inGame = false;
-    }
-
-    // cout << "making load\n";
-    // CraftingMaterials load;
+    //     inGame = false;
+    // }
+    CraftingMaterials load;
 
     
-    // vector<CraftingMaterials> mats = load.loadCraftingMaterialss("GameData/craftingMaterials.json");
+    vector<CraftingMaterials> mats = load.loadCraftingMaterialss("GameData/craftingMaterials.json");
+
+
+    newPlayer.increaseNovas(200);
+    newPlayer.addToInventory(mats.at(0), 4);
+    newPlayer.addToInventory(mats.at(1), 4);
+    newPlayer.addToInventory(mats.at(2), 4);
+    newPlayer.addToInventory(mats.at(3), 4);
+
+    Actions action(newPlayer);
+
+    action.loadAreaFromJson("Locations/town.json");
+
+    // cout << "making load\n";
+    
 
     // Attacks newAtk = Attacks::createAttack(mats.at(0), mats.at(1), mats.at(2));
 

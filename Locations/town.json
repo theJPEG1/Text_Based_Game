@@ -1,0 +1,39 @@
+{
+    "id": "t1",
+    "type": "town",
+    "name": "Town",
+    "header": "Welcome to Town. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "[1] Blacksmith",
+            "target": "blacksmith.json"
+        },
+
+        {
+            "actionDescription": "[2] Shop",
+            "target": "shop.json"
+        },
+
+        {
+            "actionDescription": "[3] Guild Center",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "[4] Town Center",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "[5] Leave Town",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "[6] Save + Quit",
+            "target": ""
+        }
+    ]
+}

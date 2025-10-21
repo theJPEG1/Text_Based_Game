@@ -1,0 +1,65 @@
+{
+    "id": "s1",
+    "type": "shop",
+    "name": "Shop",
+    "header": "Welcome to the Shop. What do you do?",
+    "buyMessage": "Most regular potions around! What do you want?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "[1] Buy",
+            "target": "buyItems"
+        },
+
+        {
+            "actionDescription": "[2] Sell",
+            "target": "sellItems"
+        },
+
+        {
+            "actionDescription": "[3] Rumor",
+            "target": "hearRumor"
+        },
+
+        {
+            "actionDescription": "[4] Leave",
+            "target": "town.json"
+        }  
+    ],
+
+    "Inventory":
+    [
+        {
+            "ID": "healthPotion",
+            "actionDescription": "[1] 3 Health Potions",
+            "Cost": 45,
+            "Amt": 3
+        },
+
+        {
+            "ID": "manaPotion",
+            "actionDescription": "[2] 3 Mana Potions",
+            "Cost": 60,
+            "Amt": 3
+        },
+
+        {
+            "ID": "manaPotion",
+            "actionDescription": "[3] 5 Health Potions",
+            "Cost": 75,
+            "Amt": 5
+        },
+
+        {
+            "ID": "manaPotion",
+            "actionDescription": "[4] 5 Mana Potions",
+            "Cost": 100,
+            "Amt": 5
+        },
+
+        {
+            "actionDescription": "[5] Back"
+        }
+    ]
+}

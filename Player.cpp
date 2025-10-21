@@ -254,19 +254,22 @@ void Player::addToInventory(CraftingMaterials material, int amount)
     }
 };
 
-void Player::printInventory()
+void Player::printInventory(int rarity)
 {
     int count = 0;
     for (const auto& [material, amount] : inventory) 
     {
-        if (amount > 0) 
+        if(material.rarity <= rarity)
         {
-            std::cout << material.name << ": " << amount << "\t";
-            count++;
-
-            if (count % 3 == 0) 
+            if (amount > 0) 
             {
-                std::cout << "\n";
+                std::cout << material.name << ": " << amount << "\t";
+                count++;
+
+                if (count % 3 == 0) 
+                {
+                    std::cout << "\n";
+                }
             }
         }
     }

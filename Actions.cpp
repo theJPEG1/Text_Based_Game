@@ -1,0 +1,256 @@
+#include "Actions.H"
+
+Actions::Actions(Player& p)
+{
+    player = p;
+
+    actionMap["buyItems"] = std::bind(&Actions::buyItems, this);
+    actionMap["craftItems"] = std::bind(&Actions::craftItems, this);
+
+
+    actionMap["healthPotion"] = std::bind(&Actions::addHealthPots, this);
+    actionMap["manaPotion"] = std::bind(&Actions::addManaPots, this);
+    
+
+    loadCraftingMats("GameData/craftingMaterials.json");
+    loadAllAttacks("playerData/PlayerAction/attacks.json");
+
+    //incialize a map of crafting mats and of attakcs
+    // Map <string id, craftingMats mat>
+    // Map <string id, Attacks atk>
+};
+
+void Actions::loadCraftingMats(string fileLocation)
+{
+    CraftingMaterials cLoad;
+
+    vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss(fileLocation);
+
+    for(size_t i = 0; i < cMats.size(); i++)
+    {
+        materials[cMats.at(i).id] = cMats.at(i);
+    }
+};
+
+void Actions::loadAllAttacks(string fileLocation)
+{
+    Attacks load;
+
+    vector<Attacks> attacksFile = load.loadAttacks(fileLocation);
+
+    for(size_t i = 0; i < attacksFile.size(); i++)
+    {
+        playerAttacks[attacksFile.at(i).id] = attacksFile.at(i);
+    }
+};
+
+void Actions::loadAreaFromJson(string jsonToLoad)
+{
+    color.clearScreen();
+
+    ifstream file(jsonToLoad);
+
+    if (!file.is_open()) {
+        cout << "Failed to open " << jsonToLoad << "\n";
+        return;
+    }
+
+    currentJson = jsonToLoad;
+
+    json data;
+    file >> data;
+
+    string header = data["header"];
+
+    
+
+    json actions = data["Actions"];
+
+    int keyboardInput = 0;
+    while(keyboardInput <= 0 || keyboardInput > actions.size())
+    {
+        cout << "\n" << header << "\n";
+
+        for (size_t i = 0; i < actions.size(); ++i)
+        {
+            if(actions.size() <= 4)
+            {
+                if(i % 2 == 0)
+                {
+                    cout << "\n";
+                }
+            }
+            else
+            {
+                if(i % 3 == 0)
+                {
+                    cout << "\n";
+                }
+            }
+
+            string actionPrint = actions[i]["actionDescription"];
+            cout << actionPrint << "\t";
+            if(actionPrint.length() < 10)
+            {
+                cout << "\t";
+            }
+        }
+
+        cout << "\n-> ";
+
+        cin >> keyboardInput;
+
+        string actionToCheck = actions[keyboardInput-1]["target"];
+
+        cout << actionToCheck.substr(actionToCheck.length() - 5, 5);
+
+        if(actionToCheck.substr(actionToCheck.length() - 5, 5) == ".json")
+        {
+            file.close();
+            cout << actionToCheck << "\n";
+            loadAreaFromJson("Locations/" + actionToCheck);
+        }
+
+        else
+        {
+            actionMap.find(actionToCheck)->second();
+        }
+
+        keyboardInput = 0;
+        
+    }
+
+    file.close();
+    color.clearScreen();
+};
+
+void Actions::buyItems()
+{
+    color.clearScreen();
+
+    ifstream file(currentJson);
+
+    if (!file.is_open()) {
+        cout << "Failed to open " << currentJson << "\n";
+        return;
+    }
+
+
+    json data;
+    file >> data;
+
+    string type = data["type"];
+    string buyMessage = data["buyMessage"];
+
+    json inventory = data["Inventory"];
+
+    int keyboardInput = 0;
+
+    while(keyboardInput <= 0 || keyboardInput > inventory.size())
+    {
+        cout << "\n" << buyMessage << "\n";
+        cout << "You have " << player.getNovas() << " Novas.\n";
+
+        for (size_t i = 0; i < inventory.size(); ++i)
+        {
+            if(inventory.size() <= 4)
+            {
+                if(i % 2 == 0)
+                {
+                    cout << "\n";
+                }
+            }
+            else
+            {
+                if(i % 3 == 0)
+                {
+                    cout << "\n";
+                }
+            }
+
+            string actionDesc = inventory[i]["actionDescription"];
+            cout << actionDesc;
+
+            if(!inventory[i]["Cost"].is_null())
+            {
+                int cost = inventory[i]["Cost"];
+                cout << " | " << cost << " Novas\t";
+
+                if(actionDesc.length() < 10)
+                {
+                    cout << "\t";
+                }
+            }
+
+            else
+            {
+                cout << "\t";
+            }
+        }
+
+        cout << "\n-> ";
+
+        cin >> keyboardInput;
+
+        if(!inventory[keyboardInput - 1]["Cost"].is_null())
+        {
+            if(player.getNovas() >= inventory[keyboardInput - 1]["Cost"])
+            {
+                int cost = inventory[keyboardInput - 1]["Cost"];
+                player.increaseNovas(-cost);
+
+                string idToLocation = inventory[keyboardInput - 1]["ID"];
+
+                if(type == "blacksmith")
+                {
+                    player.addCombatAttacks(playerAttacks.find(idToLocation)->second);
+                    player.setSpecificSlot(playerAttacks.find(idToLocation)->second, 0);
+                }
+
+                else if(type == "shop")
+                {
+                    potionsToAdd = inventory[keyboardInput - 1]["Amt"];
+                }
+            }
+        }
+    }
+
+    loadAreaFromJson("Locations/" + currentJson);
+
+    color.clearScreen();
+};
+
+void Actions::craftItems()
+{
+    color.clearScreen();
+
+    ifstream file(currentJson);
+
+    if (!file.is_open()) {
+        cout << "Failed to open " << currentJson << "\n";
+        return;
+    }
+
+
+    json data;
+    file >> data;
+
+    string type = data["type"];
+    string craftMes = data["craftMessage"];
+    int maxRare = data["maxRarity"];
+
+    int keyboardInput = 0;
+    player.printInventory(maxRare);
+
+}
+
+void Actions::addHealthPots()
+{
+    player.setHealthPotionCount(potionsToAdd);
+}
+
+void Actions::addManaPots()
+{
+    player.setManaPotionCount(potionsToAdd);
+}
+

@@ -89,6 +89,40 @@
         },
 
         {
+            "ID": "steelSword",
+            "Name": "Steel Sword",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "critChance": 20
+                }
+            ],
+
+            "desc": "An attack with a steel sword."
+        },
+
+        {
+            "ID": "woodenSword",
+            "Name": "Wooden Sword",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 6,
+                    "critChance": 20
+                }
+            ],
+
+            "desc": "An attack with a wooden sword."
+        },
+
+        {
             "ID": "WLS",
             "Name": "Wizards's Last Stand",
             "type": "spell",

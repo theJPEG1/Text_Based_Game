@@ -1,0 +1,52 @@
+{
+    "id": "b1",
+    "type": "blacksmith",
+    "name": "Blacksmith",
+    "header": "Welcome to Blacksmith. What do you do?",
+    "buyMessage": "Sharpest blades around! What do you want?",
+    "craftMessage": "What can I craft for you?",
+    "maxRarity": 2,
+    
+
+    "Actions":
+    [
+        {
+            "actionDescription": "[1] Buy",
+            "target": "buyItems"
+        },
+
+        {
+            "actionDescription": "[2] Craft",
+            "target": "craftItems"
+        },
+
+        {
+            "actionDescription": "[3] Rumor",
+            "target": "hearRumor"
+        },
+
+        {
+            "actionDescription": "[4] Leave",
+            "target": "town.json"
+        }  
+    ],
+
+    "Inventory":
+    [
+        {
+            "ID": "woodenSword",
+            "actionDescription": "[1] Wooden Sword",
+            "Cost": 15
+        },
+
+        {
+            "ID": "steelSword",
+            "actionDescription": "[2] Steel Sword",
+            "Cost": 30
+        },
+
+        {
+            "actionDescription": "[3] Back"
+        }
+    ]
+}
