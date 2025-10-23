@@ -2,24 +2,8 @@
     "Crafting Materials":
     [
         {
-            "ID": "leaf",
-            "Name": "Leaf",
-            "Rarity": 0,
-            "Cost": 0,
-            "Effects":
-            [
-                {
-                    "ID": "damage",
-                    "type": "physical",
-                    "baseDmg": 0,
-                    "critChance": 0
-                }
-            ]
-        },
-
-        {
-            "ID": "wood",
-            "Name": "Wood",
+            "ID": "squirelTail",
+            "Name": "Squirel Tail",
             "Rarity": 1,
             "Cost": 3,
             "Effects":
@@ -28,14 +12,63 @@
                     "ID": "damage",
                     "type": "physical",
                     "baseDmg": 1,
+                    "critChance": 10
+                }
+            ]
+        },
+
+        {
+            "ID": "rabbitFoot",
+            "Name": "Rabbit's Foot",
+            "Rarity": 1,
+            "Cost": 5,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 1,
+                    "critChance": 5,
+                    "dexModi": 2
+                }
+            ]
+        },
+
+        {
+            "ID": "slimeGoop",
+            "Name": "Slime Goop",
+            "Rarity": 1,
+            "Cost": 5,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 1,
                     "critChance": 5
                 }
             ]
         },
 
         {
-            "ID": "steel",
-            "Name": "Steel",
+            "ID": "wolfHide",
+            "Name": "Wolf's Hide",
+            "Rarity": 1,
+            "Cost": 8,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 2,
+                    "critChance": 5
+                }
+            ]
+        },
+
+        {
+            "ID": "boarTusk",
+            "Name": "Boar Tusk",
             "Rarity": 2,
             "Cost": 10,
             "Effects":
@@ -44,29 +77,120 @@
                     "ID": "damage",
                     "type": "physical",
                     "baseDmg": 3,
-                    "critChance": 10
+                    "critChance": 5,
+                    "dexModi": 4
                 }
             ]
         },
 
         {
-            "ID": "vampFang",
-            "Name": "Vampire Fang",
-            "Rarity": 3,
+            "ID": "bearClaw",
+            "Name": "Bear Claw",
+            "Rarity": 2,
             "Cost": 15,
             "Effects":
             [
                 {
                     "ID": "damage",
                     "type": "physical",
-                    "baseDmg": 1,
+                    "baseDmg": 4,
+                    "critChance": 10
+                }
+            ]
+        },
+
+        {
+            "ID": "sprigHeart",
+            "Name": "Sprig's Heart",
+            "Rarity": 3,
+            "Cost": 20,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 5,
                     "critChance": 5
                 },
 
                 {
-                    "ID": "healing",
+                    "ID": "shield",
                     "type": "magical",
-                    "baseHealing": 2
+                    "shieldDuration": 1
+                }
+            ]
+        },
+
+        {
+            "ID": "heartWood",
+            "Name": "Heart Wood",
+            "Rarity": 3,
+            "Cost": 25,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 8,
+                    "dexModi": -3,
+                    "critChance": 10
+                }
+            ]
+        },
+
+        {
+            "ID": "fairyWings",
+            "Name": "Fairy Wings",
+            "Rarity": 4,
+            "Cost": 25,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "magical",
+                    "baseDmg": 6,
+                    "dexModi": 4,
+                    "critChance": 20
+                }
+            ]
+        },
+
+        {
+            "ID": "fDragonScale",
+            "Name": "Forest Dragon Scale",
+            "Rarity": 5,
+            "Cost": 30,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "dexModi": 2,
+                    "critChance": 15
+                }
+            ]
+        },
+
+        {
+            "ID": "fDragonClaw",
+            "Name": "Forest Dragon Claw",
+            "Rarity": 5,
+            "Cost": 40,
+            "Effects":
+            [
+                {
+                    "ID": "damage",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "dexModi": 2,
+                    "critChance": 15
+                },
+
+                {
+                    "ID": "bind",
+                    "type": "magical",
+                    "bindChance": 13
                 }
             ]
         }

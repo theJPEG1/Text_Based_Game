@@ -385,7 +385,7 @@ struct Attacks
         //allow player to name it.
         atk.type = "attack";
         string weaponName;
-        cout << "Name Your Weapon: ";
+        cout << "\nName Your Weapon: ";
         cin.ignore();
 
         getline(cin, atk.id);

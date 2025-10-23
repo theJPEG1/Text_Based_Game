@@ -6,6 +6,7 @@
 #include <iostream>
     using std::cout;
     using std::cin;
+    using std::getline;
 #include <fstream>
     using std::ifstream;
 #include <unordered_map>

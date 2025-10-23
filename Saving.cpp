@@ -30,19 +30,31 @@ void Saving::saveToFile(Player& playerToSave, const string& statsFile, const str
     combatF.open(combatMagicFile);
 
     ordered_json playerStats;
-    playerStats["name"] = playerToSave.getName();
-    playerStats["hp"] = playerToSave.getHealth();
-    playerStats["maxHp"] = playerToSave.getMaxHealth();
-    playerStats["strength"] = playerToSave.getStrength();
-    playerStats["dexterity"] = playerToSave.getDexterity();
-    playerStats["mind"] = playerToSave.getMind();
-    playerStats["level"] = playerToSave.getLevel();
-    playerStats["xp"] = playerToSave.getExperience();
-    playerStats["xpToNextLevel"] = playerToSave.getXpToNextLevel();
-    playerStats["healthPotions"] = playerToSave.getHealthPotionCount();
-    playerStats["manaPotions"] = playerToSave.getManaPotionCount();
-    playerStats["strengthPotions"] = playerToSave.getStrengthPotionCount();
-    playerStats["dexterityPotions"] = playerToSave.getDexterityPotionCount();
+    
+    //Player Info
+        playerStats["name"] = playerToSave.getName();
+        playerStats["month"] = playerToSave.getMonth();
+        playerStats["time"] = playerToSave.getTime();
+        playerStats["day"] = playerToSave.getDay();
+
+    //player stats
+        playerStats["hp"] = playerToSave.getHealth();
+        playerStats["maxHp"] = playerToSave.getMaxHealth();
+        playerStats["strength"] = playerToSave.getStrength();
+        playerStats["dexterity"] = playerToSave.getDexterity();
+        playerStats["mind"] = playerToSave.getMind();
+        playerStats["luck"] = playerToSave.getLuck();
+
+    //player leveling
+        playerStats["level"] = playerToSave.getLevel();
+        playerStats["xp"] = playerToSave.getExperience();
+        playerStats["xpToNextLevel"] = playerToSave.getXpToNextLevel();
+
+    //player inventory
+        playerStats["healthPotions"] = playerToSave.getHealthPotionCount();
+        playerStats["manaPotions"] = playerToSave.getManaPotionCount();
+        playerStats["novas"] = playerToSave.getNovas();
+
 
 
     json j;

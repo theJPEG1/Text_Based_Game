@@ -1,33 +1,88 @@
-#include "Player.H"
 #include "PlayerFactory.H"
-#include "PrettyColors.H"
-#include "attacksEffects.H"
-#include "include/json.hpp"
-    using json = nlohmann::json;
-    using ordered_json = nlohmann::ordered_json;
 
-#include <string>
-    using std::string;
-#include <fstream>
-    using std::ifstream;
-    using std::ofstream;
-#include <iostream>
-    using std::cin;
-    using std::cout;
 
-void allocateStatPoints(int& healthValue, int& strengthValue, int& dexterityValue, int& mindValue, string& nameValue);
+PrettyColors PlayerFactory::colors;
+
+/**
+ * @brief creates a brand new player
+ */
 
 Player PlayerFactory::createPlayer()
 {
     int healthValue    =  10;
-    int strengthValue  =   5;
     int dexterityValue =   5;
+    int strengthValue  =   5;
     int mindValue      =   5;
-    string nameValue   =  "";
 
-    allocateStatPoints(healthValue, strengthValue, dexterityValue, mindValue, nameValue);
+    string monthValue =  "";
+    string nameValue  =  "";
+    string timeValue  =  "";
+    int dayValue      =   0;
 
-    Player newPlayer(healthValue, healthValue, strengthValue, dexterityValue, mindValue, nameValue, 1 , 0, 50);
+    createPlayerBirthday(nameValue, monthValue, timeValue, dayValue);
+    allocateStatPoints(healthValue, strengthValue, dexterityValue, mindValue);
+
+    Player newPlayer(nameValue, monthValue, timeValue, dayValue, healthValue, strengthValue, dexterityValue, mindValue);
+
+    //month value increases
+        if(monthValue == "Sirtus")
+        {
+            //health
+            newPlayer.increaseMaxHealth(2);
+            newPlayer.increaseHealth(2);
+        }
+
+        else if(monthValue == "Thetus")
+        {
+            //strength
+            newPlayer.increaseStrength(2);
+        }
+
+        else if(monthValue == "Motus")
+        {
+            //dexterity
+            newPlayer.increaseDexterity(2);
+        }
+
+        else if(monthValue == "Zectus")
+        {
+            //mind
+            newPlayer.increaseMind(2);
+        }
+
+        else if(monthValue == "Pentus")
+        {
+            //luck
+            newPlayer.increaseLuck(2);
+        }
+
+    //day value increases
+
+        if(dayValue >= 1 && dayValue <= 3)
+        {
+            newPlayer.increaseMaxHealth(1);
+            newPlayer.increaseHealth(1);
+        }
+
+        else if(dayValue >= 4 && dayValue <= 6)
+        {
+            newPlayer.increaseStrength(1);
+        }
+
+        else if(dayValue >= 7 && dayValue <= 9)
+        {
+            newPlayer.increaseDexterity(1);
+        }
+
+        else if(dayValue >= 10 && dayValue <= 12)
+        {
+            newPlayer.increaseMind(1);
+        }
+
+        else if(dayValue >= 13 && dayValue <= 15)
+        {
+            newPlayer.increaseLuck(1);
+        }
 
 //default combat inventory
     ofstream combatF;
@@ -93,9 +148,12 @@ Player PlayerFactory::createPlayer()
     return newPlayer;
 };
 
+
+/**
+ * @brief Loads in a player from a file
+ */
 Player PlayerFactory::loadFromFile(const string& filename)
 {
-    PrettyColors color;
     ifstream inFile;
 
     inFile.open(filename);
@@ -107,35 +165,45 @@ Player PlayerFactory::loadFromFile(const string& filename)
 
     if(!inFile || !combatMagicFile || !attackFile)
     {
-        cout << color.RED << "Error opening file.\n" << color.DEFAULT;
+        cout << colors.RED << "Error opening file.\n" << colors.DEFAULT;
         exit(1);
     }
 
     json playerStats;
     inFile >> playerStats;
 
-    int healthValue    = playerStats["hp"];
-    int maxHealthValue = playerStats["maxHp"];
-    int strengthValue  = playerStats["strength"];
-    int dexterityValue = playerStats["dexterity"];
-    int mindValue      = playerStats["mind"];
-    string nameValue   = playerStats["name"];
-    int levelValue     = playerStats["level"];
+    //player info
+        string nameValue   = playerStats["name"];
+        string monthValue   = playerStats["month"];
+        string timeValue   = playerStats["time"];
+        int    dayValue   = playerStats["day"];
+    
+    //player stats
+        int healthValue    = playerStats["hp"];
+        int maxHealthValue = playerStats["maxHp"];
+        int strengthValue  = playerStats["strength"];
+        int dexterityValue = playerStats["dexterity"];
+        int mindValue      = playerStats["mind"];
+        int luckValue = playerStats["luck"];
 
-    Player newPlayer(healthValue, maxHealthValue, strengthValue, dexterityValue, mindValue, nameValue, levelValue, playerStats["xp"], playerStats["xpToNextLevel"]);
+    //Player leveling
+        int levelValue     = playerStats["level"];
+        int curXp = playerStats["xp"];
+        int xpToLevel = playerStats["xpToNextLevel"];
 
-    newPlayer.setHealthPotionCount(playerStats["healthPotions"]);
-    newPlayer.setManaPotionCount(playerStats["manaPotions"]);
-    newPlayer.setStrengthPotionCount(playerStats["strengthPotions"]);
-    newPlayer.setDexterityPotionCount(playerStats["dexterityPotions"]);
+    Player newPlayer(nameValue, monthValue, dayValue, timeValue,
+                     healthValue, maxHealthValue, strengthValue, dexterityValue,
+                     mindValue, luckValue, levelValue, curXp, xpToLevel);
+        
+    newPlayer.increaseHealthPotionCount(playerStats["healthPotions"]);
+    newPlayer.increaseManaPotionCount(playerStats["manaPotions"]);
 
     //What does this portion do?
 //  1. Reads in a json file from the loaction playerData/playerCombatBook.json
 //  2. Opens a second file library with all the attacks and custom ones
 //  3. Uses the playerCombatBook Json and the ID's inside to fill the players action library
 //  4. Opens a third file that contains if the player knows the attack or not and push that in its own thing
-//  
-//   
+
     json j;
     json attackIDs = j["Attack IDs"];
 
@@ -161,6 +229,11 @@ Player PlayerFactory::loadFromFile(const string& filename)
         {
             newPlayer.addCombatSpells(customAtks.at(i));
         }
+
+        else if(customAtks.at(i).type == "attack")
+        {
+            newPlayer.addCombatAttacks(customAtks.at(i));
+        }
         
 
         newPlayer.addCustomAtk(customAtks.at(i));
@@ -183,6 +256,11 @@ Player PlayerFactory::loadFromFile(const string& filename)
         {
             newPlayer.addCombatSpells(attacksFile.at(i));
         }
+
+        else if(attacksFile.at(i).type == "attack")
+        {
+            newPlayer.addCombatAttacks(attacksFile.at(i));
+        }
     }
 
     newPlayer.setAllCombat(actionsToPlayer);
@@ -196,10 +274,16 @@ Player PlayerFactory::loadFromFile(const string& filename)
     return newPlayer;
 }
 
-void allocateStatPoints(int& healthValue, int& strengthValue, int& dexterityValue, int& mindValue, string& nameValue)
-{
-    PrettyColors colors;
 
+/**
+ * @brief allows the player to allocate their stats where they want them
+ * @param healthValue the value to modify to make the player health
+ * @param strengthValue the value to modify to make the player stregnth
+ * @param dexterityValue the value to modify to make the player dexterity
+ * @param mindValue the value to modify to make the player mind
+ */
+void PlayerFactory::allocateStatPoints(int& healthValue, int& strengthValue, int& dexterityValue, int& mindValue)
+{
     bool healthAllocated    = false;
     bool strengthAllocated  = false;
     bool dexterityAllocated = false;
@@ -207,13 +291,10 @@ void allocateStatPoints(int& healthValue, int& strengthValue, int& dexterityValu
 
     int allocationPoints  = 20;
     int pointsToSend      =  0;
-    cin.ignore();
-    cout << "What is your " << colors.YELLOW << "name: ";
-    getline(cin, nameValue);
 
     cout << colors.DEFAULT;
 
-    while (allocationPoints >= 1)
+    while (allocationPoints > 0)
     {
         if(!healthAllocated)
         {
@@ -294,6 +375,128 @@ void allocateStatPoints(int& healthValue, int& strengthValue, int& dexterityValu
             allocationPoints -= allocationPoints;
         }
     }
-
-    cin.ignore();
 };
+
+
+/**
+ * @brief allows the player to make their birthday
+ * @param name the value to modify to make the player name
+ * @param monthBorn the value to modify to make the player month they aer born
+ * @param timeBorn the value to modify to make the player time they are born
+ * @param dayBorn the value to modify to make the player day they are born
+ */
+void PlayerFactory::createPlayerBirthday(string& name, string& monthBorn, string& timeBorn, int& dayBorn)
+{
+    bool nameCreated = false;
+    bool monthSelected = false;
+    bool timeSelected = false;
+    bool daySelected = false;
+
+    vector<string> months = {"Sirtus", "Thetus", "Motus", "Zectus", "Pentus"};
+    vector<string> times = {"Day", "Afternoon", "Night"};
+    
+    while(!nameCreated)
+    {
+        colors.clearScreen();
+        cout << colors.YELLOW << "Enter your name: ";
+        cin.ignore();
+        getline(cin, name);
+
+        if(name.length() > 10)
+        {
+            cout << colors.RED << "\n! Error (Name longer than 10) Try Again!\n" << colors.DEFAULT;
+        }
+
+        else
+        {
+            nameCreated = true;
+        }
+    }
+
+    cout << colors.DEFAULT;
+
+    while(!monthSelected)
+    {
+        colors.clearScreen();
+
+        cout << colors.RED << "(THIS CANNOT BE CHANGED LATER)\n" << colors.DEFAULT;
+
+        cout << "Sirtus borns have moe vitality\n"
+             << "Thetus borns are stronger\n"
+             << "Motus borns are more agile\n"
+             << "Zectus borns are more adept in magic\n"
+             << "Pentus borns are rare and considered lucky\n";
+
+        cout << "What Month where you born: ";
+
+        cin.ignore();
+        getline(cin, monthBorn);
+
+        for(size_t i = 0; i < months.size(); i++)
+        {
+            if(monthBorn == months.at(i))
+            {
+                monthSelected = true;
+            }
+        }
+
+        if(!monthSelected)
+        {
+            cout << colors.RED << "\n! Error (Invalid Input) Try Again!\n" << colors.DEFAULT;
+        }
+
+        cout << colors.DEFAULT;
+    }
+
+    while(!timeSelected)
+    {
+        colors.clearScreen();
+
+        cout << colors.RED << "(THIS CANNOT BE CHANGED LATER)\n" << colors.DEFAULT;
+        cout << "Day | Afternoon | Night\n";
+
+        cout << "What time where you born: ";
+
+        cin.ignore();
+        getline(cin, timeBorn);
+
+        for(size_t i = 0; i < times.size(); i++)
+        {
+            if(timeBorn == times.at(i))
+            {
+                timeSelected = true;
+            }
+        }
+
+        if(!timeSelected)
+        {
+            cout << colors.RED << "\n! Error (Invalid Input) Try Again!\n" << colors.DEFAULT;
+        }
+
+        cout << colors.DEFAULT;
+    }
+
+    while(!daySelected)
+    {
+        colors.clearScreen();
+
+        cout << colors.RED << "(THIS CANNOT BE CHANGED LATER)\n" << colors.DEFAULT;
+
+        cout << "What day of the month (1-15) where you born: ";
+
+        cin >> dayBorn;
+
+        if(dayBorn <= 15 || dayBorn > 0)
+        {
+            daySelected = true;
+        }
+
+        else
+        {
+            cout << colors.RED << "\n! Error (Invalid Input) Try Again!\n" << colors.DEFAULT;
+        }
+
+        cout << colors.DEFAULT;
+    }
+
+}

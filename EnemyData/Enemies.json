@@ -12,7 +12,14 @@
             "Dexterity": 25,
             "MinExp": 1,
             "MaxExp": 4,
-            "Level": 1
+            "Level": 1,
+
+            "dropChance": 10,
+            "materialID": 
+            "novasMin": 5,
+            "novasMax": 5
+                
+            ]
         },
 
         {

@@ -15,6 +15,8 @@
 class PrettyColors
 {
     public:
+        PrettyColors() = default;
+
         string BLACK = "\033[30m";
         string RED = "\033[31m";
         string GREEN = "\033[32m";
@@ -25,13 +27,13 @@ class PrettyColors
         string WHITE = "\033[37m";
         string DEFAULT = "\033[39m";
 
-        void clearScreen() 
+        void static clearScreen() 
         {
             cout << "\033[2J\033[1;1H";
             cout.flush(); // Ensure the output is immediately sent to the terminal
         };
 
-        void pauseTerminal(int seconds)
+        void static pauseTerminal(int seconds)
         {
             std::this_thread::sleep_for(std::chrono::seconds(seconds));
         };

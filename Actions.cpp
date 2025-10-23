@@ -62,8 +62,6 @@ void Actions::loadAreaFromJson(string jsonToLoad)
 
     string header = data["header"];
 
-    
-
     json actions = data["Actions"];
 
     int keyboardInput = 0;
@@ -222,6 +220,10 @@ void Actions::buyItems()
 
 void Actions::craftItems()
 {
+    CraftingMaterials cLoad;
+
+    vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
+
     color.clearScreen();
 
     ifstream file(currentJson);
@@ -240,17 +242,67 @@ void Actions::craftItems()
     int maxRare = data["maxRarity"];
 
     int keyboardInput = 0;
+    string keyboardString = "";
     player.printInventory(maxRare);
 
+    vector <CraftingMaterials> crafting;
+
+    int count = 0;
+    bool matAdded = false;
+    cout << "Pick a material";
+    cin.ignore();
+
+    while(count <= 3)
+    {
+        cout << "\n->";
+        getline(cin, keyboardString);
+
+        cout << keyboardString << " :\n";
+        
+        for(size_t i = 0; i < cMats.size(); i++)
+        {
+            if(matAdded == false)
+            {
+                if(keyboardString == cMats.at(i).name )
+                {
+                    crafting.push_back(cMats.at(i));
+                    matAdded = true;
+                    count++;
+                }
+            }
+        }
+
+        matAdded = false;
+
+        cout << "\n";
+    }
+
+    Attacks customAtk = customAtk.createAttack(crafting.at(0), crafting.at(1), crafting.at(2));
+    
+    player.addCustomAtk(customAtk);
+
+    if(customAtk.type == "spell")
+    {
+        player.addCombatSpells(customAtk);
+        player.setSpecificSlot(customAtk, 4);
+    }
+
+    else if(customAtk.type == "attack")
+    {
+        player.addCombatAttacks(customAtk);
+        player.setSpecificSlot(customAtk, 0);
+    }
+
+    cout << "Custom attack created and Slotted\n";
 }
 
 void Actions::addHealthPots()
 {
-    player.setHealthPotionCount(potionsToAdd);
+    player.increaseHealthPotionCount(potionsToAdd);
 }
 
 void Actions::addManaPots()
 {
-    player.setManaPotionCount(potionsToAdd);
+    player.increaseManaPotionCount(potionsToAdd);
 }
 

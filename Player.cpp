@@ -1,58 +1,97 @@
 #include "Player.H"
-#include "PrettyColors.H"
-#include "Enemy.H"
 
-#include <iostream>
-    using std::cout;
-    using std::cin;
-#include <map>
-    using std::map;
 
-#include "Enemy.H"
-
-PrettyColors color;
-PrettyColors colors;
 
 /**
- * @brief Constructs a Player object with initial stats and inventory.
- * @param hp Initial health points
- * @param maxHp Initial max health points
- * @param str Initial strength stat
- * @param dex Initial dexterity stat
- * @param mind Initial mind stat
- * @param name Player's name
- * @param playerLevel Starting level
- * @param curXp Starting experience points
- * @param xpToNextLevel XP required for next level
+ * @brief Constructs a Player object.
+ * @param name Name of the Player
+ * @param monthBorn The month the player was born
+ * @param timeBorn Time player was born
+ * @param dayBorn The day th eplayer was born
+ * @param hp Health Points
+ * @param str Strength Stat
+ * @param dex Dexterity Stats
+ * @param mind Mind Stat
+ * @param luck Luck Stat
  */
-Player::Player(int hp, int maxHp, int str, int dex, int mind, string name, int playerLevel, int curXp, int xpToNextLevel)
-{
-    maxHealthPoints = maxHp;
-    dexterityStat = dex;
-    strengthStat = str;
-    playerName = name;
-    healthPoints = hp;
-    mindStat = mind;
-    
-    this->xpToNextLevel = xpToNextLevel;
-    level = playerLevel;
-    currentXp = curXp;
-    
-    mana = mind * 5;
-    maxMana = mana;
-    
-    dexterityPotionCount = 1;
-    strengthPotionCount = 2;
-    healthPotionCount = 3;
-    manaPotionCount = 3;
-};
+Player::Player(string name, string monthBorn, string timeBorn, int dayBorn, 
+               int hp, int str, int dex, int mind)
+    {
+        //Player info
+            playerName = name;
+            month = monthBorn;
+            day = dayBorn;
+            time = timeBorn;
+
+        //player stats
+            healthPoints = hp;
+            maxHealthPoints = healthPoints;
+            dexterityStat = dex;
+            strengthStat = str;
+            mindStat = mind;
+            mana = mind * 5;
+            maxMana = mana;
+            luck = 1;
+
+        //player level
+            this->xpToNextLevel = 50;
+            level = 1;
+            currentXp = 0;
+
+        //player inventory
+            healthPotionCount = 3;
+            manaPotionCount = 3;
+    };
+
+/**
+ * @brief Constructs a Player object from a file.
+ * @param name Name of the Player
+ * @param monthBorn The month the player was born
+ * @param dayBorn The day th eplayer was born
+ * @param timeBorn Time player was born
+ * @param hp Health Points
+ * @param str Strength Stat
+ * @param dex Dexterity Stats
+ * @param mind Mind Stat
+ * @param luck Luck Stat
+ * @param playerLevel The level the player is at
+ * @param curExp Amount of exp player has
+ * @param xpToLevel How much xp until the next level
+ */    
+Player::Player(string name, string monthBorn, int dayBorn, string timeBorn, 
+               int hp, int maxHp, int str, int dex, int mind, int luck,
+               int playerLevel, int curExp, int xpToLevel)
+       {
+        //Player info
+            playerName = name;
+            month = monthBorn;
+            day = dayBorn;
+            time = timeBorn;
+        //player stats
+            healthPoints = hp;
+            maxHealthPoints = maxHp;
+            dexterityStat = dex;
+            strengthStat = str;
+            mindStat = mind;
+            mana = mind * 5;
+            maxMana = mana;
+            this->luck = luck;
+
+        //player level
+            this->xpToNextLevel = xpToLevel;
+            level = playerLevel;
+            currentXp = curExp;
+
+        //player inventory
+            healthPotionCount = 3;
+            manaPotionCount = 3;
+    };        
 
 /**
  * @brief Levels up the player, increases stats, and allows stat allocation.
  */
 void Player::levelUp()
 {
-    PrettyColors colors;
     currentXp -= xpToNextLevel;
     xpToNextLevel *= 1.5;
     maxHealthPoints += 2;
@@ -164,27 +203,13 @@ void Player::levelUp()
     //      << color.GREEN << "+ " << dexterityIncrease << " Dexterity\n"
     //      << color.MAGENTA << "+ " << mindIncrease << " Mind\n" << color.DEFAULT;
 
-    color.pauseTerminal(5);
-    color.clearScreen();
+    colors.pauseTerminal(5);
+    colors.clearScreen();
 };
 
 /**
- * @brief Displays the player's current stats in the terminal.
- */
-void Player::displayStats()
-{
-    cout << color.YELLOW << "Name: " << playerName << "\n"
-         << color.CYAN << "Health: " << healthPoints << "/" << maxHealthPoints << "\n"
-         << color.RED << "Damage: " << "1-" << strengthStat << "\n"
-         << color.GREEN << "Dexterity: " << dexterityStat << "\n"
-         << color.MAGENTA << "Mind: " << mindStat << color.DEFAULT << "\n"
-         << color.MAGENTA << "Mana: " << mana << "/" << maxMana << color.DEFAULT << "\n";
-
-    color.pauseTerminal(5);
-    color.clearScreen();
-};
-
-
+    @brief Returns a random spell attack from your list of spells
+**/
 Attacks Player::getRandAttack()
 {
     int spellIndex = rand() % spellList.size();
@@ -213,10 +238,10 @@ void Player::dealDamage(Enemy& target, int damage)
 
 // Setters
 /**
- * @brief Sets the player's health points.
- * @param newHp New health points value
+ * @brief + or - to player health.
+ * @param newHp points to + or - towards hp
  */
-void Player::setHealth(int newHp)
+void Player::increaseHealth(int newHp)
 {
     healthPoints += newHp;
 
@@ -227,10 +252,10 @@ void Player::setHealth(int newHp)
 };
 
 /**
- * @brief Sets the player's mana points.
- * @param newMana New mana points value
- */
-void Player::setMana(int newMana)
+ * @brief + or - to player mana.
+ * @param newMana points to + or - towards mana
+ **/
+void Player::increaseMana(int newMana)
 {
     mana += newMana;
     if(mana > maxMana)
@@ -240,7 +265,23 @@ void Player::setMana(int newMana)
 };
 
 
+/**
+ * @brief + or - to player mind and recalculates mana
+ * @param newMana points to + or - towards mind
+ **/
+void Player::increaseMind(int amt)
+{
+    mindStat += amt;
+    mana = mindStat * 5;
+    maxMana = mana;
+}
 
+/**
+ * @brief Adds a material to the players inventory
+ * 
+ * @param material Material to look
+ * @param amount How many to increase by
+ */
 void Player::addToInventory(CraftingMaterials material, int amount)
 {
     if(inventory.find(material) == inventory.end())
@@ -254,6 +295,11 @@ void Player::addToInventory(CraftingMaterials material, int amount)
     }
 };
 
+/**
+ * @brief Prints threw your inventory based off rarity
+ * 
+ * @param rarity max rarity to print
+ */
 void Player::printInventory(int rarity)
 {
     int count = 0;

@@ -204,7 +204,7 @@ void Combat::newCombatTest()
                             handleEnemyAttack(gen, color, 0);
                         }
 
-                        player.setMana(-player.getAllCombat().at(keyboardInput + 3).manacost);
+                        player.increaseMana(-player.getAllCombat().at(keyboardInput + 3).manacost);
                     }
 
                     else
@@ -271,7 +271,7 @@ void Combat::newCombatTest()
             isFighting = false;
         }
 
-        player.setMana((player.getMind() / 10) + 5);
+        player.increaseMana((player.getMind() / 10) + 5);
 
         keyboardInput = 0;
         color.pauseTerminal(3);
@@ -284,7 +284,7 @@ void Combat::newCombatTest()
         int xpGained = rand() % (curEnemy.getMaxExp() - curEnemy.getMinExp() + 1) + curEnemy.getMinExp();
 
         cout << color.YELLOW << "You gained " << xpGained << " XP!\n";
-        player.setExperience(xpGained);
+        player.increaseExperience(xpGained);
 
         cout << player.getExperience() << "/" << player.getXpToNextLevel() << " XP to next level.\n" << color.DEFAULT;
     }
@@ -335,12 +335,12 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
 
                 if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
                 {
-                    player.setHealth(-damageToApply / 2);
+                    player.increaseHealth(-damageToApply / 2);
                 }
 
                 if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
                 {
-                    player.setHealth(damageToApply);
+                    player.increaseHealth(damageToApply);
                 }
 
                 if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
@@ -382,12 +382,12 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
 
                 if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
                 {
-                    player.setHealth(-damageToApply / 2);
+                    player.increaseHealth(-damageToApply / 2);
                 }
 
                 if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
                 {
-                    player.setHealth(damageToApply);
+                    player.increaseHealth(damageToApply);
                 }
 
                 if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
@@ -443,12 +443,12 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
 
                      if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
                     {
-                        player.setHealth(-damageToApply / 2);
+                        player.increaseHealth(-damageToApply / 2);
                     }
 
                     if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
                     {
-                        player.setHealth(damageToApply);
+                        player.increaseHealth(damageToApply);
                     }
 
                     if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
@@ -488,12 +488,12 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
 
                     if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
                     {
-                        player.setHealth(-damageToApply / 2);
+                        player.increaseHealth(-damageToApply / 2);
                     }
 
                     if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
                     {
-                        player.setHealth(damageToApply);
+                        player.increaseHealth(damageToApply);
                     }
 
                     if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
@@ -546,14 +546,14 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpe
         if(multSpell.thisEffects.at(i).selfDamage)
         {
             cout << "\nYou hit yourself for " << (damageToApply / 2) << "\n";
-            player.setHealth(-damageToApply / 2);
+            player.increaseHealth(-damageToApply / 2);
 
         }
 
         if(multSpell.thisEffects.at(i).healingAmt > 0)
         {
             cout << "\nYou healed yourself for " << (damageToApply) << "\n";
-            player.setHealth(damageToApply);
+            player.increaseHealth(damageToApply);
         }
 
         if(multSpell.thisEffects.at(i).multCast > 0)
@@ -592,11 +592,11 @@ void Combat::handlePotion(PrettyColors& color, string type)
         {
             int potionHealAmount = player.getMaxHealth() / 3;
 
-            player.setHealth(potionHealAmount);
+            player.increaseHealth(potionHealAmount);
 
             cout << "\nYou drank a health potion and healed for " << potionHealAmount << " Health.\n" << color.DEFAULT;
             
-            player.setHealthPotionCount(player.getHealthPotionCount() - 1);
+            player.increaseHealthPotionCount(-1);
         }
 
         else
@@ -611,10 +611,10 @@ void Combat::handlePotion(PrettyColors& color, string type)
         {
             int potionManaAmount = player.getMana() / 5;
 
-            player.setMana(potionManaAmount);
+            player.increaseMana(potionManaAmount);
             cout << "\nYou drank a mana potion and restored " << potionManaAmount << " Mana.\n" << color.DEFAULT;
             
-            player.setManaPotionCount(player.getManaPotionCount() - 1);
+            player.increaseManaPotionCount(-1);
         }
 
         else
