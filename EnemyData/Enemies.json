@@ -15,11 +15,9 @@
             "Level": 1,
 
             "dropChance": 10,
-            "materialID": 
+            "materialID": "squirelTail",
             "novasMin": 5,
             "novasMax": 5
-                
-            ]
         },
 
         {
@@ -34,7 +32,13 @@
             "Dexterity": 35,
             "MinExp": 3,
             "MaxExp": 5,
-            "Level": 1
+            "Level": 1,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+
+            "materialID": "rabbitFoot"
         },
 
         {
@@ -49,7 +53,12 @@
             "Dexterity": 8,
             "MinExp": 3,
             "MaxExp": 7,
-            "Level": 1
+            "Level": 1,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "slimeGoop"
         },
 
         {
@@ -64,7 +73,12 @@
             "Dexterity": 10,
             "MinExp": 5,
             "MaxExp": 10,
-            "Level": 2
+            "Level": 2,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "wolfHide"
         },
 
         {
@@ -79,7 +93,12 @@
             "Dexterity": 11,
             "MinExp": 6,
             "MaxExp": 12,
-            "Level": 2
+            "Level": 2,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "boarTusk"
         },
 
         {
@@ -94,7 +113,12 @@
             "Dexterity": 10,
             "MinExp": 9,
             "MaxExp": 15,
-            "Level": 3
+            "Level": 3,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "bearClaw"
         },
 
         {
@@ -109,7 +133,12 @@
             "Dexterity": 13,
             "MinExp": 15,
             "MaxExp": 20,
-            "Level": 3
+            "Level": 3,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "sprigHeart"
         },
         {
             "Region": "Forest",
@@ -123,7 +152,12 @@
             "Dexterity": 8,
             "MinExp": 18,
             "MaxExp": 25,
-            "Level": 4
+            "Level": 4,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "heartWood"
         },
 
         {
@@ -138,7 +172,12 @@
             "Dexterity": 25,
             "MinExp": 22,
             "MaxExp": 30,
-            "Level": 4
+            "Level": 4,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "fairyWings"
         },
         {
             "Region": "Forest",
@@ -152,7 +191,12 @@
             "Dexterity": 15,
             "MinExp": 30,
             "MaxExp": 60,
-            "Level": 5
+            "Level": 5,
+
+            "dropChance": 10,
+            "novasMin": 5,
+            "novasMax": 5,
+            "materialID": "fDragonScale"
         }
     ]
 }

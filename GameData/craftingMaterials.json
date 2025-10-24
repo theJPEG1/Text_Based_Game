@@ -9,7 +9,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 1,
                     "critChance": 10
@@ -25,7 +25,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 1,
                     "critChance": 5,
@@ -42,7 +42,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 1,
                     "critChance": 5
@@ -58,7 +58,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 2,
                     "critChance": 5
@@ -74,7 +74,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 3,
                     "critChance": 5,
@@ -91,7 +91,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 4,
                     "critChance": 10
@@ -107,14 +107,14 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "magical",
                     "baseDmg": 5,
                     "critChance": 5
                 },
 
                 {
-                    "ID": "shield",
+                    "ID": "0",
                     "type": "magical",
                     "shieldDuration": 1
                 }
@@ -129,7 +129,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "magical",
                     "baseDmg": 8,
                     "dexModi": -3,
@@ -146,7 +146,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "magical",
                     "baseDmg": 6,
                     "dexModi": 4,
@@ -163,7 +163,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 8,
                     "dexModi": 2,
@@ -180,7 +180,7 @@
             "Effects":
             [
                 {
-                    "ID": "damage",
+                    "ID": "-",
                     "type": "physical",
                     "baseDmg": 8,
                     "dexModi": 2,
@@ -188,7 +188,7 @@
                 },
 
                 {
-                    "ID": "bind",
+                    "ID": "&",
                     "type": "magical",
                     "bindChance": 13
                 }

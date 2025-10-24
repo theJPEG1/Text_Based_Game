@@ -25,14 +25,19 @@
 
 ## Enemies Tasks
   - [X] Create materials for each enemy
-  - [ ] Create a loot table for enemy drops
+  - [X] Create a loot table for enemy drops
+  - [X] Add enemy drops from json to the object
+  - [X] Clean up .h
+  - [X] Clean up .cpp
 
 ## Attacks, Effects, Crafting Material Tasks
-  - [ ] Change crafting materials to include a symbol instead of an effect
-  - [ ] Use the symbol to run the effects in combat using the keycode just like locations
+  - [X] Change crafting materials to include a symbol instead of an effect
+  - [X] Use the symbol to run the effects in combat using the keycode just like locations
+  - [X] Clean up the .h and .cpp
+  - [X] DOCUMNTATION
 
 ## Combat
-  - [ ] See about combinding like functions
+  - [X] See about combinding like functions
 
 ## Blacksmith Tasks
   - [ ] Rumor Function

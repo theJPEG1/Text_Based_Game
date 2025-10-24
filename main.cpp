@@ -113,7 +113,7 @@ int main()
 
     Actions action(newPlayer);
 
-    action.loadAreaFromJson("Locations/town.json");
+   action.loadAreaFromJson("Locations/town.json");
 
     // cout << "making load\n";
     
@@ -129,9 +129,7 @@ int main()
     // while(newPlayer.getHealth() > 0)
     // {
     //     combat(newPlayer, color);
-    //     cout << "saving player\n";
     //     Saving::saveToFile(newPlayer, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
-    //     cout << "saved player, now saving cus attacks.";
     //     Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", newPlayer.getCustomAtks());
     // }
 

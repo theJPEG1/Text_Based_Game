@@ -61,12 +61,14 @@ class Player
             int         getLevel()          {return level;};
         
         //Inventory Getters
+            int getInventoryAmount(CraftingMaterials mat) {return inventory.find(mat)->second;};
             map<CraftingMaterials, int> getInventory() {return inventory;};
             int getDexterityPotionCount()   {return dexterityPotionCount;};
             int  getStrengthPotionCount()    {return strengthPotionCount;};
             int    getHealthPotionCount()      {return healthPotionCount;};
             int      getManaPotionCount()        {return manaPotionCount;};
             int                getNovas()                  {return novas;};
+            
 
             //cpp Logic Below
 

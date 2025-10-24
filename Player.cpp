@@ -309,7 +309,7 @@ void Player::printInventory(int rarity)
         {
             if (amount > 0) 
             {
-                std::cout << material.name << ": " << amount << "\t";
+                std::cout << material.name << ": " << amount << "   ";
                 count++;
 
                 if (count % 3 == 0) 

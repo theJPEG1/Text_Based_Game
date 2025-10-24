@@ -6,6 +6,8 @@ Actions::Actions(Player& p)
 
     actionMap["buyItems"] = std::bind(&Actions::buyItems, this);
     actionMap["craftItems"] = std::bind(&Actions::craftItems, this);
+    actionMap["hearRumor"];
+    actionMap["sellItems"] = std::bind(&Actions::sellItems, this);
 
 
     actionMap["healthPotion"] = std::bind(&Actions::addHealthPots, this);
@@ -241,7 +243,6 @@ void Actions::craftItems()
     string craftMes = data["craftMessage"];
     int maxRare = data["maxRarity"];
 
-    int keyboardInput = 0;
     string keyboardString = "";
     player.printInventory(maxRare);
 
@@ -249,15 +250,13 @@ void Actions::craftItems()
 
     int count = 0;
     bool matAdded = false;
-    cout << "Pick a material";
-    cin.ignore();
+    cout << "\nPick a material";
+    
 
-    while(count <= 3)
+    while(count < 3)
     {
-        cout << "\n->";
+        cout << "\n-> ";
         getline(cin, keyboardString);
-
-        cout << keyboardString << " :\n";
         
         for(size_t i = 0; i < cMats.size(); i++)
         {
@@ -295,6 +294,81 @@ void Actions::craftItems()
 
     cout << "Custom attack created and Slotted\n";
 }
+
+void Actions::sellItems()
+{
+    CraftingMaterials cLoad;
+
+    vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
+    CraftingMaterials sellMat;
+
+    color.clearScreen();
+
+    ifstream file(currentJson);
+
+    if (!file.is_open()) {
+        cout << "Failed to open " << currentJson << "\n";
+        return;
+    }
+
+
+    json data;
+    file >> data;
+
+    string sellMes = data["sellMessage"];
+
+    cout << sellMes << "\n";
+
+    player.printInventory(1000);
+
+    cout << "What would you like to sell? (BACK to go back)\n-> ";
+
+    string keyboardString = "";
+    int keyboardInput = 0;
+    bool matAdded = false;
+
+    cin.ignore();
+    getline(cin, keyboardString);
+
+    if(keyboardString != "BACK")
+    {
+        for(size_t i = 0; i < cMats.size(); i++)
+        {
+            if(matAdded == false)
+            {
+                if(keyboardString == cMats.at(i).name )
+                {
+                    sellMat = cMats.at(i);
+                    matAdded = true;
+                }
+            }
+        }
+
+        cout << "\n How many? That one is worth " << sellMat.price << " novas.";
+
+        while(keyboardInput <= 0 && keyboardInput > player.getInventoryAmount(sellMat))
+        {
+            cout << "\n-> ";
+            cin >> keyboardInput;
+
+            if(keyboardInput > 0 && keyboardInput <= player.getInventoryAmount(sellMat))
+            {
+                player.addToInventory(sellMat, -keyboardInput);
+                int novasToAdd = sellMat.price * keyboardInput;
+
+                cout << "You made " << novasToAdd << " Novas!\n";
+                player.increaseNovas(novasToAdd);
+            }
+
+            else
+            {
+                cout << "\n! INVALID AMOUNT !\n";
+            }
+        }
+    }
+    
+    
+};
 
 void Actions::addHealthPots()
 {

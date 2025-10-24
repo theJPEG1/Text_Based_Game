@@ -3,16 +3,16 @@
    "month": "Pentus",
    "time": "Day",
    "day": 5,
-   "hp": 15,
+   "hp": 9992,
    "maxHp": 15,
-   "strength": 10,
+   "strength": 2000,
    "dexterity": 12,
    "mind": 9,
    "luck": 3,
    "level": 1,
-   "xp": 0,
+   "xp": 26,
    "xpToNextLevel": 50,
-   "healthPotions": 3,
-   "manaPotions": 3,
-   "novas": 0
+   "healthPotions": 18,
+   "manaPotions": 18,
+   "novas": 200
 }

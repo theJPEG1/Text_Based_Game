@@ -1,7 +1,6 @@
 #ifndef ATTACKEFFECTS_H
 #define ATTACKEFFECTS_H
 
-#include "Player.H"
 #include <string>
     using std::string;
 #include <vector>
@@ -12,14 +11,42 @@
 #include <iostream>
     using std::cout;
     using std::cin;
+#include <unordered_map>
+    using std::unordered_map;
+#include <map>
+    using std::map;
 
-#include "Enemy.H"
 #include "include/json.hpp"
     using json = nlohmann::json;
     using ordered_json = nlohmann::ordered_json;
 
+class Player;  // forward declare
+class Enemy;
+
 struct Effects
 {
+    /*
+        Symbols and meanings
+        -  Damage              V
+        <- Self Damage         V
+        +  Healing             V
+        @  Freeze              V
+        &  Bind                V
+        -> Counter             V
+        #  Multicast
+
+        |> Push Back
+        *  Splatter
+        0  Shield
+        
+
+        Not effects jut modifiers
+        ^  Dexterity up
+        v  Dexterity down
+
+    */
+    unordered_map<std::string, std::function<void(Enemy&, Player&)>> actionMap;
+
     string         id = "";
     string       name = "";
     string effectType = "";
@@ -31,7 +58,7 @@ struct Effects
     int healingAmt = 0;
 
     int         shield = 0; //not done. Apply in combat
-    int       multCast = 0; //not done (high importance). Apply in combat after attacj
+    int       multCast = 0;
     int   freezeChance = 0;
     int splatterAmount = 0; //not done (not on high importance)
     
@@ -40,44 +67,19 @@ struct Effects
     bool   pushBack = false; //not done (not on high importance)
     bool selfDamage = false;
 
+    double damageToDo = 0;
 
-    void applyEffect(Enemy& target)
-    {
-        if(bindChance > 0)
-        {
-            if(rand() % 100 + 1 < bindChance)
-            {
-                cout << "";
-                target.setBind(true);
-            }
+    Effects();
+    Effects(const Effects& other);
 
-            else {cout << "\nNo Bind\n";}
-        }
+    void handleEffects(Enemy& target, Player& p);
 
-        if(freezeChance > 0)
-        {
-            if(rand() % 100 + 1 < freezeChance)
-            {
-                cout << "";
-                target.setBind(true);
-            }
-
-            else {cout << "\nNo Freeze\n";}
-        }
-
-        if(counter)
-        {
-            cout << "\nYour next attack will be countered!\n";
-            target.setCounter(true);
-        }
-
-        if(selfDamage)
-        {
-            selfDamage = baseDmg / 2;
-        }
-
-        
-    };
+    void damage(Enemy& target, Player& p);
+    void damageSelf(Enemy& target, Player& p);
+    void healing(Enemy& target, Player& p);
+    void freeze(Enemy& target, Player& p);
+    void bind(Enemy& target, Player& p);
+    void effectCounter(Enemy& target, Player& p);
 
     Effects operator+=(Effects effect)
     {
@@ -94,10 +96,10 @@ struct Effects
 
 struct CraftingMaterials
 {
-    string id;
-    string name;
-    int rarity;
-    int price;
+    string id = "";
+    string name = "";
+    int rarity = 1;
+    int price = 1;
     vector<Effects> matEffects;
 
     vector<CraftingMaterials> loadCraftingMaterialss(const std::string& craftingFile)
@@ -214,11 +216,8 @@ struct CraftingMaterials
 
 };
 
-
-
 struct Attacks
 {
-    
     string id;
     string name;
     string type;

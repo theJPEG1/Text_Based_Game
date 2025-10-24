@@ -1,18 +1,4 @@
 #include "EnemyFactory.H"
-#include "Enemy.H"
-#include "include/json.hpp"
-    using json = nlohmann::json;
-
-
-#include <string>
-    using std::string;
-#include <fstream>
-    using std::ifstream;
-#include <vector>
-    using std::vector;
-
-
-
 
 /**
  * @brief       Constructs an enemy object.
@@ -27,9 +13,16 @@
  * @param        maxExp       The maximum experience the enemy gives when defeated.
  *
 **/
-Enemy EnemyFactory::createEnemy(string thisRegion, string thisName, string enemyType, double phyRes, double magRes, bool isBoss, int health, int strength, int dexterity, int minExp, int maxExp)
+Enemy EnemyFactory::createEnemy(string thisRegion, string thisName, string enemyType, 
+                                 double phyRes, double magRes, bool isBoss, 
+                                 int health, int strength, int dexterity, 
+                                 int minExp, int maxExp, int dropChn,
+                                 int minNov, int maxNov)
 {
-    Enemy newEnemy(thisRegion, thisName, enemyType, phyRes, magRes, isBoss, health, strength, dexterity, minExp, maxExp);
+    Enemy newEnemy(thisRegion, thisName, enemyType, 
+                   phyRes, magRes, isBoss, 
+                   health, strength, dexterity, 
+                   minExp, maxExp, 1, dropChn, minNov, maxNov);
 
     return newEnemy;
 };
@@ -37,6 +30,9 @@ Enemy EnemyFactory::createEnemy(string thisRegion, string thisName, string enemy
 
 vector<vector<Enemy>> EnemyFactory::loadRegionEnemy(string region)
 {
+    CraftingMaterials cLoad;
+    vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
+
     vector<vector<Enemy>> regionToReturn;
 
     vector<Enemy> en1;
@@ -52,6 +48,8 @@ vector<vector<Enemy>> EnemyFactory::loadRegionEnemy(string region)
 
     for(size_t i = 0; i < enemies[region].size(); i++)
     {
+        string matType = enemies[region][i]["materialID"];
+
         Enemy e
         ( 
             enemies[region][i]["Region"],
@@ -65,8 +63,20 @@ vector<vector<Enemy>> EnemyFactory::loadRegionEnemy(string region)
             enemies[region][i]["Dexterity"],
             enemies[region][i]["MinExp"],
             enemies[region][i]["MaxExp"],
-            enemies[region][i]["Level"]
+            enemies[region][i]["Level"],
+            enemies[region][i]["dropChance"],
+            enemies[region][i]["novasMin"],
+            enemies[region][i]["novasMax"]
         );
+
+
+        for(size_t i = 0; i < cMats.size(); i++)
+        {
+            if(matType == cMats.at(i).id)
+            {
+                e.setMaterial(cMats.at(i));
+            }
+        }
 
         switch(e.getLevel())
         {

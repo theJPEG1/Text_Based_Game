@@ -37,7 +37,7 @@ class Actions
         int potionsToAdd;
     
     public:
-        /*
+        /**
             @brief Creates an action map that uses keys to load functions
 
             @param p The player object used to run the game
@@ -47,7 +47,7 @@ class Actions
         void loadCraftingMats(string fileLocation);
         void loadAllAttacks(string fileLocation);
 
-        /*
+        /**
          *   @brief Loads in an area using a json file
          *
          *   @param jsonToRead The file location to read to
@@ -56,6 +56,7 @@ class Actions
 
         void buyItems();
         void craftItems();
+        void sellItems();
 
         //misc to make things run smootehr
         void addHealthPots();

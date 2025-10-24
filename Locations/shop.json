@@ -4,6 +4,7 @@
     "name": "Shop",
     "header": "Welcome to the Shop. What do you do?",
     "buyMessage": "Most regular potions around! What do you want?",
+    "sellMessage": "I'll buy just about any material from you!",
 
     "Actions":
     [

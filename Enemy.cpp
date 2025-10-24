@@ -2,9 +2,6 @@
 #include "Enemy.H"
 #include "Player.H"
 
-#include <string>
-    using std::string;
-
 /**
  * @brief Constructs an Enemy object with specified stats and attributes.
  * @param thisRegion Region where the enemy is found.
@@ -16,7 +13,11 @@
  * @param minExp Minimum XP awarded on defeat.
  * @param maxExp Maximum XP awarded on defeat.
  */
-Enemy::Enemy(string thisRegion, string thisName, string enemyType, double phyRes, double magRes, bool isBoss, int health, int strength, int dexterity, int minExp, int maxExp, int level)
+Enemy::Enemy(string thisRegion, string thisName, string enemyType, 
+             double phyRes, double magRes, bool isBoss, 
+             int health, int strength, int dexterity, 
+             int minExp, int maxExp, int level,
+             int dropChn, int minNov, int maxNov)
 {
     region = thisRegion;
     name = thisName;
@@ -26,10 +27,18 @@ Enemy::Enemy(string thisRegion, string thisName, string enemyType, double phyRes
     this->strength = strength;
     this->dexterity = dexterity;
 
+    magiRes = magRes;
+    physiRes = phyRes;
+
+    dropChance = dropChn;
+    minNovas = minNov;
+    maxNovas = maxNov;
+
     this->minExp = minExp;
     this->maxExp = maxExp;
     this->level = level;
 };
+
 
 /**
  * @brief Reduces enemy's health by the given damage amount.

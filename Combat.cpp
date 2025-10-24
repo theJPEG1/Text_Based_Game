@@ -256,6 +256,7 @@ void Combat::newCombatTest()
         else if(keyboardInput == 4)
         {
             ranAway = true;
+            curEnemy.takeDamage(curEnemy.getMaxHp());
             cout << "\n You ran away from " << curEnemy.getName() << curEnemy.getType() << "\n";
         }
 
@@ -287,6 +288,19 @@ void Combat::newCombatTest()
         player.increaseExperience(xpGained);
 
         cout << player.getExperience() << "/" << player.getXpToNextLevel() << " XP to next level.\n" << color.DEFAULT;
+
+        int dropChance = rand() % 100;
+
+        if(dropChance - player.getLuck() < curEnemy.getDropChance())
+        {
+            player.addToInventory(curEnemy.getDrop(), 1);
+            cout << "It dropped " << curEnemy.getDrop().name;
+
+            int novaAmount = (rand() % curEnemy.getMaxNovas()) + curEnemy.getMinNovas();
+            cout << " Add " << novaAmount << " novas!";
+        }
+
+        cout << "\n";
     }
 
     if(player.getExperience() >= player.getXpToNextLevel())
@@ -305,275 +319,92 @@ void Combat::newCombatTest()
  */
 void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex)
 {
-    int damageToApply = 0;
+
     bool dodged;
 
     if(curEnemy.getBound()) //auto crit
     {
-        dodged = false;
+        int storeCrit = player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance;
+        player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = 101;
 
-        if(actionIndex < 4) //phsical attack 
+        for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
         {
-            damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
-            
-
-            player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = 101;
-
-            for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
+            player.getAllCombat().at(actionIndex).thisEffects.at(i).handleEffects(curEnemy, player);
+        
+            if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
             {
-                player.getAllCombat().at(actionIndex).thisEffects.at(i).applyEffect(curEnemy);
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance > 0)
+                for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
                 {
-                    if(rand() % 100 + 1 < player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance)
-                    {
-                        cout << "\nCRIT\n";
-                        damageToApply *= 2;
-                    }
+                    handleAttack(gen, color, player.getRandAttack());
                 }
-
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
-                {
-                    player.increaseHealth(-damageToApply / 2);
-                }
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
-                {
-                    player.increaseHealth(damageToApply);
-                }
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
-                {
-                    for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
-                    {
-                        handleAttack(gen, color, player.getRandAttack());
-                    }
-                }
-            }
-
-            damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
-            damageToApply *= player.getStrength() / 5;
-
-            if(curEnemy.getPhysRes() != 0)
-            {
-                damageToApply *= curEnemy.getPhysRes();
             }
         }
 
-        else //magical attacks
-        {
-            damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
-
-            player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = 101;
-
-            for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
-            {
-                player.getAllCombat().at(actionIndex).thisEffects.at(i).applyEffect(curEnemy);
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance > 0)
-                {
-                    if(rand() % 100 + 1 < player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance)
-                    {
-                        cout << "\nCRIT\n";
-                        damageToApply *= 2;
-                    }
-                }
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
-                {
-                    player.increaseHealth(-damageToApply / 2);
-                }
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
-                {
-                    player.increaseHealth(damageToApply);
-                }
-
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
-                {
-                    for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
-                    {
-                        handleAttack(gen, color, player.getRandAttack());
-                    }
-                }
-            }
-
-            damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
-            damageToApply *= player.getMind() / 5;
-
-            if(curEnemy.getMagiRes() != 0)
-            {
-                damageToApply *= curEnemy.getMagiRes();
-            }
-        }
+        player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = storeCrit;
     }
 
     else
     {
-        if(actionIndex < 4) //phsical attack 
+        if(player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0)
         {
-            if(player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0)
-            {
-                dodged = gen.dodgeChance(player.getDexterity(), curEnemy.getDexterity(), player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0, "PLAYER");
-            }
-
-            else
-            {
-                dodged = gen.dodgeChance(player.getDexterity(), curEnemy.getDexterity(), "PLAYER");
-            }
-            
-            
-            if(!dodged)//hit enemy
-            {
-                damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
-
-                for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
-                {
-                    player.getAllCombat().at(actionIndex).thisEffects.at(i).applyEffect(curEnemy);
-
-                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance > 0)
-                    {
-                        if(rand() % 100 + 1 < player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance)
-                        {
-                            cout << "\nCRIT\n";
-                            damageToApply *= 2;
-                        }
-                    }
-
-                     if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
-                    {
-                        player.increaseHealth(-damageToApply / 2);
-                    }
-
-                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
-                    {
-                        player.increaseHealth(damageToApply);
-                    }
-
-                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
-                    {
-                        for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
-                        {
-                            handleAttack(gen, color, player.getRandAttack());
-                        }
-                    }
-                }
-
-                damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
-                damageToApply *= player.getStrength() / 5;
-            }
+            dodged = gen.dodgeChance(player.getDexterity(), curEnemy.getDexterity(), player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0, "PLAYER");
         }
 
-        else //magical attacks
+        else
         {
             dodged = gen.dodgeChance(player.getDexterity(), curEnemy.getDexterity(), "PLAYER");
+        }
 
-            if(!dodged)
+        if(dodged)
+        {
+            for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
             {
-                damageToApply = player.getAllCombat().at(actionIndex).thisEffects.at(0).baseDmg;
+                cout << player.getAllCombat().at(actionIndex).thisEffects.at(i).id << "\n";
+                cout << player.getAllCombat().at(actionIndex).thisEffects.at(i).baseDmg << "\n";
 
-                for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
+                Effects& effectRef = player.getAllCombat().at(actionIndex).thisEffects.at(i);
+                effectRef.handleEffects(curEnemy, player);
+        
+                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
                 {
-                    player.getAllCombat().at(actionIndex).thisEffects.at(i).applyEffect(curEnemy);
-
-                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance > 0)
+                    for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
                     {
-                        if(rand() % 100 + 1 < player.getAllCombat().at(actionIndex).thisEffects.at(i).critChance)
-                        {
-                            cout << "\nCRIT\n";
-                            damageToApply *= 2;
-                        }
+                        
+                        handleAttack(gen, color, player.getRandAttack());
                     }
-
-                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).selfDamage)
-                    {
-                        player.increaseHealth(-damageToApply / 2);
-                    }
-
-                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).healingAmt > 0)
-                    {
-                        player.increaseHealth(damageToApply);
-                    }
-
-                    if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
-                    {
-                        for(int k = 0; k < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; k++)
-                        {
-                            handleAttack(gen, color, player.getRandAttack());
-                        }
-                    }
-
-                    damageToApply *= player.getMind() / 5;
                 }
             }
         }
+
+        else
+        {
+            cout << curEnemy.getName() << curEnemy.getType() << " dodged your attack!\n";
+        }
     }
 
-    if(!dodged)
-    {
-        cout <<"\nYou hit " << curEnemy.getName() << curEnemy.getType() << " for " << color.RED << damageToApply << " Damage\n" << color.DEFAULT;
-        player.dealDamage(curEnemy, damageToApply);
-    }
-
-    else
-    {
-        cout << curEnemy.getName() << curEnemy.getType() << " dodged your attack!\n";
-    }
+    
     
 };
 
 void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpell)
 {
-    cout << "\nYou casted " << multSpell.name << "!\n";
-    int damageToApply = 0;
-
-    damageToApply = multSpell.thisEffects.at(0).baseDmg;
-
-    for(size_t i = 0; i < multSpell.thisEffects.size(); i++)
+    if(multSpell.type == "spell")
     {
-        multSpell.thisEffects.at(i).applyEffect(curEnemy);
+        cout << "\nYou casted " << multSpell.name << "!\n";
 
-        if(multSpell.thisEffects.at(i).critChance > 0)
+        for(size_t i = 0; i < multSpell.thisEffects.size(); i++)
         {
-            if(rand() % 100 + 1 < multSpell.thisEffects.at(i).critChance)
+            multSpell.thisEffects.at(i).handleEffects(curEnemy, player);
+
+            if(multSpell.thisEffects.at(i).multCast > 0)
             {
-                cout << "\nCRIT\n";
-                damageToApply *= 2;
-            }
-        }
-
-        if(multSpell.thisEffects.at(i).selfDamage)
-        {
-            cout << "\nYou hit yourself for " << (damageToApply / 2) << "\n";
-            player.increaseHealth(-damageToApply / 2);
-
-        }
-
-        if(multSpell.thisEffects.at(i).healingAmt > 0)
-        {
-            cout << "\nYou healed yourself for " << (damageToApply) << "\n";
-            player.increaseHealth(damageToApply);
-        }
-
-        if(multSpell.thisEffects.at(i).multCast > 0)
-        {
-            for(int k = 0; k < multSpell.thisEffects.at(i).multCast; k++)
-            {
-                handleAttack(gen, color, player.getRandAttack());
+                for(int k = 0; k < multSpell.thisEffects.at(i).multCast; k++)
+                {
+                    handleAttack(gen, color, player.getRandAttack());
+                }
             }
         }
     }
-
-    damageToApply *= player.getStrength() / 5;
-
-    if(curEnemy.getPhysRes() != 0)
-    {
-        damageToApply *= curEnemy.getPhysRes();
-    }
-
-    cout <<"\nYou hit " << curEnemy.getName() << curEnemy.getType() << " for " << color.RED << damageToApply << " Damage\n" << color.DEFAULT;
-    player.dealDamage(curEnemy, damageToApply);
 }
 
 
