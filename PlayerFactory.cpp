@@ -142,8 +142,10 @@ Player PlayerFactory::createPlayer()
 
     for(size_t i = 0; i < cMats.size(); i++)
     {
-        newPlayer.addToInventory(cMats.at(i), 0);
+        newPlayer.addToInventory(cMats.at(i), 1);
     }
+
+    newPlayer.increaseNovas(20);
     
     return newPlayer;
 };
@@ -197,6 +199,8 @@ Player PlayerFactory::loadFromFile(const string& filename)
         
     newPlayer.increaseHealthPotionCount(playerStats["healthPotions"]);
     newPlayer.increaseManaPotionCount(playerStats["manaPotions"]);
+
+    newPlayer.increaseNovas(playerStats["novas"]);
 
     //What does this portion do?
 //  1. Reads in a json file from the loaction playerData/playerCombatBook.json
@@ -392,7 +396,7 @@ void PlayerFactory::createPlayerBirthday(string& name, string& monthBorn, string
     bool timeSelected = false;
     bool daySelected = false;
 
-    vector<string> months = {"Sirtus", "Thetus", "Motus", "Zectus", "Pentus"};
+    vector<string> months = {"Salumen", "Fortismen", "Aglismen", "Magimen", "Felixmen"};
     vector<string> times = {"Day", "Afternoon", "Night"};
     
     while(!nameCreated)
@@ -421,15 +425,15 @@ void PlayerFactory::createPlayerBirthday(string& name, string& monthBorn, string
 
         cout << colors.RED << "(THIS CANNOT BE CHANGED LATER)\n" << colors.DEFAULT;
 
-        cout << "Sirtus borns have moe vitality\n"
-             << "Thetus borns are stronger\n"
-             << "Motus borns are more agile\n"
-             << "Zectus borns are more adept in magic\n"
-             << "Pentus borns are rare and considered lucky\n";
+        cout << "Salumen borns have moe vitality\n"
+             << "Fortismen borns are stronger\n"
+             << "Aglismen borns are more agile\n"
+             << "Magimen borns are more adept in magic\n"
+             << "Felixmen borns are rare and considered lucky\n";
 
         cout << "What Month where you born: ";
 
-        cin.ignore();
+        
         getline(cin, monthBorn);
 
         for(size_t i = 0; i < months.size(); i++)
@@ -457,7 +461,6 @@ void PlayerFactory::createPlayerBirthday(string& name, string& monthBorn, string
 
         cout << "What time where you born: ";
 
-        cin.ignore();
         getline(cin, timeBorn);
 
         for(size_t i = 0; i < times.size(); i++)

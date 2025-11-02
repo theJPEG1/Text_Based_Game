@@ -18,22 +18,37 @@
 
 #include "include/json.hpp"
     using json = nlohmann::json;
-#include "Player.H"
-#include "PrettyColors.H"
 #include "attacksEffects.H"
+#include "EnemyFactory.H"
+#include "Combat.H"
+#include "Saving.H"
+
+#include "GameState.H"
 
 //every Actions possible (Location)
 class Actions
 {
     private:
         unordered_map<std::string, std::function<void()>> actionMap;
-        map <string, CraftingMaterials> materials;
-        map <string, Attacks> playerAttacks;
 
-        Player player;
-        PrettyColors color;
+        vector<string> effects =
+        {
+            "(-): Damage",
+            "(<-): Self Damage",
+            "(+): Healing",
+            "(@): Freeze",
+            "(&): Bind",
+            "(->): Counter",
+            "(#): Multicast",
+            "(|>): Push Back",
+            "(*): Splatter",
+            "(0): Shield",
+        };
+
         string currentJson;
 
+        GameState gc;
+        
         int potionsToAdd;
     
     public:
@@ -42,10 +57,7 @@ class Actions
 
             @param p The player object used to run the game
         */
-        Actions(Player& p);
-
-        void loadCraftingMats(string fileLocation);
-        void loadAllAttacks(string fileLocation);
+        Actions(GameState& gameState);
 
         /**
          *   @brief Loads in an area using a json file
@@ -54,9 +66,21 @@ class Actions
         */
         void loadAreaFromJson(string jsonToRead);
 
-        void buyItems();
-        void craftItems();
-        void sellItems();
+        //shopping and blacksmiths
+            void buyItems();
+            void craftItems();
+            void sellItems();
+            void rumors();
+        //guild center
+            void viewGuildCard();
+            void viewInventory();
+            void viewQuests();
+            void printEffectList();
+        //town center
+            void wellTalk();
+            void tossInACoin();
+
+            void fight();
 
         //misc to make things run smootehr
         void addHealthPots();

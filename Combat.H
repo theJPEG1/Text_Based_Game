@@ -1,23 +1,24 @@
 #ifndef COMBAT_H
 #define COMBAT_H
 
-#include "Player.H"
 #include "Enemy.H"
-#include "PrettyColors.H"
 #include "WeightedGen.H"
-#include "attacksEffects.H"
+#include "GameState.H"
 
 #include <vector>
     using std::vector;
+#include <random>
 #include <string>
     using std::string;
+#include <iostream>
+    using std::cin;
 #include <map>
     using std::map;
 
 class Combat
 {
     public:
-        Combat(Player& thisPlayer, vector<vector<Enemy>> currentRegionEnemy, string currentRegion);
+        Combat(GameState& gameState, vector<vector<Enemy>> currentRegionEnemy, string currentRegion);
         void determineEnemy();
         void printGui();
 
@@ -27,31 +28,20 @@ class Combat
         
 
     private:
-        Player& player;
+        GameState gs;
         vector<vector<Enemy>> regionToUse;
         string region;
         Enemy curEnemy;
-        map <string, vector<string>> enemyNameMap;
-
-        //names of arrays find a awy to load this or many another object or smothing
-        vector<string> slimeNames {"Glorp", "Goop", "Wiggles", "Gummy", "Oozeburt", "Glippy", "Plop", "Yogurt", "Jonathan"};
-        vector<string> squirelNames {"Sandy Cheecks", "Nutter", "Peanut", "Snickers", "Big Cheecks", "Ratatoskr", "Twitch", "Craig"};
-        vector<string> bunnyNames {"Snowball", "Thumper", "Peter", "Cotton Tail", "Fluffer", "Flopsy", "Buster", "Joe"};
-        vector<string> wolfNames {"Hati", "Sköll", "Scar", "Dire", "White Fang", "Night Eyes", "Fenrir", "Carl"};
-        vector<string> boarNames {"Tusk", "Snouts", "Broken Tusk", "Princess", "Pork Chop", "Suey", "Gullinbursti", "Bert"};
-        vector<string> bearNames {"Claw", "Grizzler", "Ursa", "Pooh", "Maw", "Oreius", "Bear", "Harold"};
-        vector<string> sprigNames {"Lila", "Sunflor", "Lily", "Daffolin", "Dander", "Sprif", "Spore", "Sharron"};
-        vector<string> stumpNames {"Wood", "Iron Wood", "Walnut Wood", "Stone Wood", "Tree", "Decay Wood", "Short", "Steven"};
-        vector<string> noNames {"?", "??", "???", "????", "?????"};
-        vector<string> dragonNames {"Feykro", "Laas", "Sil", "Strunmah", "Graag"};
+        WeightedGen gen;
+        PrettyColors color;
 
         //action field
-        void handleAttack(WeightedGen& gen, PrettyColors& color, int& lowestDamage, int strengthBuff, int dexBuff, string type);
-        void handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpell);
-        void handlePotion(PrettyColors& color, string type);
-        void handleEnemyAttack(WeightedGen& gen, PrettyColors& color, int dexBuff = 0);
+        void handleAttack(int& lowestDamage, int strengthBuff, int dexBuff, string type);
+        void handleAttack(Attacks multSpell);
+        void handlePotion(string type);
+        void handleEnemyAttack(int dexBuff = 0);
 
-        void handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex);
+        void handleAttack(int actionIndex);
 };
 
 #endif

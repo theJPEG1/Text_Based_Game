@@ -2,17 +2,14 @@
 #include "Enemy.H"
 #include "attacksEffects.H"
 
+PrettyColors color;
+
 /**
  * @brief constructs the Effects action map
  */
 Effects::Effects()
 {
-    actionMap["-"] = [this](Enemy& e, Player& p){ damage(e, p); };
-    actionMap["<-"] = [this](Enemy& e, Player& p){ damageSelf(e, p); };
-    actionMap["+"] = [this](Enemy& e, Player& p){ healing(e, p); };
-    actionMap["#"] = [this](Enemy& e, Player& p){ freeze(e, p); };
-    actionMap["&"] = [this](Enemy& e, Player& p){ bind(e, p); };
-    actionMap["->"] = [this](Enemy& e, Player& p){ effectCounter(e, p); };
+    rebuildActionMap();
 };
 
 /**
@@ -40,13 +37,21 @@ Effects::Effects(const Effects& other)
     damageToDo = other.damageToDo;
 
     // Rebuild actionMap so lambdas capture the *new* this
-    actionMap["-"]  = [this](Enemy& e, Player& p){ damage(e, p); };
-    actionMap["<-"] = [this](Enemy& e, Player& p){ damageSelf(e, p); };
-    actionMap["+"]  = [this](Enemy& e, Player& p){ healing(e, p); };
-    actionMap["#"]  = [this](Enemy& e, Player& p){ freeze(e, p); };
-    actionMap["&"]  = [this](Enemy& e, Player& p){ bind(e, p); };
-    actionMap["->"] = [this](Enemy& e, Player& p){ effectCounter(e, p); };
+    rebuildActionMap();
 }
+
+void Effects::rebuildActionMap()
+{
+    actionMap.clear();     // ensure we start clean
+
+    actionMap["-"]  = [this](Enemy& e, Player& p, string turn){ damage(e, p, turn); };
+    actionMap["<-"] = [this](Enemy& e, Player& p, string turn){ damageSelf(e, p, turn); };
+    actionMap["+"]  = [this](Enemy& e, Player& p, string turn){ healing(e, p, turn); };
+    actionMap["@"]  = [this](Enemy& e, Player& p, string turn){ freeze(e, p, turn); };
+    actionMap["&"]  = [this](Enemy& e, Player& p, string turn){ bind(e, p, turn); };
+    actionMap["->"] = [this](Enemy& e, Player& p, string turn){ effectCounter(e, p, turn); };
+}
+
 
 
 /**
@@ -55,9 +60,17 @@ Effects::Effects(const Effects& other)
  * @param target Enemy to apply effect agains
  * @param p Player to grab stats and also target
  */
-void Effects::handleEffects(Enemy& target, Player& p)
+void Effects::handleEffects(Enemy& target, Player& p, string turn)
 {
-    actionMap.find(this->id)->second(target, p);
+    if(actionMap.find(this->id) == actionMap.end())
+    {
+        cout << "ID NOT EXIST\n";
+    }
+
+    else
+    {
+        actionMap.find(this->id)->second(target, p, turn);
+    }
 };
 
 /**
@@ -66,51 +79,70 @@ void Effects::handleEffects(Enemy& target, Player& p)
  * @param target Enemy to target
  * @param p Player to reference
  */
-void Effects::damage(Enemy& target, Player& p)
+void Effects::damage(Enemy& target, Player& p, string turn)
 {
-    cout << damageToDo << " | " << baseDmg << "\n";
     this->damageToDo = this->baseDmg;
-    cout << damageToDo << "\n";
 
-    if((rand() % 100) - p.getLuck() < critChance)
+    if(turn == "PLAYER")
     {
-        cout << "\nCRIT\n";
-        damageToDo *= 2;
-        cout << damageToDo << "\n";
+        if((rand() % 100) - p.getLuck() < critChance)
+        {
+            cout << color.YELLOW << "\nCRIT\n" << color.DEFAULT;
+            damageToDo *= 2;
+        }
+
+        if(effectType == "magical")
+        {
+            if(p.getMind() >= 10)
+            {
+                damageToDo *= (static_cast<double>(p.getMind()) / 10.0);
+            }
+
+            if(target.getMagiRes() > 0)
+            {
+                damageToDo -= target.getMagiRes() * damageToDo;
+            }
+        } 
+
+        else if(effectType == "physical")
+        {
+            if(p.getStrength() >= 10)
+            {
+                damageToDo *= (static_cast<double>(p.getStrength()) / 10.0);
+            }
+
+            if(target.getPhysRes() > 0)
+            {
+                damageToDo -= target.getPhysRes() * damageToDo;
+            }
+        }
+
+        cout <<"\nYou hit " << target.getName() << target.getType() << " for "  
+             << color.RED << static_cast<int>(damageToDo) << " Damage\n" << color.DEFAULT;
+
+        p.dealDamage(target, static_cast<int>(damageToDo));
     }
 
-    if(effectType == "magical")
+    else
     {
-        if(p.getMind() >= 10)
+        if((rand() % 100) < critChance)
         {
-            damageToDo *= (static_cast<double>(p.getMind()) / 10.0);
-            cout << damageToDo << "\n";
+            cout << "\nCRIT\n";
+            damageToDo *= 2;
         }
 
-        if(target.getMagiRes() > 0)
+        
+        if(baseDmg >= 5)
         {
-            damageToDo *= target.getMagiRes();
-            cout << damageToDo << "\n";
-        }
-    } 
-
-    else if(effectType == "physical")
-    {
-        if(p.getStrength() >= 10)
-        {
-            damageToDo *= (static_cast<double>(p.getStrength()) / 10.0);
-            cout << damageToDo << "\n";
+            damageToDo *= static_cast<double>(target.getStrength() / 10.0);
         }
 
-        if(target.getPhysRes() > 0)
-        {
-            damageToDo *= target.getPhysRes();
-            cout << damageToDo << "\n";
-        }
+        cout <<"\nYou were hit for " << color.RED 
+             << static_cast<int>(damageToDo) << " Damage\n" << color.DEFAULT;
+
+        p.takeDamage(static_cast<int>(damageToDo));
     }
-
-    cout <<"\nYou hit " << target.getName() << target.getType() << " for "  << damageToDo << " Damage\n";
-    p.dealDamage(target, damageToDo);
+    
 };
 
 /**
@@ -119,36 +151,62 @@ void Effects::damage(Enemy& target, Player& p)
  * @param target does nothing here
  * @param p Player to target
  */
-void Effects::damageSelf(Enemy& target, Player& p)
+void Effects::damageSelf(Enemy& target, Player& p, string turn)
 {
-    target.takeDamage(0); //avoids warning message
-
-    damageToDo = baseDmg;
-
-    if((rand() % 100) + p.getLuck() < critChance)
+    if(turn == "PLAYER")
     {
-        cout << "\nCRIT\n";
-        damageToDo *= 2;
+        damageToDo = baseDmg;
+
+        if((rand() % 100) + p.getLuck() < critChance)
+        {
+            cout << "\nCRIT\n";
+            damageToDo *= 2;
+        }
+
+        if(effectType == "magical")
+        {
+            if(p.getMind() >= 10)
+            {
+                damageToDo *= static_cast<double>(p.getMind() / 10.0);
+            }
+        } 
+
+        else if(effectType == "physical")
+        {
+            if(p.getStrength() >= 10)
+            {
+                damageToDo *= static_cast<double>(p.getStrength() / 10.0);
+            }
+        }
+
+        cout <<"\nYou hit yourself for " << color.RED 
+             << static_cast<int>(damageToDo / 2) << " Damage\n" << color.DEFAULT;
+        p.takeDamage(static_cast<int>(damageToDo / 2.0));
     }
 
-    if(effectType == "magical")
+    else
     {
-        if(p.getMind() >= 10)
-        {
-            damageToDo *= static_cast<double>(p.getMind() / 10);
-        }
-    } 
+        damageToDo = baseDmg;
 
-    else if(effectType == "physical")
-    {
-        if(p.getStrength() >= 10)
+        if((rand() % 100) < critChance)
         {
-            damageToDo *= static_cast<double>(p.getStrength() / 10);
+            cout << "\nCRIT\n";
+            damageToDo *= 2;
         }
+
+        
+        if(baseDmg >= 5)
+        {
+            damageToDo *= static_cast<double>(target.getStrength() / 10.0);
+        }
+        
+
+        cout <<"\n" << target.getType() << " hit itself for " << color.RED 
+             << static_cast<int>(damageToDo / 2.0) << " Damage\n" << color.DEFAULT;
+        target.takeDamage(static_cast<int>(damageToDo / 2.0));
     }
 
-    cout <<"\nYou hit yourself for "  << (damageToDo / 2) << " Damage\n";
-    p.takeDamage(damageToDo / 2);
+    
 };
 
 /**
@@ -157,40 +215,56 @@ void Effects::damageSelf(Enemy& target, Player& p)
  * @param target does nothing here
  * @param p Player to reference
  */
-void Effects::healing(Enemy& target, Player& p)
+void Effects::healing(Enemy& target, Player& p, string turn)
 {
-    target.takeDamage(0); // avoids warning message
-
-    damageToDo = healingAmt;
-
-    if(effectType == "magical")
+    if(turn == "PLAYER")
     {
-        if(p.getMind() >= 10)
+        damageToDo = healingAmt;
+
+        if(effectType == "magical")
         {
-            damageToDo *= static_cast<double>(p.getMind() / 10);
+            if(p.getMind() >= 10)
+            {
+                damageToDo *= static_cast<double>(p.getMind() / 10.0);
+            }
+
+            if(target.getMagiRes() > 0)
+            {
+                damageToDo *= target.getMagiRes();
+            }
+        } 
+
+        else if(effectType == "physical")
+        {
+            if(p.getStrength() >= 10)
+            {
+                damageToDo *= static_cast<double>(p.getStrength() / 10.0);
+            }
+
+            if(target.getPhysRes() > 0)
+            {
+                damageToDo *= target.getPhysRes();
+            }
         }
 
-        if(target.getMagiRes() > 0)
-        {
-            damageToDo *= target.getMagiRes();
-        }
-    } 
-
-    else if(effectType == "physical")
-    {
-        if(p.getStrength() >= 10)
-        {
-            damageToDo *= static_cast<double>(p.getStrength() / 10);
-        }
-
-        if(target.getPhysRes() > 0)
-        {
-            damageToDo *= target.getPhysRes();
-        }
+        cout << "\nYou healed for " << color.CYAN
+             << static_cast<int>(damageToDo) << " Health!\n" << color.DEFAULT;
+        p.increaseHealth(static_cast<int>(damageToDo));
     }
 
-    cout << "\nYou healed for " << damageToDo << " Health!\n";
-    p.increaseHealth(damageToDo);
+    else
+    {
+        damageToDo = healingAmt;
+
+        if(baseDmg >= 5)
+        {
+            damageToDo *= static_cast<double>(target.getStrength() / 10.0);
+        }
+
+        cout <<"\n" << target.getType() << " healed itself for " << color.CYAN
+             << static_cast<int>(damageToDo) << " Health!\n" << color.DEFAULT;
+        target.takeDamage(-static_cast<int>(damageToDo));
+    }
 };
 
 
@@ -200,17 +274,23 @@ void Effects::healing(Enemy& target, Player& p)
  * @param target Enemy to target
  * @param p Does nothing here
  */
-void Effects::freeze(Enemy& target, Player& p)
+void Effects::freeze(Enemy& target, Player& p, string turn)
 {
-    p.takeDamage(0); // avoid warning message
-
-    if((rand() % 100) - p.getLuck() < freezeChance)
+    if(turn == "PLAYER")
     {
-        cout << "\nFrozen!\n";
-        target.setBind(true);
-    }
+        if((rand() % 100) - p.getLuck() < freezeChance)
+        {
+            cout << color.BLUE << "\nFrozen!\n" << color.DEFAULT;
+            target.setBind(true);
+        }
 
-    else {cout << "\nNo Freeze\n";}
+        else 
+        {
+            cout << color.BLUE << "\nNo Freeze\n" 
+                 << color.DEFAULT;
+        }
+    }
+    
 };
 
 /**
@@ -219,17 +299,22 @@ void Effects::freeze(Enemy& target, Player& p)
  * @param target Enemy to target
  * @param p Does nothing here
  */
-void Effects::bind(Enemy& target, Player& p)
+void Effects::bind(Enemy& target, Player& p, string turn)
 {
-    p.takeDamage(0); // avoid wanring message
-
-    if((rand() % 100) - p.getLuck() < bindChance)
+    if(turn == "PLAYER")
     {
-        cout << "\nBound!\n";
-        target.setBind(true);
-    }
+        if((rand() % 100) - p.getLuck() < bindChance)
+        {
+            cout << color.GREEN << "\nBound!\n" << color.DEFAULT;
+            target.setBind(true);
+        }
 
-    else {cout << "\nNo Bind\n";}
+        else 
+        {
+            cout << color.GREEN << "\nNo Bind\n" 
+                 << color.DEFAULT;
+        }
+    }
 };
 
 /**
@@ -238,10 +323,16 @@ void Effects::bind(Enemy& target, Player& p)
  * @param target Enemy to target
  * @param p Does nothing here
  */
-void Effects::effectCounter(Enemy& target, Player& p)
+void Effects::effectCounter(Enemy& target, Player& p, string turn)
 {
-    p.takeDamage(0); // avoids warning message
+    p.takeDamage(0); // avoids warning
+
+    if(turn == "PLAYER")
+    {
+        cout << "\nThe next attack will be countered!\n";
+        target.setCounter(true);
+    }
     
-    cout << "\nYour next attack will be countered!\n";
-    target.setCounter(true);
+    
 };
+

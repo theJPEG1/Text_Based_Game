@@ -1,19 +1,4 @@
-#include "Player.H"
-#include "Enemy.H"
 #include "Combat.H"
-#include "PrettyColors.H"
-#include "WeightedGen.H"
-#include "attacksEffects.H"
-
-#include <vector>
-    using std::vector;
-#include <random>
-#include <string>
-    using std::string;
-#include <iostream>
-    using std::cin;
-#include <map>
-    using std::map;
 
 //time for funky math and a weird explaniation
 /*  
@@ -52,79 +37,68 @@
  * @param currentRegionEnemy Vector of enemies in the current region.
  * @param currentRegion Name of the current region.
  */
-Combat::Combat(Player& thisPlayer, vector<vector<Enemy>> currentRegionEnemy, string currentRegion)
-    : player(thisPlayer)
+Combat::Combat(GameState& gameState, vector<vector<Enemy>> currentRegionEnemy, string currentRegion)
 {
+    gs = gameState;
     regionToUse = currentRegionEnemy;
     region = currentRegion;
-
-    enemyNameMap["Slime"] = slimeNames;
-    enemyNameMap["Squirel"] = squirelNames;
-    enemyNameMap["Rabbit"] = bunnyNames;
-    enemyNameMap["Wolf"] = wolfNames;
-    enemyNameMap["Boar"] = boarNames;
-    enemyNameMap["Bear"] = bearNames;
-    enemyNameMap["Sprig"] = sprigNames;
-    enemyNameMap["Stump Golem"] = stumpNames;
-    enemyNameMap["Fairy"] = noNames;
-
-    enemyNameMap["Dragon"] = dragonNames;
-        // index 0-4 is forest dragons
 };
 
 /**
  * @brief Randomly selects and sets the current enemy for combat.
  */
 void Combat::determineEnemy()
-{
-    WeightedGen gen;
-    
-    curEnemy = gen.generateEnemy(player.getLevel(), regionToUse);
-
-    curEnemy.setName(enemyNameMap.find(curEnemy.getType())->second.at(rand() % enemyNameMap.find(curEnemy.getType())->second.size()));
-    
+{   
+    curEnemy = gen.generateEnemy(gs.player.getLevel(), regionToUse);
 };
 
 void Combat::newCombatTest()
 {
     bool isFighting = true;
     bool ranAway = false;
-
-    WeightedGen gen;
-    PrettyColors color;
     int keyboardInput = 0;
 
 // == Start Combat Logic ==
     while(isFighting)
     {
         cout << "You are fighting " << curEnemy.getName() << curEnemy.getType() << "\n\n"
-             << "You have " << color.CYAN << player.getHealth() << "/" << player.getMaxHealth() << " Health\t" << color.DEFAULT
-             << "You have " << color.MAGENTA << player.getMana() << "/" << player.getMaxMana() << " Mana\n" << color.DEFAULT;
-        cout << "You can do " << color.RED << player.getStrength() << " Damage.\t" << color.DEFAULT << "\n\n";
+             << "You have " << color.CYAN << gs.player.getHealth() << "/" << gs.player.getMaxHealth() << " Health\t" << color.DEFAULT
+             << "You have " << color.MAGENTA << gs.player.getMana() << "/" << gs.player.getMaxMana() << " Mana\n" << color.DEFAULT;
+
+        if(gs.player.getStrength() >= 10)
+        {
+            cout << "You have " << color.RED << static_cast<double>(gs.player.getStrength() / 10.0) << " Physical Multiplier\n" << color.DEFAULT;
+        }
+
+        if(gs.player.getMind() >= 10)
+        {
+            cout << "You have " << color.MAGENTA << static_cast<double>(gs.player.getMind() / 10.0) << " Magical Multiplier\n" << color.DEFAULT;
+        }
              
+        cout << "\n";
     //== Display Enemy Info Based on Mind Stat ==
-        if(player.getMind() >= 20 && player.getMind() < 30)
+        if(gs.player.getMind() >= 20 && gs.player.getMind() < 30)
         {
             cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp() 
-            << " Health" << color.DEFAULT;
+                 << " Health" << color.DEFAULT;
         }
 
-        else if(player.getMind() >= 30 && player.getMind() < 40) 
+        else if(gs.player.getMind() >= 30 && gs.player.getMind() < 40) 
         {
-            cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp() 
-            << " Health.\t" << color.DEFAULT;
-            cout << curEnemy.getName() << " Can do " << color.RED << "0-" << curEnemy.getStrength() << " Damage."
-                 << color.DEFAULT;
+            cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp()
+                 << " Health.\t" << color.DEFAULT;
+
+            cout << curEnemy.getName() << " has " << color.RED << curEnemy.getPhysRes() << " Physical Resistance" << color.DEFAULT;
         }
 
-        else if(player.getMind() >= 40)
+        else if(gs.player.getMind() >= 40)
         {
-            cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp() 
-            << " Health\t" << color.DEFAULT;
-            cout << curEnemy.getName() << " Can do " << color.RED << "0-" << curEnemy.getStrength() << " Damage. \n"
-                 << color.DEFAULT;
-            cout << curEnemy.getName() << " Has a " << color.GREEN << "0-" << curEnemy.getDexterity() << " Dodge."
-                 << color.DEFAULT;
+            cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp()
+                 << " Health.\t" << color.DEFAULT;
+
+            cout << curEnemy.getName() << " has " << color.RED << curEnemy.getPhysRes() << " Physical Resistance\n" << color.DEFAULT;
+
+            cout << curEnemy.getName() << " has " << color.MAGENTA << curEnemy.getMagiRes() << " Magical Resistance" << color.DEFAULT;
         }
     //== End Enemy Info ==
 
@@ -147,21 +121,83 @@ void Combat::newCombatTest()
                         cout << "\n";
                     }
 
-                    cout << "[" << i + 1 << "] " << player.getAllCombat().at(i).name << "\t";
+                    cout << "[" << i + 1 << "] " << gs.player.getAllCombat().at(i).name << " (";
+
+                    for(size_t k = 0; k < gs.player.getAllCombat().at(i).thisEffects.size(); k++)
+                    {
+                        if(k == 0)
+                        {
+                            cout << gs.player.getAllCombat().at(i).thisEffects.at(k).id;
+                        }
+
+                        else
+                        {
+                            cout << " " << gs.player.getAllCombat().at(i).thisEffects.at(k).id;
+                        }
+                        
+                    }
+
+                    cout << ")";
+
+                    if(gs.player.getAllCombat().at(i).name.length() < 30 && gs.player.getAllCombat().at(i).name.length() > 17)
+                    {
+                        cout << "\t";
+                    }
+
+                    if(gs.player.getAllCombat().at(i).name.length() < 16)
+                    {
+                        cout << "\t";
+                    }
+
+                    if(gs.player.getAllCombat().at(i).name.length() < 8)
+                    {
+                        cout << "\t";
+                    }
                 }
             }
 
             else 
             {
                 choice = "spells";
-                for(size_t i = 4; i < player.getAllCombat().size(); i++)
+                for(size_t i = 4; i < gs.player.getAllCombat().size(); i++)
                 {
                     if(i % 2 == 0)
                     {
                         cout << "\n";
                     }
 
-                    cout << "[" << (i - 4) + 1 << "] " << player.getAllCombat().at(i).name << "\t";
+                    cout << "[" << (i -4) + 1 << "] " << gs.player.getAllCombat().at(i).name << " (";
+
+                    for(size_t k = 0; k < gs.player.getAllCombat().at(i).thisEffects.size(); k++)
+                    {
+                        if(k == 0)
+                        {
+                            cout << gs.player.getAllCombat().at(i).thisEffects.at(k).id;
+                        }
+
+                        else
+                        {
+                            cout << " " << gs.player.getAllCombat().at(i).thisEffects.at(k).id;
+                        }
+                    }
+
+                    cout << ")";
+
+                    if(gs.player.getAllCombat().at(i).name.length() < 30 && gs.player.getAllCombat().at(i).name.length() > 17)
+                    {
+                        cout << "\t";
+                    }
+
+                    if(gs.player.getAllCombat().at(i).name.length() < 16)
+                    {
+                        cout << "\t";
+                    }
+
+                    if(gs.player.getAllCombat().at(i).name.length() < 8)
+                    {
+                        cout << "\t";
+                    }
+                    
                 }
             }
             
@@ -175,41 +211,51 @@ void Combat::newCombatTest()
             {
                 if(choice == "attack")
                 {
-                    handleAttack(gen, color, keyboardInput - 1);
+                    handleAttack(keyboardInput - 1);
 
-                    if(player.getAllCombat().at(keyboardInput -1).thisEffects.at(0).dexModi > 0)
+                    if(curEnemy.getHp() <= 0 || gs.player.getHealth() <= 0)
                     {
-                        handleEnemyAttack(gen, color, player.getAllCombat().at(keyboardInput -1).thisEffects.at(0).dexModi);
+                        isFighting = false;
+                    }
+
+                    else if(gs.player.getAllCombat().at(keyboardInput -1).thisEffects.at(0).dexModi > 0)
+                    {
+                        handleEnemyAttack(gs.player.getAllCombat().at(keyboardInput -1).thisEffects.at(0).dexModi);
                     }
 
                     else
                     {
-                        handleEnemyAttack(gen, color, 0);
+                        handleEnemyAttack(0);
                     }
                 }
 
                 else
                 {
-                    if(player.getMana() >= player.getAllCombat().at(keyboardInput + 3).manacost)
+                    if(gs.player.getMana() >= gs.player.getAllCombat().at(keyboardInput + 3).manacost)
                     {
-                        handleAttack(gen, color, keyboardInput + 3);
-
-                        if(player.getAllCombat().at(keyboardInput + 3).thisEffects.at(0).dexModi > 0)
+                        handleAttack(keyboardInput + 3);
+                        
+                        if(curEnemy.getHp() <= 0 || gs.player.getHealth() <= 0)
                         {
-                            handleEnemyAttack(gen, color, player.getAllCombat().at(keyboardInput -1).thisEffects.at(0).dexModi);
+                            isFighting = false;
+                        }
+
+                        if(gs.player.getAllCombat().at(keyboardInput + 3).thisEffects.at(0).dexModi > 0)
+                        {
+                            handleEnemyAttack(gs.player.getAllCombat().at(keyboardInput -1).thisEffects.at(0).dexModi);
                         }
 
                         else
                         {
-                            handleEnemyAttack(gen, color, 0);
+                            handleEnemyAttack(0);
                         }
 
-                        player.increaseMana(-player.getAllCombat().at(keyboardInput + 3).manacost);
+                        gs.player.increaseMana(-gs.player.getAllCombat().at(keyboardInput + 3).manacost);
                     }
 
                     else
                     {
-                        cout << color.RED << "Not enough mana to cast " << player.getAllCombat().at(keyboardInput + 3).name  << "!\n" << color.DEFAULT;
+                        cout << color.RED << "Not enough mana to cast " << gs.player.getAllCombat().at(keyboardInput + 3).name  << "!\n" << color.DEFAULT;
                     }
                 }
                 
@@ -225,11 +271,11 @@ void Combat::newCombatTest()
     // == Begin Potion Action
         else if(keyboardInput == 2)
         {
-            int potionHealAmount = player.getMaxHealth() / 3;
-            int potionManaAmount = player.getMana() / 10;
+            int potionHealAmount = gs.player.getMaxHealth() / 3;
+            int potionManaAmount = gs.player.getMana() / 10;
 
-            cout << color.CYAN << "\n[1] Health Potions: " << player.getHealthPotionCount() << " (+" << potionHealAmount << ")\t"
-                 << color.MAGENTA << "[2] Mana Potions: " << player.getManaPotionCount() << " (+" << potionManaAmount << ")\n"
+            cout << color.CYAN << "\n[1] Health Potions: " << gs.player.getHealthPotionCount() << " (+" << potionHealAmount << ")\t"
+                 << color.MAGENTA << "[2] Mana Potions: " << gs.player.getManaPotionCount() << " (+" << potionManaAmount << ")\n"
                  << color.DEFAULT;
 
             cout << "-> ";
@@ -237,12 +283,12 @@ void Combat::newCombatTest()
 
             if(keyboardInput == 1)
             {
-                handlePotion(color, "HEALTH");
+                handlePotion("HEALTH");
             }
 
             else if(keyboardInput == 2)
             {
-                handlePotion(color, "MANA");
+                handlePotion("MANA");
             }
 
             else
@@ -267,33 +313,33 @@ void Combat::newCombatTest()
 
     // == End Combat Logic ==
     
-        if(curEnemy.getHp() <= 0 || player.getHealth() <= 0)
+        if(curEnemy.getHp() <= 0 || gs.player.getHealth() <= 0)
         {
             isFighting = false;
         }
 
-        player.increaseMana((player.getMind() / 10) + 5);
+        gs.player.increaseMana((gs.player.getMind() / 10) + 5);
 
         keyboardInput = 0;
         color.pauseTerminal(3);
         color.clearScreen();
     }
 
-    if(curEnemy.getHp() <= 0 && player.getHealth() > 0 && !ranAway)
+    if(curEnemy.getHp() <= 0 && gs.player.getHealth() > 0 && !ranAway)
     {
         cout << color.GREEN << "You defeated " << curEnemy.getName() << curEnemy.getType() << "!\n" << color.DEFAULT;
         int xpGained = rand() % (curEnemy.getMaxExp() - curEnemy.getMinExp() + 1) + curEnemy.getMinExp();
 
         cout << color.YELLOW << "You gained " << xpGained << " XP!\n";
-        player.increaseExperience(xpGained);
+        gs.player.increaseExperience(xpGained);
 
-        cout << player.getExperience() << "/" << player.getXpToNextLevel() << " XP to next level.\n" << color.DEFAULT;
+        cout << gs.player.getExperience() << "/" << gs.player.getXpToNextLevel() << " XP to next level.\n" << color.DEFAULT;
 
         int dropChance = rand() % 100;
 
-        if(dropChance - player.getLuck() < curEnemy.getDropChance())
+        if(dropChance - gs.player.getLuck() < curEnemy.getDropChance())
         {
-            player.addToInventory(curEnemy.getDrop(), 1);
+            gs.player.addToInventory(curEnemy.getDrop(), 1);
             cout << "It dropped " << curEnemy.getDrop().name;
 
             int novaAmount = (rand() % curEnemy.getMaxNovas()) + curEnemy.getMinNovas();
@@ -303,9 +349,9 @@ void Combat::newCombatTest()
         cout << "\n";
     }
 
-    if(player.getExperience() >= player.getXpToNextLevel())
+    if(gs.player.getExperience() >= gs.player.getXpToNextLevel())
     {
-        player.levelUp();
+        gs.player.levelUp();
     }
 };
 
@@ -317,60 +363,56 @@ void Combat::newCombatTest()
  * @param color Reference to PrettyColors for output formatting.
  * @param actionIndex Index to use for an attack.
  */
-void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex)
+void Combat::handleAttack(int actionIndex)
 {
 
     bool dodged;
 
     if(curEnemy.getBound()) //auto crit
     {
-        int storeCrit = player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance;
-        player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = 101;
+        int storeCrit = gs.player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance;
+        gs.player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = 101;
 
-        for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
+        for(size_t i = 0; i < gs.player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
         {
-            player.getAllCombat().at(actionIndex).thisEffects.at(i).handleEffects(curEnemy, player);
+            gs.player.getAllCombat().at(actionIndex).thisEffects.at(i).handleEffects(curEnemy, gs.player, "PLAYER");
         
-            if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
+            if(gs.player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
             {
-                for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
+                for(int i = 0; i < gs.player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
                 {
-                    handleAttack(gen, color, player.getRandAttack());
+                    handleAttack(gs.player.getRandAttack());
                 }
             }
         }
 
-        player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = storeCrit;
+        gs.player.getAllCombat().at(actionIndex).thisEffects.at(0).critChance = storeCrit;
     }
 
     else
     {
-        if(player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0)
+        if(gs.player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0)
         {
-            dodged = gen.dodgeChance(player.getDexterity(), curEnemy.getDexterity(), player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0, "PLAYER");
+            dodged = gen.dodgeChance(gs.player.getDexterity(), curEnemy.getDexterity(), gs.player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0, "PLAYER");
         }
 
         else
         {
-            dodged = gen.dodgeChance(player.getDexterity(), curEnemy.getDexterity(), "PLAYER");
+            dodged = gen.dodgeChance(gs.player.getDexterity(), curEnemy.getDexterity(), "PLAYER");
         }
 
         if(dodged)
         {
-            for(size_t i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
+            for(size_t i = 0; i < gs.player.getAllCombat().at(actionIndex).thisEffects.size(); i++)
             {
-                cout << player.getAllCombat().at(actionIndex).thisEffects.at(i).id << "\n";
-                cout << player.getAllCombat().at(actionIndex).thisEffects.at(i).baseDmg << "\n";
-
-                Effects& effectRef = player.getAllCombat().at(actionIndex).thisEffects.at(i);
-                effectRef.handleEffects(curEnemy, player);
+                Effects& effectRef = gs.player.getAllCombat().at(actionIndex).thisEffects.at(i);
+                effectRef.handleEffects(curEnemy, gs.player, "PLAYER");
         
-                if(player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
+                if(gs.player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast > 0)
                 {
-                    for(int i = 0; i < player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
+                    for(int i = 0; i < gs.player.getAllCombat().at(actionIndex).thisEffects.at(i).multCast; i++)
                     {
-                        
-                        handleAttack(gen, color, player.getRandAttack());
+                        handleAttack(gs.player.getRandAttack());
                     }
                 }
             }
@@ -386,7 +428,7 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, int actionIndex
     
 };
 
-void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpell)
+void Combat::handleAttack(Attacks multSpell)
 {
     if(multSpell.type == "spell")
     {
@@ -394,13 +436,13 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpe
 
         for(size_t i = 0; i < multSpell.thisEffects.size(); i++)
         {
-            multSpell.thisEffects.at(i).handleEffects(curEnemy, player);
+            multSpell.thisEffects.at(i).handleEffects(curEnemy, gs.player, "PLAYER");
 
             if(multSpell.thisEffects.at(i).multCast > 0)
             {
                 for(int k = 0; k < multSpell.thisEffects.at(i).multCast; k++)
                 {
-                    handleAttack(gen, color, player.getRandAttack());
+                    handleAttack(gs.player.getRandAttack());
                 }
             }
         }
@@ -415,19 +457,19 @@ void Combat::handleAttack(WeightedGen& gen, PrettyColors& color, Attacks multSpe
  * @param buff Reference to the buff value to apply (for strength/dexterity potions).
  * @param potionDur Reference to the potion duration counter.
  */
-void Combat::handlePotion(PrettyColors& color, string type)
+void Combat::handlePotion(string type)
 {
     if(type == "HEALTH")
     {
-        if(player.getHealthPotionCount() > 0)
+        if(gs.player.getHealthPotionCount() > 0)
         {
-            int potionHealAmount = player.getMaxHealth() / 3;
+            int potionHealAmount = gs.player.getMaxHealth() / 3;
 
-            player.increaseHealth(potionHealAmount);
+            gs.player.increaseHealth(potionHealAmount);
 
             cout << "\nYou drank a health potion and healed for " << potionHealAmount << " Health.\n" << color.DEFAULT;
             
-            player.increaseHealthPotionCount(-1);
+            gs.player.increaseHealthPotionCount(-1);
         }
 
         else
@@ -438,14 +480,14 @@ void Combat::handlePotion(PrettyColors& color, string type)
 
     else if(type == "MANA")
     {
-        if(player.getManaPotionCount() > 0)
+        if(gs.player.getManaPotionCount() > 0)
         {
-            int potionManaAmount = player.getMana() / 5;
+            int potionManaAmount = gs.player.getMana() / 5;
 
-            player.increaseMana(potionManaAmount);
+            gs.player.increaseMana(potionManaAmount);
             cout << "\nYou drank a mana potion and restored " << potionManaAmount << " Mana.\n" << color.DEFAULT;
             
-            player.increaseManaPotionCount(-1);
+            gs.player.increaseManaPotionCount(-1);
         }
 
         else
@@ -460,33 +502,41 @@ void Combat::handlePotion(PrettyColors& color, string type)
     }
 };
 
-void Combat::handleEnemyAttack(WeightedGen& gen, PrettyColors& color, int dexBuff)
+void Combat::handleEnemyAttack(int dexBuff)
 {
     if(curEnemy.getBound())
     {
-        cout << curEnemy.getName() << " is bound and cannot attack this turn!\n";
+        cout << curEnemy.getName() << " cannot attack this turn!\n";
         curEnemy.setBind(false);
     }
 
     else
     {
-        bool dodged = gen.dodgeChance(player.getDexterity(), curEnemy.getDexterity(), dexBuff , "ENEMY");
+        bool dodged = gen.dodgeChance(gs.player.getDexterity(), curEnemy.getDexterity(), dexBuff , "ENEMY");
 
         if(!dodged)
         {
-            int enemyDamageRoll = gen.determineDamage(curEnemy.getStrength());
-
             if(curEnemy.getCounter())
             {
-                cout << color.GREEN << "You countered the attack!\n" << color.DEFAULT;
-                cout << "You hit " << curEnemy.getName() << curEnemy.getType() << " for " << color.RED << enemyDamageRoll << " Damage\n" << color.DEFAULT;
-                player.dealDamage(curEnemy, enemyDamageRoll);
             }
 
             else
             {
-                cout <<"You were hit for " << color.RED << enemyDamageRoll << " Damage\n" << color.DEFAULT;
-                curEnemy.dealDamage(player, enemyDamageRoll);
+                for(size_t i = 0; i < curEnemy.getAtk().thisEffects.size(); i++)
+                {
+                    Effects& effectRef = curEnemy.getAtk().thisEffects.at(i);
+                    effectRef.rebuildActionMap();
+                    
+                    if(effectRef.actionMap.find("-") == effectRef.actionMap.end())
+                    {
+                        cout << "ID NOT EXIST\n";
+                    }
+
+                    else
+                    {
+                        effectRef.handleEffects(curEnemy, gs.player, "ENEMY");
+                    }    
+                }
             }
         }
 

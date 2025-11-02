@@ -1,21 +1,16 @@
 {
    "Attacks": [
       {
-         "ID": "ester",
-         "Name": "ester",
+         "ID": "Slayer",
+         "Name": "Slayer",
          "type": "attack",
          "Effects": [
             {
-               "ID": "damage",
+               "ID": "-",
                "type": "physical",
-               "baseDmg": 11,
-               "dexModi": 4,
+               "baseDmg": 16,
+               "dexModi": 8,
                "critChance": 20
-            },
-            {
-               "ID": "healing",
-               "type": "magical",
-               "baseHealing": 4
             }
          ]
       }

@@ -14,10 +14,13 @@
             "MaxExp": 4,
             "Level": 1,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "materialID": "squirelTail",
             "novasMin": 5,
-            "novasMax": 5
+            "novasMax": 5,
+             "attackID1": "bite",
+            "attackID2": "scratchSmal",
+            "attackID3": "tailWhip"
         },
 
         {
@@ -34,11 +37,14 @@
             "MaxExp": 5,
             "Level": 1,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
 
-            "materialID": "rabbitFoot"
+            "materialID": "rabbitFoot",
+            "attackID1": "bite",
+            "attackID2": "tailWhip",
+            "attackID3": "tailWhip"
         },
 
         {
@@ -55,10 +61,13 @@
             "MaxExp": 7,
             "Level": 1,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "slimeGoop"
+            "materialID": "slimeGoop",
+            "attackID1": "tackle",
+            "attackID2": "tackle",
+            "attackID3": "tackle"
         },
 
         {
@@ -75,10 +84,13 @@
             "MaxExp": 10,
             "Level": 2,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "wolfHide"
+            "materialID": "wolfHide",
+             "attackID1": "bite",
+            "attackID2": "scratchBig",
+            "attackID3": "normal"
         },
 
         {
@@ -95,10 +107,37 @@
             "MaxExp": 12,
             "Level": 2,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "boarTusk"
+            "materialID": "boarTusk",
+             "attackID1": "charge",
+            "attackID2": "bigBite",
+            "attackID3": "percisionStrike"
+        },
+
+        {
+            "Region": "Forest",
+            "Name": "Nuker",
+            "EnemyType": "Lightning Rabbit",
+            "PhysicalRes": 0,
+            "MagicalRes": 0,
+            "Boss": true,
+            "Health": 16,
+            "Strength": 5,
+            "Dexterity": 35,
+            "MinExp": 3,
+            "MaxExp": 5,
+            "Level": 3,
+
+            "dropChance": 30,
+            "novasMin": 5,
+            "novasMax": 5,
+
+            "materialID": "lightningRabbitFoot",
+             "attackID1": "lightningBlast",
+            "attackID2": "lightningBlast",
+            "attackID3": "lightningBlast"
         },
 
         {
@@ -115,10 +154,13 @@
             "MaxExp": 15,
             "Level": 3,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "bearClaw"
+            "materialID": "bearClaw",
+             "attackID1": "bigBite",
+            "attackID2": "scratchBig",
+            "attackID3": "normal"
         },
 
         {
@@ -135,10 +177,13 @@
             "MaxExp": 20,
             "Level": 3,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "sprigHeart"
+            "materialID": "sprigHeart",
+             "attackID1": "magicPunch",
+            "attackID2": "woodenSword",
+            "attackID3": "magicPunch"
         },
         {
             "Region": "Forest",
@@ -154,10 +199,13 @@
             "MaxExp": 25,
             "Level": 4,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "heartWood"
+            "materialID": "heartWood",
+             "attackID1": "charge",
+            "attackID2": "charge",
+            "attackID3": "charge"
         },
 
         {
@@ -174,10 +222,13 @@
             "MaxExp": 30,
             "Level": 4,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "fairyWings"
+            "materialID": "fairyWings",
+             "attackID1": "bigBite",
+            "attackID2": "scratchBig",
+            "attackID3": "scratchBig"
         },
         {
             "Region": "Forest",
@@ -193,10 +244,13 @@
             "MaxExp": 60,
             "Level": 5,
 
-            "dropChance": 10,
+            "dropChance": 30,
             "novasMin": 5,
             "novasMax": 5,
-            "materialID": "fDragonScale"
+            "materialID": "fDragonScale",
+             "attackID1": "bite",
+            "attackID2": "scratchSmal",
+            "attackID3": "tailWhip"
         }
     ]
 }

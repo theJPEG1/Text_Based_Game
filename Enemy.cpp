@@ -46,7 +46,16 @@ Enemy::Enemy(string thisRegion, string thisName, string enemyType,
  */
 void Enemy::takeDamage(int damage)
 {
-    hp -= damage;
+    if(hp - damage > maxHp)
+    {
+        hp = maxHp;
+    }
+
+    else
+    {
+        hp -= damage;
+    }
+    
 };
 
 /**
@@ -166,6 +175,11 @@ int Enemy::getMaxExp()
 {
     return maxExp;
 };
+
+Attacks Enemy::getAtk()
+{
+    return attacks.at(rand() % attacks.size());
+}
 
 //setters
 /**

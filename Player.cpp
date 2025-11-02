@@ -87,6 +87,19 @@ Player::Player(string name, string monthBorn, int dayBorn, string timeBorn,
             manaPotionCount = 3;
     };        
 
+void Player::printGuildCard()
+{
+    cout << colors.YELLOW << playerName <<"\n   Born on " << month << " " << day << ", during the " << time <<"\n"
+         << colors.DEFAULT
+         << colors.CYAN << "Health: " << healthPoints << "/" << maxHealthPoints << "\n"
+         << colors.RED << "Stregnth: " << strengthStat << "\n"
+         << colors.GREEN << "Dexterity: " << dexterityStat << "\n"
+         << colors.MAGENTA << "Mind: " << mindStat << "\n"
+         << "   Mana: " << mana << "/" << maxMana << "\n"
+         << colors.YELLOW << "Level: " << level << "\n"
+         << "   XP: " << currentXp << "/" << xpToNextLevel << colors.DEFAULT << "\n";
+};
+
 /**
  * @brief Levels up the player, increases stats, and allows stat allocation.
  */
@@ -309,7 +322,48 @@ void Player::printInventory(int rarity)
         {
             if (amount > 0) 
             {
-                std::cout << material.name << ": " << amount << "   ";
+                cout << material.name;
+
+                for (size_t i = 0; i < material.matEffects.size(); i++)
+                {
+                    if(i == 0)
+                    {
+                        cout << " (";
+                    }
+
+                    if(i == material.matEffects.size())
+                    {
+                        cout << material.matEffects.at(i).id;    
+                    }
+
+                    else 
+                    {
+                        cout << material.matEffects.at(i).id << " ";
+                    }
+                    
+                    
+                }
+
+                cout << ") : " << amount << "   ";
+
+                
+                
+                if(material.name.length() <= 35)
+                {
+                    cout << "\t";
+                }
+
+                if(material.name.length() <= 20)
+                {
+                    cout << "\t";
+                }
+
+                if(material.name.length() <= 10)
+                {
+                    cout << "\t";
+                }
+                
+
                 count++;
 
                 if (count % 3 == 0) 

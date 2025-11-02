@@ -27,7 +27,7 @@
 
         {
             "actionDescription": "[4] Leave",
-            "target": "town.json"
+            "target": "Town1Day/town.json"
         }  
     ],
 

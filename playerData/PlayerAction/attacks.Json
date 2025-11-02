@@ -2,6 +2,176 @@
     "Attacks": 
     [
         {
+            "ID": "dragonsBite",
+            "Name": "Dragon Bite Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A dragons! bite attack."
+        },
+
+        {
+            "ID": "dragonsFire",
+            "Name": "Dragon fire Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 9,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A dragons! bite attack."
+        },
+
+        {
+            "ID": "dragonWingAttack",
+            "Name": "Dragon wing Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 7,
+                    "critChance": 20
+                }
+            ],
+
+            "desc": "A dragons! bite attack."
+        },
+
+        {
+            "ID": "bite",
+            "Name": "Bite Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 15
+                }
+            ],
+
+            "desc": "A bite attack."
+        },
+
+        {
+            "ID": "bigBite",
+            "Name": "Bite Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 5,
+                    "critChance": 15
+                }
+            ],
+
+            "desc": "A bite attack."
+        },
+
+        {
+            "ID": "tackle",
+            "Name": "Tackle Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 10
+                }
+            ],
+
+            "desc": "A Tackle attack."
+        },
+
+        {
+            "ID": "charge",
+            "Name": "Charge Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 6,
+                    "critChance": 10
+                }
+            ],
+
+            "desc": "A Tackle attack."
+        },
+
+        {
+            "ID": "tailWhip",
+            "Name": "Tail Whip Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 2,
+                    "critChance": 0
+                }
+            ],
+
+            "desc": "A bite attack."
+        },
+
+        {
+            "ID": "scratchSmal",
+            "Name": "Scratch Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A small aniaml scratch attack."
+        },
+
+        {
+            "ID": "scratchBig",
+            "Name": "Scratch Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 5,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A big aniaml scratch attack."
+        },
+
+        {
             "ID": "normal",
             "Name": "Normal Attack",
             "type": "attack",
@@ -176,7 +346,7 @@
                 {
                     "ID": "-",
                     "type": "magical",
-                    "baseDmg": 3,
+                    "baseDmg": 5,
                     "critChance": 30
                 }
             ],
@@ -260,20 +430,46 @@
                 {
                     "ID": "-",
                     "type": "magical",
-                    "baseDmg": 10,
+                    "baseDmg": 8,
                     "critChance": 30
                 },
 
                 {
                     "ID": "<-",
                     "type": "magical",
-                    "baseDmg": 2,
+                    "baseDmg": 8,
                     "critChance": 30,
                     "selfDamage": true
                 }
             ],
 
             "desc": "High damage to enemies and recoil to you"
+        },
+
+        {
+            "ID": "lightningNuke",
+            "Name": "Lightning Nuke",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 12,
+                    "critChance": 40
+                },
+
+                {
+                    "ID": "<-",
+                    "type": "magical",
+                    "baseDmg": 12,
+                    "critChance": 40,
+                    "selfDamage": true
+                }
+            ],
+
+            "desc": "A spell only known by Nuker"
         },
 
        
@@ -288,14 +484,14 @@
                 {
                     "ID": "-",
                     "type": "magical",
-                    "baseDmg": 3,
+                    "baseDmg": 4,
                     "critChance": 30
                 },
 
                 {
                     "ID": "+",
                     "type": "magical",
-                    "baseHealing": 2
+                    "baseHealing": 4
                 }
             ],
 

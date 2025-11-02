@@ -90,49 +90,39 @@ int main()
 
     inGame = true;
 
-    // while(inGame)
-    // {
-    //     locations l(newPlayer);
-    //     l.state = "T1";
-
-    //     l.loadTown();
-
-    //     inGame = false;
-    // }
     CraftingMaterials load;
-
-    
     vector<CraftingMaterials> mats = load.loadCraftingMaterialss("GameData/craftingMaterials.json");
+    map<string, CraftingMaterials> cMats;
+
+    for(size_t i = 0; i < mats.size(); i++)
+    {
+        cMats[mats.at(i).id] = mats.at(i);
+    }
+
+    Attacks loadAtk;
+    vector<Attacks> aAtk = loadAtk.loadAttacks("playerData/PlayerAction/attacks.json");
+    map<string, Attacks> allAtks;
+
+    for(size_t i = 0; i < aAtk.size(); i++)
+    {
+        allAtks[aAtk.at(i).id] = aAtk.at(i);
+    }
 
 
-    newPlayer.increaseNovas(200);
-    newPlayer.addToInventory(mats.at(0), 4);
-    newPlayer.addToInventory(mats.at(1), 4);
-    newPlayer.addToInventory(mats.at(2), 4);
-    newPlayer.addToInventory(mats.at(3), 4);
+    GameState gs(newPlayer, cMats, allAtks);
 
-    Actions action(newPlayer);
+    Actions action(gs);
 
-   action.loadAreaFromJson("Locations/town.json");
 
-    // cout << "making load\n";
-    
+    while(inGame)
+    {
+        action.loadAreaFromJson("Town1Day/town.json");
 
-    // Attacks newAtk = Attacks::createAttack(mats.at(0), mats.at(1), mats.at(2));
-
-    // newPlayer.addCustomAtk(newAtk);
-
-    // newPlayer.setSpecificSlot(newAtk, 0);
-
-    // cout << newAtk.thisEffects.size();
-
-    // while(newPlayer.getHealth() > 0)
-    // {
-    //     combat(newPlayer, color);
-    //     Saving::saveToFile(newPlayer, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
-    //     Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", newPlayer.getCustomAtks());
-    // }
-
+        if(newPlayer.getHealth() <= 0)
+        {
+            inGame = false;
+        }
+    }
     
     
 

@@ -122,6 +122,31 @@
         },
 
         {
+            "ID": "lightningRabbitFoot",
+            "Name": "Lightning Rabbit's Foot",
+            "Rarity": 3,
+            "Cost": 20,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 5,
+                    "dexModi": 4
+                },
+
+                {
+                    "ID": "<-",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 5,
+                    "selfDamage": true
+                }
+            ]
+        },
+
+        {
             "ID": "heartWood",
             "Name": "Heart Wood",
             "Rarity": 3,

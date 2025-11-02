@@ -49,6 +49,8 @@ class Enemy
 
         void displaySelf();
 
+        Attacks getAtk();
+
     //setters
         void setName(string newName);
         void setMaterial(CraftingMaterials c) {material = c;};
@@ -58,6 +60,8 @@ class Enemy
         void setDOT(bool isDot) {DOT = isDot;};
         void setWeakened(bool isWeakened) {weakened = isWeakened;};
         void setDotDuration(int duration) {dotDuration = duration;};
+        void setAttack(vector<Attacks> atk) {attacks = atk;};
+        void addAtks(Attacks atk) {attacks.push_back(atk);};
     
     private:
         //Enemy Info
@@ -89,6 +93,7 @@ class Enemy
             int minNovas;
             int maxNovas;
             CraftingMaterials material;
+            vector<Attacks> attacks;
 
 };
 

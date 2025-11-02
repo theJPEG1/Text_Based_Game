@@ -33,6 +33,9 @@ vector<vector<Enemy>> EnemyFactory::loadRegionEnemy(string region)
     CraftingMaterials cLoad;
     vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
 
+    Attacks atk;
+    vector<Attacks> loadAtk = atk.loadAttacks("playerData/PlayerAction/attacks.json");
+
     vector<vector<Enemy>> regionToReturn;
 
     vector<Enemy> en1;
@@ -49,6 +52,9 @@ vector<vector<Enemy>> EnemyFactory::loadRegionEnemy(string region)
     for(size_t i = 0; i < enemies[region].size(); i++)
     {
         string matType = enemies[region][i]["materialID"];
+        string attackId1 = enemies[region][i]["attackID1"];
+        string attackId2 = enemies[region][i]["attackID2"];
+        string attackId3 = enemies[region][i]["attackID2"];
 
         Enemy e
         ( 
@@ -70,13 +76,22 @@ vector<vector<Enemy>> EnemyFactory::loadRegionEnemy(string region)
         );
 
 
-        for(size_t i = 0; i < cMats.size(); i++)
+        for(size_t k = 0; k < cMats.size(); k++)
         {
-            if(matType == cMats.at(i).id)
+            if(matType == cMats.at(k).id)
             {
-                e.setMaterial(cMats.at(i));
+                e.setMaterial(cMats.at(k));
             }
         }
+
+        for(size_t j = 0; j < loadAtk.size(); j++)
+        {
+            if(attackId1 == loadAtk.at(j).id || attackId2 == loadAtk.at(j).id || attackId3 == loadAtk.at(j).id)
+            {
+                e.addAtks(loadAtk.at(j));
+            }
+        }
+        
 
         switch(e.getLevel())
         {

@@ -5,53 +5,37 @@
         - Guild Center
         - Town Center
         - Save and Quit
+        [ ] Finsih the night town
   - [ ] Create quest system and quest log
         - Maybe a class that has string and bool
-  - [ ] DOCUMENTATION
+  - [ ] Change luck to be a double for better luck implimentation?
 
 ## Player Tasks
-  - [X] Add in new variables
-        - [X] Luck
-        - [X] Month Born
-        - [X] Day Born
-        - [X] Time Born
   - [ ] Quest log to track current quests  
-  - [X] Clean up player.h
-  - [X] Clean up player.cpp
-  - [X] DOCUMNTATION up player.cpp
-        - [X] Clean up player factory.cpp
-        - [X] DOCUMATATION up PlayerFacotry.cpp
-        - [X] Add new variables from above
+  - [ ] Save Player inventory
 
 ## Enemies Tasks
-  - [X] Create materials for each enemy
-  - [X] Create a loot table for enemy drops
-  - [X] Add enemy drops from json to the object
-  - [X] Clean up .h
-  - [X] Clean up .cpp
-
-## Attacks, Effects, Crafting Material Tasks
-  - [X] Change crafting materials to include a symbol instead of an effect
-  - [X] Use the symbol to run the effects in combat using the keycode just like locations
-  - [X] Clean up the .h and .cpp
-  - [X] DOCUMNTATION
-
-## Combat
-  - [X] See about combinding like functions
+  - [X] Make enemies use same attack system as player,
+        - Maybe they have several potential attacks
+  - [ ] Make varients at differnt levels with different stats
+  - [ ] True enemy loot tables
+        - Why no novas drop?
+        - multiple materials per enemy
+  - [X] Give enemies several attacks
 
 ## Blacksmith Tasks
   - [ ] Rumor Function
 
 ## Shop Tasks
   - [ ] Rumor Function
+  - [ ] Shops actually give money for sold items
 
 ## Guild Center Tasks
-  - [ ] View Guild Card
-  - [ ] View Inventory
   - [ ] View Quests
 
 ## Town Center Tasks
-  - [ ] Talk to People
-  - [ ] Toss in a coin
   - [ ] Wait till night
   - [ ] Leave
+
+## Crafting
+  - [ ] Loads more materials!!

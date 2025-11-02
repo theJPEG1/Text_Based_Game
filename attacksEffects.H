@@ -45,7 +45,7 @@ struct Effects
         v  Dexterity down
 
     */
-    unordered_map<std::string, std::function<void(Enemy&, Player&)>> actionMap;
+    unordered_map<std::string, std::function<void(Enemy&, Player&, string turn)>> actionMap;
 
     string         id = "";
     string       name = "";
@@ -72,19 +72,22 @@ struct Effects
     Effects();
     Effects(const Effects& other);
 
-    void handleEffects(Enemy& target, Player& p);
+    void rebuildActionMap();
 
-    void damage(Enemy& target, Player& p);
-    void damageSelf(Enemy& target, Player& p);
-    void healing(Enemy& target, Player& p);
-    void freeze(Enemy& target, Player& p);
-    void bind(Enemy& target, Player& p);
-    void effectCounter(Enemy& target, Player& p);
+    void handleEffects(Enemy& target, Player& p, string turn);
+
+    void damage(Enemy& target, Player& p, string turn);
+    void damageSelf(Enemy& target, Player& p, string turn);
+    void healing(Enemy& target, Player& p, string turn);
+    void freeze(Enemy& target, Player& p, string turn);
+    void bind(Enemy& target, Player& p, string turn);
+    void effectCounter(Enemy& target, Player& p, string turn);
+
 
     Effects operator+=(Effects effect)
     {
         this->baseDmg += effect.baseDmg;
-        this->dexModi += effect.baseDmg;
+        this->dexModi += effect.dexModi;
         this->selfDamage = effect.selfDamage;
         this->bindChance += effect.bindChance;
         this->critChance += effect.critChance;
@@ -92,6 +95,38 @@ struct Effects
 
         return (*this);
     };
+
+    Effects& operator=(const Effects& other)
+    {
+        this->id = other.id;
+        this->name = other.name;
+        this->effectType = other.effectType;
+        this->baseDmg = other.baseDmg;
+        this->dexModi = other.dexModi;
+        this->bindChance = other.bindChance;
+        this->critChance = other.critChance;
+        this->healingAmt = other.healingAmt;
+        this->shield = other.shield;
+        this->multCast = other.multCast;
+        this->freezeChance = other.freezeChance;
+        this->splatterAmount = other.splatterAmount;
+        this->counter = other.counter;
+        this->pushBack = other.pushBack;
+        this->selfDamage = other.selfDamage;
+        this->damageToDo = other.damageToDo;
+
+        // Rebuild actionMap
+        actionMap.clear();
+        this->actionMap["-"]  = [this](Enemy& e, Player& p, string turn){ damage(e, p, turn); };
+        this->actionMap["<-"] = [this](Enemy& e, Player& p, string turn){ damageSelf(e, p, turn); };
+        this->actionMap["+"]  = [this](Enemy& e, Player& p, string turn){ healing(e, p, turn); };
+        this->actionMap["#"]  = [this](Enemy& e, Player& p, string turn){ freeze(e, p, turn); };
+        this->actionMap["&"]  = [this](Enemy& e, Player& p, string turn){ bind(e, p, turn); };
+        this->actionMap["->"] = [this](Enemy& e, Player& p, string turn){ effectCounter(e, p, turn); };
+        
+        return (*this);
+    }
+
 };
 
 struct CraftingMaterials
@@ -385,7 +420,6 @@ struct Attacks
         atk.type = "attack";
         string weaponName;
         cout << "\nName Your Weapon: ";
-        cin.ignore();
 
         getline(cin, atk.id);
         atk.name = atk.id;

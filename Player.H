@@ -5,6 +5,7 @@
 #include "attacksEffects.H"
 #include "PrettyColors.H"
 #include "Enemy.H"
+#include "Quests.H"
 
 #include<string>
     using std::string;
@@ -37,6 +38,8 @@ class Player
         void dealDamage(Enemy& target, int damage);
 
         void levelUp();
+
+        void printGuildCard();
         
     //GETTERS
         //Player Information Setters
@@ -130,7 +133,7 @@ class Player
             void addCombatAttacks(Attacks atkToAdd) {attackList.push_back(atkToAdd);};
 
         //Player Quest adders
-            void addQuest(string newQuest) {questLog.push_back(newQuest);};
+            void addQuest(Quest newQuest) {questLog.push_back(newQuest);};
     
     //MISC
         void printInventory(int rarity);
@@ -164,7 +167,7 @@ class Player
             vector<Attacks> allCombat {8};
         
         //Player Questing
-            vector<string> questLog;
+            vector<Quest> questLog;
 
         //misc
             PrettyColors colors;

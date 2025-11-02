@@ -8,27 +8,27 @@
     [
         {
             "actionDescription": "[1] Blacksmith",
-            "target": "blacksmith.json"
+            "target": "Town1Day/blacksmith.json"
         },
 
         {
             "actionDescription": "[2] Shop",
-            "target": "shop.json"
+            "target": "Town1Day/shop.json"
         },
 
         {
             "actionDescription": "[3] Guild Center",
-            "target": ""
+            "target": "Town1Day/guildcenter.json"
         },
 
         {
             "actionDescription": "[4] Town Center",
-            "target": ""
+            "target": "Town1Day/towncenter.json"
         },
 
         {
             "actionDescription": "[5] Leave Town",
-            "target": ""
+            "target": "fight"
         },
 
         {
