@@ -246,7 +246,7 @@ struct CraftingMaterials
     // Add this operator to enable sorting
     bool operator<(const CraftingMaterials& other) const 
     {
-        return name < other.name;
+        return id < other.id;
     };
 
 };

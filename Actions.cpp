@@ -658,6 +658,7 @@ void Actions::fight()
 
     Saving::saveToFile(gc.player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
     Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc.player.getCustomAtks());
+    Saving::saveInventory("playerData/playerInventorySave.json", gc.player);
 };
 
 void Actions::addHealthPots()

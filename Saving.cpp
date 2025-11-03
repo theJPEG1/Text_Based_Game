@@ -87,7 +87,6 @@ void Saving::saveToFile(Player& playerToSave, const string& statsFile, const str
 
 void Saving::saveAttacks(const std::string& filename, vector<Attacks> atks)
 {
-    PrettyColors color;
     ofstream out;
 
     ordered_json attackArray = ordered_json::array();
@@ -152,4 +151,36 @@ void Saving::saveAttacks(const std::string& filename, vector<Attacks> atks)
     out << playerStats.dump(3);
     out.close();
 
+};
+
+void Saving::saveInventory(const std::string& filename, Player& playerToSave)
+{
+    PrettyColors color;
+    ofstream inventoryF;
+
+
+    if(!inventoryF)
+    {
+        cout << color.RED << "Error opening file.\n" << color.DEFAULT;
+        exit(1);
+    }
+
+    inventoryF.open(filename);
+
+    map<CraftingMaterials, int> pInventory = playerToSave.getInventory();
+
+    json jInventory = json::array();
+
+    // Only save ID and amount
+    for (const auto& [mat, amount] : pInventory) 
+    {
+        json entry;
+        entry["id"] = mat.id;
+        entry["amount"] = amount;
+        jInventory.push_back(entry);
+    }
+
+    inventoryF << jInventory.dump(4);
+    inventoryF.close();
+    
 };

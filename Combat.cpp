@@ -343,6 +343,7 @@ void Combat::newCombatTest()
             cout << "It dropped " << curEnemy.getDrop().name;
 
             int novaAmount = (rand() % curEnemy.getMaxNovas()) + curEnemy.getMinNovas();
+            gs.player.increaseNovas(novaAmount);
             cout << " Add " << novaAmount << " novas!";
         }
 

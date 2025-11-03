@@ -19,6 +19,7 @@ class Saving
     public:
         static void saveToFile(Player& playerToSave, const std::string& filename, const string& combatMagicFile);
         static void saveAttacks(const std::string& filename, vector<Attacks> atks);
+        static void saveInventory(const std::string& filename, Player& playerToSave);
 };
 
 #endif

@@ -1,0 +1,50 @@
+[
+    {
+        "amount": 1,
+        "id": "bearClaw"
+    },
+    {
+        "amount": 1,
+        "id": "boarTusk"
+    },
+    {
+        "amount": 1,
+        "id": "fDragonClaw"
+    },
+    {
+        "amount": 1,
+        "id": "fDragonScale"
+    },
+    {
+        "amount": 100,
+        "id": "fairyWings"
+    },
+    {
+        "amount": 1,
+        "id": "heartWood"
+    },
+    {
+        "amount": 1,
+        "id": "lightningRabbitFoot"
+    },
+    {
+        "amount": 1,
+        "id": "rabbitFoot"
+    },
+    {
+        "amount": 1,
+        "id": "slimeGoop"
+    },
+    {
+        "amount": 1,
+        "id": "sprigHeart"
+    },
+    {
+        "amount": 1,
+        "id": "squirelTail"
+    },
+    {
+        "amount": 1,
+        "id": "wolfHide"
+    }
+]

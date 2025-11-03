@@ -274,6 +274,39 @@ Player PlayerFactory::loadFromFile(const string& filename)
 
     inFile.close();
     combatMagicFile.close();
+
+    
+
+    //opening the file for crafing materials
+    CraftingMaterials cLoad;
+
+    vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
+    ifstream craftInventory("playerData/playerInventorySave.json");
+
+    if(!craftInventory.is_open()) 
+    {
+        cout << "Error opening playerInventory.json\n";
+    }
+
+    json jInventory;
+    craftInventory >> jInventory;
+    craftInventory.close();
+
+    for (size_t i = 0; i < jInventory.size(); i++)
+    {
+        string id = jInventory[i]["id"];
+        int amount = jInventory[i]["amount"];
+
+        // Find the matching crafting material by ID
+        for (size_t j = 0; j < cMats.size(); j++)
+        {
+            if (cMats[j].id == id)
+            {
+                newPlayer.addToInventory(cMats[j], amount);
+                break; // stop searching once found
+            }
+        }
+    }
     
     return newPlayer;
 }

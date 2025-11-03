@@ -5,7 +5,7 @@
     "header": "Welcome to Blacksmith. What do you do?",
     "buyMessage": "Sharpest blades around! What do you want?",
     "craftMessage": "What can I craft for you?",
-    "maxRarity": 2,
+    "maxRarity": 20,
     
 
     "Actions":

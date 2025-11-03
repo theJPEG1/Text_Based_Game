@@ -297,15 +297,7 @@ void Player::increaseMind(int amt)
  */
 void Player::addToInventory(CraftingMaterials material, int amount)
 {
-    if(inventory.find(material) == inventory.end())
-    {
-        inventory[material] = amount;
-    }
-
-    else
-    {
-        inventory[material] += amount;
-    }
+    inventory[material] += amount;
 };
 
 /**
