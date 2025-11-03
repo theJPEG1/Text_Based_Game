@@ -1,6 +1,6 @@
 #include "Actions.H"
 
-Actions::Actions(GameState& gameState)
+Actions::Actions(GameState* gameState)
 {
     gc = gameState;
 
@@ -22,15 +22,13 @@ Actions::Actions(GameState& gameState)
 
 void Actions::loadAreaFromJson(string jsonToLoad)
 {
-    gc.colors.clearScreen();
-
-    jsonToLoad = "Locations/" + jsonToLoad;
+    gc->colors.clearScreen();
 
     ifstream file(jsonToLoad);
 
-    if (!file.is_open()) {
+    if (!file.is_open()) 
+    {
         cout << "Failed to open " << jsonToLoad << "\n";
-        return;
     }
 
     currentJson = jsonToLoad;
@@ -106,12 +104,12 @@ void Actions::loadAreaFromJson(string jsonToLoad)
     }
 
     file.close();
-    gc.colors.clearScreen();
+    gc->colors.clearScreen();
 };
 
 void Actions::buyItems()
 {
-    gc.colors.clearScreen();
+    gc->colors.clearScreen();
 
     ifstream file(currentJson);
 
@@ -134,7 +132,7 @@ void Actions::buyItems()
     while(keyboardInput <= 0 || keyboardInput > inventory.size())
     {
         cout << "\n" << buyMessage << "\n";
-        cout << "You have " << gc.player.getNovas() << " Novas.\n";
+        cout << "You have " << gc->player.getNovas() << " Novas.\n";
 
         for (size_t i = 0; i < inventory.size(); ++i)
         {
@@ -179,17 +177,17 @@ void Actions::buyItems()
 
         if(!inventory[keyboardInput - 1]["Cost"].is_null())
         {
-            if(gc.player.getNovas() >= inventory[keyboardInput - 1]["Cost"])
+            if(gc->player.getNovas() >= inventory[keyboardInput - 1]["Cost"])
             {
                 int cost = inventory[keyboardInput - 1]["Cost"];
-                gc.player.increaseNovas(-cost);
+                gc->player.increaseNovas(-cost);
 
                 string idToLocation = inventory[keyboardInput - 1]["ID"];
 
                 if(type == "blacksmith")
                 {
-                    gc.player.addCombatAttacks(gc.atks.find(idToLocation)->second);
-                    gc.player.setSpecificSlot(gc.atks.find(idToLocation)->second, 0);
+                    gc->player.addCombatAttacks(gc->atks.find(idToLocation)->second);
+                    gc->player.setSpecificSlot(gc->atks.find(idToLocation)->second, 0);
                 }
 
                 else if(type == "shop")
@@ -202,7 +200,7 @@ void Actions::buyItems()
 
     loadAreaFromJson("Locations/" + currentJson);
 
-    gc.colors.clearScreen();
+    gc->colors.clearScreen();
 };
 
 void Actions::craftItems()
@@ -211,7 +209,7 @@ void Actions::craftItems()
 
     vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
 
-    gc.colors.clearScreen();
+    gc->colors.clearScreen();
 
     ifstream file(currentJson);
 
@@ -229,7 +227,7 @@ void Actions::craftItems()
     int maxRare = data["maxRarity"];
 
     string keyboardString = "";
-    gc.player.printInventory(maxRare);
+    gc->player.printInventory(maxRare);
 
     vector <CraftingMaterials> crafting;
 
@@ -265,25 +263,25 @@ void Actions::craftItems()
     {
         Attacks customAtk = customAtk.createAttack(crafting.at(0), crafting.at(1), crafting.at(2));
     
-        gc.player.addCustomAtk(customAtk);
+        gc->player.addCustomAtk(customAtk);
 
         if(customAtk.type == "spell")
         {
-            gc.player.addCombatSpells(customAtk);
-            gc.player.setSpecificSlot(customAtk, 4);
+            gc->player.addCombatSpells(customAtk);
+            gc->player.setSpecificSlot(customAtk, 4);
         }
 
         else if(customAtk.type == "attack")
         {
-            gc.player.addCombatAttacks(customAtk);
-            gc.player.setSpecificSlot(customAtk, 0);
+            gc->player.addCombatAttacks(customAtk);
+            gc->player.setSpecificSlot(customAtk, 0);
         }
 
         cout << "Custom attack created and Slotted\n";
 
         for(size_t i = 0; i < crafting.size(); i++)
         {
-            gc.player.addToInventory(cMats.at(i), -1);
+            gc->player.addToInventory(cMats.at(i), -1);
         }
     }
 
@@ -297,7 +295,7 @@ void Actions::sellItems()
     vector<CraftingMaterials> cMats = cLoad.loadCraftingMaterialss("GameData/craftingMaterials.json");
     CraftingMaterials sellMat;
 
-    gc.colors.clearScreen();
+    gc->colors.clearScreen();
 
     ifstream file(currentJson);
 
@@ -314,7 +312,7 @@ void Actions::sellItems()
 
     cout << sellMes << "\n";
 
-    gc.player.printInventory(1000);
+    gc->player.printInventory(1000);
 
     cout << "\nWhat would you like to sell? (BACK to go back)\n-> ";
 
@@ -354,13 +352,13 @@ void Actions::sellItems()
                 cout << "\n-> ";
                 cin >> keyboardInput;
 
-                if(keyboardInput > 0 && keyboardInput <= gc.player.getInventoryAmount(sellMat))
+                if(keyboardInput > 0 && keyboardInput <= gc->player.getInventoryAmount(sellMat))
                 {
-                    gc.player.addToInventory(sellMat, -keyboardInput);
+                    gc->player.addToInventory(sellMat, -keyboardInput);
                     int novasToAdd = sellMat.price * keyboardInput;
 
                     cout << "You made " << novasToAdd << " Novas!\n";
-                    gc.player.increaseNovas(novasToAdd);
+                    gc->player.increaseNovas(novasToAdd);
                     itemSold = true;
                 }
 
@@ -386,21 +384,21 @@ void Actions::rumors()
 
 void Actions::viewGuildCard()
 {
-    gc.colors.clearScreen();
-    gc.player.printGuildCard();
+    gc->colors.clearScreen();
+    gc->player.printGuildCard();
     cout << "\n";
 };
 
 void Actions::viewInventory()
 {
-    gc.colors.clearScreen();
-    gc.player.printInventory(1000);
+    gc->colors.clearScreen();
+    gc->player.printInventory(1000);
     cout << "\n";
 };
 
 void Actions::printEffectList()
 {
-    gc.colors.clearScreen();
+    gc->colors.clearScreen();
     for(size_t i = 0; i < effects.size(); i++)
     {
         cout << effects.at(i) << "\t";
@@ -419,7 +417,7 @@ void Actions::printEffectList()
 
 void Actions::wellTalk()
 {
-    gc.colors.clearScreen();
+    gc->colors.clearScreen();
 
     vector<string> wellTalks =
     {
@@ -463,15 +461,15 @@ void Actions::tossInACoin()
 
     int curCoinAmt = data.value("coinAmt", 0);
 
-    if(gc.player.getNovas() > 0 && curCoinAmt <= 5025)
+    if(gc->player.getNovas() > 0 && curCoinAmt <= 5025)
     {
-        gc.player.increaseNovas(-1);
+        gc->player.increaseNovas(-1);
 
         curCoinAmt++;
 
         if(curCoinAmt >= 5000)
         {
-            int chanceEncounter = (rand() % 100 + 1) - gc.player.getLuck();
+            int chanceEncounter = (rand() % 100 + 1) - gc->player.getLuck();
             if(chanceEncounter > 10)
             {
                 cout << "You watch as your coin floats down the well, with nothing in return.\n";
@@ -484,48 +482,48 @@ void Actions::tossInACoin()
                 if(whichStat == 1)
                 {
                     cout << "Your health increases!\n";
-                    gc.player.increaseMaxHealth(1);
+                    gc->player.increaseMaxHealth(1);
                 }
 
                 else if(whichStat == 2)
                 {
                     cout << "Your strength increases!\n";
-                    gc.player.increaseStrength(1);
+                    gc->player.increaseStrength(1);
                 }
 
                 else if(whichStat == 3)
                 {
                     cout << "Your dexterity increases!\n";
-                    gc.player.increaseDexterity(1);
+                    gc->player.increaseDexterity(1);
                 }
 
                 else if(whichStat == 4)
                 {
                     cout << "Your mind increases!\n";
-                    gc.player.increaseMind(1);
+                    gc->player.increaseMind(1);
                 }
 
                 else if(whichStat == 5)
                 {
                     cout << "Your luck increases!\n";
-                    gc.player.increaseLuck(1);
+                    gc->player.increaseLuck(1);
                 }
             }
 
             else 
             {
                 cout << "Everything grow stronger!\n";
-                    gc.player.increaseMaxHealth(1);
-                    gc.player.increaseStrength(1);
-                    gc.player.increaseDexterity(1);
-                    gc.player.increaseMind(1);
-                    gc.player.increaseLuck(1);
+                    gc->player.increaseMaxHealth(1);
+                    gc->player.increaseStrength(1);
+                    gc->player.increaseDexterity(1);
+                    gc->player.increaseMind(1);
+                    gc->player.increaseLuck(1);
             }
         }
 
         else if( curCoinAmt < 5000 && curCoinAmt >= 2000)
         {
-            int chanceEncounter = (rand() % 100 + 1) - gc.player.getLuck();
+            int chanceEncounter = (rand() % 100 + 1) - gc->player.getLuck();
             if(chanceEncounter > 7)
             {
                 cout << "You watch as your coin floats down the well, with nothing in return.\n";
@@ -538,41 +536,41 @@ void Actions::tossInACoin()
                 if(whichStat == 1)
                 {
                     cout << "Your health increases!\n";
-                    gc.player.increaseMaxHealth(1);
+                    gc->player.increaseMaxHealth(1);
                 }
 
                 else if(whichStat == 2)
                 {
                     cout << "Your strength increases!\n";
-                    gc.player.increaseStrength(1);
+                    gc->player.increaseStrength(1);
                 }
 
                 else if(whichStat == 3)
                 {
                     cout << "Your dexterity increases!\n";
-                    gc.player.increaseDexterity(1);
+                    gc->player.increaseDexterity(1);
                 }
 
                 else if(whichStat == 4)
                 {
                     cout << "Your mind increases!\n";
-                    gc.player.increaseMind(1);
+                    gc->player.increaseMind(1);
                 }
             }
 
             else 
             {
                 cout << "Everything grow stronger!\n";
-                    gc.player.increaseMaxHealth(1);
-                    gc.player.increaseStrength(1);
-                    gc.player.increaseDexterity(1);
-                    gc.player.increaseMind(1);
+                    gc->player.increaseMaxHealth(1);
+                    gc->player.increaseStrength(1);
+                    gc->player.increaseDexterity(1);
+                    gc->player.increaseMind(1);
             }
         }
 
         else if(curCoinAmt < 2000)
         {
-            int chanceEncounter = (rand() % 100 + 1) + gc.player.getLuck();
+            int chanceEncounter = (rand() % 100 + 1) + gc->player.getLuck();
 
             if(chanceEncounter < 96)
             {
@@ -586,35 +584,35 @@ void Actions::tossInACoin()
                 if(whichStat == 1)
                 {
                     cout << "Your health increases!\n";
-                    gc.player.increaseMaxHealth(1);
+                    gc->player.increaseMaxHealth(1);
                 }
 
                 else if(whichStat == 2)
                 {
                     cout << "Your strength increases!\n";
-                    gc.player.increaseStrength(1);
+                    gc->player.increaseStrength(1);
                 }
 
                 else if(whichStat == 3)
                 {
                     cout << "Your dexterity increases!\n";
-                    gc.player.increaseDexterity(1);
+                    gc->player.increaseDexterity(1);
                 }
 
                 else if(whichStat == 4)
                 {
                     cout << "Your mind increases!\n";
-                    gc.player.increaseMind(1);
+                    gc->player.increaseMind(1);
                 }
             }
 
             else 
             {
                 cout << "Everything grow stronger!\n";
-                    gc.player.increaseMaxHealth(1);
-                    gc.player.increaseStrength(1);
-                    gc.player.increaseDexterity(1);
-                    gc.player.increaseMind(1);
+                    gc->player.increaseMaxHealth(1);
+                    gc->player.increaseStrength(1);
+                    gc->player.increaseDexterity(1);
+                    gc->player.increaseMind(1);
             }
         }
     }
@@ -635,16 +633,16 @@ void Actions::tossInACoin()
     outFile << data.dump(4);
     outFile.close();
 
-    Saving::saveToFile(gc.player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
-    Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc.player.getCustomAtks());
+    Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+    Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc->player.getCustomAtks());
 
-    gc.colors.pauseTerminal(3);
-    gc.colors.clearScreen();
+    gc->colors.pauseTerminal(3);
+    gc->colors.clearScreen();
 };
 
 void Actions::fight()
 {
-    gc.player.increaseHealth(gc.player.getMaxHealth());
+    gc->player.increaseHealth(gc->player.getMaxHealth());
     vector<vector<Enemy>> forest = EnemyFactory::loadRegionEnemy("Forest");
 
     Combat forestCombat(gc, forest, "Forest");
@@ -654,20 +652,20 @@ void Actions::fight()
 
     forestCombat.newCombatTest();
 
-    cout << gc.colors.YELLOW << "You survived the encounter!\n" << gc.colors.DEFAULT;
+    cout << gc->colors.YELLOW << "You survived the encounter!\n" << gc->colors.DEFAULT;
 
-    Saving::saveToFile(gc.player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
-    Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc.player.getCustomAtks());
-    Saving::saveInventory("playerData/playerInventorySave.json", gc.player);
+    Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+    Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc->player.getCustomAtks());
+    Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
 };
 
 void Actions::addHealthPots()
 {
-    gc.player.increaseHealthPotionCount(potionsToAdd);
+    gc->player.increaseHealthPotionCount(potionsToAdd);
 }
 
 void Actions::addManaPots()
 {
-    gc.player.increaseManaPotionCount(potionsToAdd);
+    gc->player.increaseManaPotionCount(potionsToAdd);
 }
 

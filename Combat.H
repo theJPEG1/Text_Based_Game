@@ -18,7 +18,7 @@
 class Combat
 {
     public:
-        Combat(GameState& gameState, vector<vector<Enemy>> currentRegionEnemy, string currentRegion);
+        Combat(GameState* gameState, vector<vector<Enemy>> currentRegionEnemy, string currentRegion);
         void determineEnemy();
         void printGui();
 
@@ -28,7 +28,7 @@ class Combat
         
 
     private:
-        GameState gs;
+        GameState* gs;
         vector<vector<Enemy>> regionToUse;
         string region;
         Enemy curEnemy;

@@ -1,9 +1,9 @@
 {
-   "name": "JPEG",
+   "name": "Jpeg",
    "month": "Salumen",
    "time": "Day",
    "day": 15,
-   "hp": 15,
+   "hp": 0,
    "maxHp": 15,
    "strength": 10,
    "dexterity": 10,
@@ -12,7 +12,7 @@
    "level": 1,
    "xp": 0,
    "xpToNextLevel": 50,
-   "healthPotions": 12,
-   "manaPotions": 12,
+   "healthPotions": 6,
+   "manaPotions": 6,
    "novas": 20
 }

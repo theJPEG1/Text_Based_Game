@@ -14,11 +14,11 @@
         },
         {
             "actionDescription": "[4] Leave",
-            "target": "Town1Day/town.json"
+            "target": "Locations/Town1Day/town.json"
         }
     ],
     "coinAmt": 20,
-    "header": "People are walkking around, talking, and sitting at a well. What do you do?",
+    "header": "People are walking around, talking, and sitting at a well. What do you do?",
     "id": "tc1",
     "name": "Town Center",
     "type": "townCenter"

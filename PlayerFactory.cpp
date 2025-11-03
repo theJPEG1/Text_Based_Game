@@ -407,6 +407,9 @@ void PlayerFactory::allocateStatPoints(int& healthValue, int& strengthValue, int
 
         if(!mindAllocated)
         {
+            cout << "The rest of your points are allocated to " << colors.MAGENTA << "Mind\n" << colors.DEFAULT;
+            colors.pauseTerminal(3);
+
             mindAllocated = true;
             mindValue += allocationPoints;
             allocationPoints -= allocationPoints;
@@ -458,11 +461,11 @@ void PlayerFactory::createPlayerBirthday(string& name, string& monthBorn, string
 
         cout << colors.RED << "(THIS CANNOT BE CHANGED LATER)\n" << colors.DEFAULT;
 
-        cout << "Salumen borns have moe vitality\n"
-             << "Fortismen borns are stronger\n"
-             << "Aglismen borns are more agile\n"
-             << "Magimen borns are more adept in magic\n"
-             << "Felixmen borns are rare and considered lucky\n";
+        cout << colors.CYAN << "Salumen " << colors.DEFAULT << "borns have more vitality\n"
+             << colors.RED << "Fortismen " << colors.DEFAULT << "borns are stronger\n"
+             << colors.GREEN << "Aglismen " << colors.DEFAULT << "borns are more agile\n"  
+             << colors.MAGENTA << "Magimen " << colors.DEFAULT << "borns are more adept in magic\n"
+             << colors.YELLOW << "Felixmen " << colors.DEFAULT << "borns are rare and considered lucky\n";
 
         cout << "What Month where you born: ";
 

@@ -47,7 +47,7 @@ class Actions
 
         string currentJson;
 
-        GameState gc;
+        GameState* gc = nullptr;
         
         int potionsToAdd;
     
@@ -57,7 +57,7 @@ class Actions
 
             @param p The player object used to run the game
         */
-        Actions(GameState& gameState);
+        Actions(GameState* gameState);
 
         /**
          *   @brief Loads in an area using a json file

@@ -13,6 +13,7 @@
 ## Player Tasks
   - [ ] Quest log to track current quests  
   - [ ] Save Player inventory
+  - [ ] Messages stating the rest of your point went into the mind stat
 
 ## Enemies Tasks
   - [X] Make enemies use same attack system as player,

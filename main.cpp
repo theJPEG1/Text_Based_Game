@@ -105,20 +105,23 @@ int main()
     }
 
 
-    GameState gs(newPlayer, cMats, allAtks);
+    GameState* gs = new GameState(newPlayer, cMats, allAtks);
+
+    cout << &newPlayer;
 
     Actions action(gs);
 
-
     while(inGame)
     {
-        action.loadAreaFromJson("Town1Day/town.json");
+        action.loadAreaFromJson("Locations/Town1Day/town.json");
 
         if(newPlayer.getHealth() <= 0)
         {
             inGame = false;
         }
     }
+
+    delete gs;
     
     
 
