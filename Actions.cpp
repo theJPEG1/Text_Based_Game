@@ -10,18 +10,32 @@ Actions::Actions(GameState* gameState)
     actionMap["sellItems"] = std::bind(&Actions::sellItems, this);
     actionMap["viewGuildCard"] = std::bind(&Actions::viewGuildCard, this);
     actionMap["viewInventory"] = std::bind(&Actions::viewInventory, this);
+    actionMap["viewQuests"] = std::bind(&Actions::viewQuests, this);
+    
     actionMap["effectView"] = std::bind(&Actions::printEffectList, this);
     actionMap["wellTalk"] = std::bind(&Actions::wellTalk, this);
     actionMap["tossInACoin"] = std::bind(&Actions::tossInACoin, this);
+
+    actionMap["barKeepTalk"] = std::bind(&Actions::barKeepTalk, this);
+    actionMap["drunkenTalk"] = std::bind(&Actions::drunkenTalk, this);
+    actionMap["buyRoom"] = std::bind(&Actions::buyRoom, this);
+
+    actionMap["swimming"] = std::bind(&Actions::wellSwim, this);
+    actionMap["seduceDoor"] = std::bind(&Actions::seduceWellDoor, this);
+    actionMap["wellKey"] = std::bind(&Actions::wellKey, this);
+    
 
     actionMap["fight"] = std::bind(&Actions::fight, this);
 
     actionMap["healthPotion"] = std::bind(&Actions::addHealthPots, this);
     actionMap["manaPotion"] = std::bind(&Actions::addManaPots, this);
+
+    actionMap["saveQuit"] = std::bind(&Actions::saveQuit, this);
 };
 
 void Actions::loadAreaFromJson(string jsonToLoad)
 {
+    swimDepth = 0;
     gc->colors.clearScreen();
 
     ifstream file(jsonToLoad);
@@ -41,7 +55,9 @@ void Actions::loadAreaFromJson(string jsonToLoad)
     json actions = data["Actions"];
 
     int keyboardInput = 0;
-    while(keyboardInput <= 0 || keyboardInput > actions.size())
+
+    size_t append = 0;
+    while(static_cast<size_t>(keyboardInput) <= 0 || static_cast<size_t>(keyboardInput) > actions.size())
     {
         cout << "\n" << header << "\n";
 
@@ -63,7 +79,7 @@ void Actions::loadAreaFromJson(string jsonToLoad)
             }
 
             string actionPrint = actions[i]["actionDescription"];
-            cout << actionPrint;
+            cout <<  "[" << i + 1 << "] " << actionPrint;
 
             if(actionPrint.length() < 30 && actionPrint.length() > 17)
             {
@@ -79,14 +95,70 @@ void Actions::loadAreaFromJson(string jsonToLoad)
             {
                 cout << "\t";
             }
-        
+
+            append = i + 1;
         }
+
+        json questActions;
+        unordered_map<std::string, std::function<void()>> questActionMap;
+
+        if(!data["questEffect"].is_null())
+        {
+            //we have a quest that effects the options!
+            //print out those options
+
+            for(size_t i = 0; i < data["questEffect"].size(); i++)
+            {
+                string idToCheck = data["questEffect"][i]["questID"];
+
+                string targetQuest = data["questEffect"][i]["target"];
+
+                if(gc->player.hasQuest(idToCheck))
+                {
+                    ifstream questFile(targetQuest);
+
+                    if (!questFile.is_open()) 
+                    {
+                        cout << "Failed to open " << targetQuest << "\n";
+                    }
+
+                    json qData;
+                    questFile >> qData;
+
+                    questActions = qData["Append Actions"];
+                    
+                    for(size_t k = 0; k < questActions.size(); k++)
+                    {
+                        append++;
+                        string actionPrint = questActions[k]["actionDescription"];
+                        cout <<  "[" << append << "] " << actionPrint;
+
+                        
+
+                        //add the actions to the questActionMap
+                    }
+
+                    questFile.close();
+                }
+            }
+        }
+
+        
 
         cout << "\n-> ";
 
         cin >> keyboardInput;
+        string actionToCheck;
 
-        string actionToCheck = actions[keyboardInput-1]["target"];
+        if(static_cast<size_t>(keyboardInput-1) < actions.size())
+        {
+            actionToCheck = actions[keyboardInput-1]["target"];
+        }
+
+        else
+        {
+            actionToCheck = questActions[(keyboardInput-1) - actions.size()]["target"];
+        }
 
         if(actionToCheck.substr(actionToCheck.length() - 5, 5) == ".json")
         {
@@ -96,7 +168,21 @@ void Actions::loadAreaFromJson(string jsonToLoad)
 
         else
         {
-            actionMap.find(actionToCheck)->second();
+            if(actionMap.find(actionToCheck) != actionMap.end())
+            {  
+                actionMap.find(actionToCheck)->second();
+            }
+
+            //check the new appended library
+            else
+            {
+                
+
+                if(questActionMap.find(actionToCheck) != questActionMap.end())
+                {
+                    //load the new one
+                }
+            }
         }
 
         keyboardInput = 0;
@@ -104,6 +190,7 @@ void Actions::loadAreaFromJson(string jsonToLoad)
     }
 
     file.close();
+    
     gc->colors.clearScreen();
 };
 
@@ -129,7 +216,7 @@ void Actions::buyItems()
 
     int keyboardInput = 0;
 
-    while(keyboardInput <= 0 || keyboardInput > inventory.size())
+    while(static_cast<size_t>(keyboardInput <= 0) || static_cast<size_t>(keyboardInput) > inventory.size())
     {
         cout << "\n" << buyMessage << "\n";
         cout << "You have " << gc->player.getNovas() << " Novas.\n";
@@ -196,9 +283,11 @@ void Actions::buyItems()
                 }
             }
         }
+
+      
     }
 
-    loadAreaFromJson("Locations/" + currentJson);
+    loadAreaFromJson(currentJson);
 
     gc->colors.clearScreen();
 };
@@ -379,7 +468,10 @@ void Actions::sellItems()
 
 void Actions::rumors()
 {
-    cout << "\n<INSERT RUMOR HERE>\n";
+    cout << "I heard of this wicked fast rabbit in the woods. Go find em and kill it!\n";
+
+    Quest lightningRabbit("Quests/lightningRabbit.json");
+    gc->player.addQuest(lightningRabbit);
 };
 
 void Actions::viewGuildCard()
@@ -415,6 +507,13 @@ void Actions::printEffectList()
     }
 };
 
+void Actions::viewQuests()
+{
+    gc->colors.clearScreen();
+    gc->player.printQuests();
+    cout << "\n";
+};
+
 void Actions::wellTalk()
 {
     gc->colors.clearScreen();
@@ -425,7 +524,23 @@ void Actions::wellTalk()
         "I heard that there is a goblin that set up this well.\nIt's all just a ploy so he can get rich!\n",
         "I tossed in a coin and I feel better.\nStronger, faster, luckier, just all of it, better!\n",
         "I wonder what's at the bottom of the well?\nIt just looks like it goes on forever.\n", //quest start for bottom of the well option
-        "This well is a curse on the town. People come and throw coins expecting riches.\nI know better!\n"
+        "This well is a curse on the town. People come and throw coins expecting riches.\nI know better!\n",
+
+            // New well / village rumors
+        "Some say the blacksmith has a secret stash of cursed weapons.\nPersonally, I avoid him.\n",
+        "The wind sometimes carries whispers from the plains.\nI swear I heard my own name once.\n",
+        "Old Marlen at the guild keeps muttering about monsters in the cornfields.\nShe scares the children, I tell you.\n",
+        "People say the innkeeper's stew can make you dream of things you shouldn't.\nI haven't tried it yet.\n", // boss rush!
+
+        // Temple rumors
+        "They say an ancient temple lies hidden in the forest.\nNo one who went looking has ever come back the same.\n",
+        
+        // Red herrings / humorous gossip
+        "I heard that a traveling bard sold a song that can make goats levitate.\nI haven't seen it work.\n",
+        "The windmill at the edge of town sometimes turns backwards.\nThey say it's bad luck, but it seems fine to me.\n",
+        "Some say the town well sometimes laughs at fools.\nOthers think it's just the echo.\n",
+        "I swear the crows are plotting something.\nEvery time I walk by, they stare.\n",
+        "Look! These Rabbits!\nThey are plotting our deaths!\nI tell you, one shot fire!"
     };
 
     //better message logic so i can skew things
@@ -433,7 +548,11 @@ void Actions::wellTalk()
 
     if(message == wellTalks.at(3))
     {
-        //start the bottom of the well quest
+        QuestObjective q(false);
+
+        Quest wellQuest("Quests/tcnWell.json");
+        wellQuest.addObjective(q);
+        gc->player.addQuest(wellQuest);
     }
 
     //logic to add as a quest
@@ -659,6 +778,224 @@ void Actions::fight()
     Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
 };
 
+void Actions::drunkenTalk()
+{
+    gc->colors.clearScreen();
+
+    if(gc->player.hasQuest("bottomOfTheWell"))
+    {
+        Quest* q = gc->player.getQuest("bottomOfTheWell");
+        
+        if(q == nullptr)
+        {
+            cout << "nullptr\n";
+        }
+
+        else
+        {
+            if(!q->getObjective().hasItem)
+            {
+                cout << "heres the key!\n";
+                q->getObjective().hasItem = true;
+            }
+        }
+    }
+
+    else
+    {
+        cout << "no Quest\n";
+    }
+
+    if(gc->player.hasQuest("forestTempleQuest"))
+    {
+        vector<string> drunkardTalks =
+        {
+            "I tell ya, the chickens in Elderwell… they plot against the moon, I swear!\n",
+            "LLRLRR!\n I tell you my goat keeps telling me its in the woods.\n",
+            "You can't trust the bread here… it whispers secrets if you listen too hard.\n",
+            "The mayor is a frog in disguise. Don't tell anyone I said that.\n",
+            "I once saw a goat recite poetry. It was better than the bard last week.\n",
+            "The stars, they move sideways sometimes… don't ask me why, I'm just a simple man.\n",
+            "I tried talking to the well… it answered back. Or maybe that was my reflection.\n",
+            "Rivers sometimes walk, you know. I saw one cross the plains once, slowly… like it had places to go.\n",
+            "The wind steals things from your pockets, but only when you're not looking… mostly spoons.\n",
+            "I keep telling folks… the trees can hear you, but only when you sing off-key.\n",
+            "There's a rock outside that winks at people. It's rude but honest.\n",
+            "If you hear laughter in the forest, it's probably just the shadows having tea. Or maybe not.\n",
+            "Left, left, right, left, right, right… that's how you find the forest temple. Trust me, I think.\n",
+        };
+
+        int place = rand() % drunkardTalks.size();
+        cout << drunkardTalks.at(place);
+
+        if(place == 12)
+        {
+            gc->player.getQuest("forestTempleQuest")->setMessageIndex(gc->player.getQuest("forestTempleQuest")->getQuestIndex() + 1);
+        }
+       
+    }
+
+    else
+    {
+        vector<string> drunkardTalks =
+        {
+            "I tell ya, the chickens in Elderwell... they plot against the moon, I swear!\n",
+            "You can't trust the bread here... it whispers secrets if you listen too hard.\n",
+            "The mayor is a frog in disguise. Don't tell anyone I said that.\n",
+            "I once saw a goat recite poetry. It was better than the bard last week.\n",
+            "The stars, they move sideways sometimes... don't ask me why, I'm just a simple man.\n",
+            "I tried talking to the well... it answered back. Or maybe that was my reflection.\n",
+            "Rivers sometimes walk, you know. I saw one cross the plains once, slowly... like it had places to go.\n",
+            "The wind steals things from your pockets, but only when you're not looking... mostly spoons.\n",
+            "I keep telling folks... the trees can hear you, but only when you sing off-key.\n",
+            "There's a rock outside that winks at people. It's rude but honest.\n",
+            "If you hear laughter in the forest, it's probably just the shadows having tea. Or maybe not.\n"
+        };
+
+        int place = rand() % drunkardTalks.size();
+        cout << drunkardTalks.at(place);
+    }
+};
+
+void Actions::barKeepTalk()
+{
+    gc->colors.clearScreen();
+    
+    if(!gc->player.hasQuest("forestTempleQuest"))
+    {   
+        cout << "People in this town never stop talking about the temple in the forest.\nI've never seen an adventurer come back from it."
+             << "\nAnd people that just check it out say they see things out there.";
+        Quest templeQuest("Quests/fTempleQuest.json");
+        gc->player.addQuest(templeQuest);
+    }
+
+    else
+    {
+        vector<string> innkeeperTalks = 
+        {
+            "The forest isn't just trees, you know. Some of those old oaks remember things that no one else does.\n",
+            "Back in my youth, the river ran red one morning. They blamed the fish, but I think it was something older.\n",
+            "The guild used to be a small group of hunters, not adventurers. Times change, but old habits linger.\n",
+            "Some nights you can hear chanting from the forest temple, even if the villagers say it's just the wind.\n",
+            "The town well used to be part of an old boundary marker for lands long forgotten.\n",
+            "Before the forest was called Eldergrove, folks said it was cursed, and no one dared enter.\n",
+            "I heard a story about a wandering merchant who traded gold for memories. Never saw him again.\n",
+            "There's a cave under the hill outside town. They say it's home to a very grumpy old wizard.\n", //the first place to craft spells
+            "The temple in the woods isn't marked on any map. Some believe it chooses who may find it.\n",
+            "The wind carries voices from the mountains to the north, but only if you stand very still.\n",
+            "Our crops are usually safe, but every few years, something strange comes from the forest at night.\n",
+            "People say the stars over these plains align differently than anywhere else in the kingdom.\n",
+            "At night, when Thorin lights the forge, he makes it burn hotter than his brother.\n Must be something about skill.\n",
+            "Yes, I do have a special soup, but I wont sell it to you!\n"
+        };
+
+        int place = rand() % innkeeperTalks.size();
+        cout << innkeeperTalks.at(place);
+    }
+};
+
+void Actions::buyRoom()
+{
+    cout << "The room heals you completely!\n";
+    gc->player.increaseHealth(gc->player.getMaxHealth());
+};
+
+void Actions::wellSwim()
+{
+    if(gc->player.getHealth() <= 0)
+    {
+        gc->colors.clearScreen();
+        cout << "Your health is to low to dive any furthur";
+    }
+
+    else
+    {
+        gc->colors.clearScreen();
+
+        swimDepth++;
+
+        if(swimDepth < 10)
+        {
+            gc->player.takeDamage(swimDepth);
+            cout << "You lost " << swimDepth << " health! ";
+            cout << gc->colors.CYAN << gc->player.getHealth() << "/" << gc->player.getMaxHealth() << gc->colors.DEFAULT;
+        }
+
+        else
+        {
+            gc->player.getQuest("bottomOfTheWell")->setMessageIndex(gc->player.getQuest("bottomOfTheWell")->getQuestIndex() + 1);
+            loadAreaFromJson("Locations/Town1Well/bottomOfWell.json");
+
+            //if the quest messages hasnt be increased then increase it
+        }
+    }
+};
+
+void Actions::wellKey()
+{
+    Quest* q = gc->player.getQuest("bottomOfTheWell");
+    
+    if(q->getObjective().hasItem)
+    {
+        cout << "You unlocked the door!\n";
+    }
+
+    else
+    {
+        cout << "You press on the doors lock, but without a key it wont open!\n";
+    }
+};
+
+void Actions::seduceWellDoor()
+{
+    gc->colors.clearScreen();
+
+    vector<string> options =
+    {
+        "Your attempts to seduce the door are unsucessful.\n",
+        "The door turns a bright red but doesn't budge\n",
+        "You hear snickering behind the door as you try to seduce it\n",
+        "The door stands there, just being a door\n",
+        "You start to hear a sad tiny violin playing from seemingly no where\n",
+        "What are you doing? You beging to ask yourself\n",
+        "You think you see the handle blush, but it might\'ve been the lighting.\n",
+        "The door remains unimpressed by you.\n",
+        "You wink at the door. The door does not wink back.\n",
+        "You swear the hinges sighed, but it might\'ve been your pride escaping.\n",
+        "You try to whisper but bubbles just escape your mouth.\n",
+        "You caress the woodgrain lovingly. Splinters remind you of your mistakes.\n",
+        "The door looks at you, or it would if it had eyes, which it doesn\'t.\n",
+        "You feel your dignity leave you.\n",
+        "The door remains steadfast, an unfeeling guardian of boundaries and rejection.\n",
+        "You\'re pretty sure this isn\'t how locks work.\n",
+        "A bubles of awkwardness fills the air.\n",
+        "Somewhere, your ancestors sigh in disappointment.\n",
+        "You hear the narrator mutter, \'Really? The door?\'\n",
+        "The door says nothing, but somehow, you can tell it\'s not interested.\n"
+    };
+
+
+    double seduceChance = (rand() % 100) / 100.0;
+
+    if(seduceChance != 0.01)
+    {
+        int place = rand() % options.size();
+        cout << options.at(place);
+
+        if(place == 11)
+        {
+            cout << "You take " << gc->colors.RED << "1 Damage!\n" << gc->colors.DEFAULT;
+
+            gc->player.takeDamage(1);
+        }
+    }
+
+    else
+    {
+        cout << "YOU SEDUCED A DOOR?!\n";
+    }
+};
+
 void Actions::addHealthPots()
 {
     gc->player.increaseHealthPotionCount(potionsToAdd);
@@ -669,3 +1006,19 @@ void Actions::addManaPots()
     gc->player.increaseManaPotionCount(potionsToAdd);
 }
 
+void Actions::saveQuit()
+{
+    cout << "Saving Player!\n";
+    Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+    gc->colors.pauseTerminal(1);
+
+    cout << "Saving Attacks!\n";
+    Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc->player.getCustomAtks());
+    gc->colors.pauseTerminal(1);
+
+    cout << "Saving Inventory!\n";
+    Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+    gc->colors.pauseTerminal(1);
+
+    exit(0);
+}

@@ -15,6 +15,7 @@
     using std::map;
 #include <vector>
     using std::vector;
+#include <cstdlib>
 
 #include "include/json.hpp"
     using json = nlohmann::json;
@@ -50,6 +51,8 @@ class Actions
         GameState* gc = nullptr;
         
         int potionsToAdd;
+
+        int swimDepth = 0;
     
     public:
         /**
@@ -79,12 +82,24 @@ class Actions
         //town center
             void wellTalk();
             void tossInACoin();
+            
+        //quests
+            void wellSwim();
+            void wellKey();
+            void seduceWellDoor();
 
-            void fight();
+        //tavern
+            void drunkenTalk();
+            void barKeepTalk();
+            void buyRoom();
+
+        void fight();
 
         //misc to make things run smootehr
-        void addHealthPots();
-        void addManaPots();
+            void addHealthPots();
+            void addManaPots();
+
+            void saveQuit();
 
     
 

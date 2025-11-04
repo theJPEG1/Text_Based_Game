@@ -1,32 +1,32 @@
 {
     "id": "b1",
     "type": "blacksmith",
-    "name": "Blacksmith",
-    "header": "Welcome to Blacksmith. What do you do?",
+    "name": "Blackthane's Smithy",
+    "header": "Welcome to Blackthane's Smithy. What do you do?",
     "buyMessage": "Sharpest blades around! What do you want?",
     "craftMessage": "What can I craft for you?",
-    "maxRarity": 20,
+    "maxRarity": 2,
     
 
     "Actions":
     [
         {
-            "actionDescription": "[1] Buy",
+            "actionDescription": "Buy",
             "target": "buyItems"
         },
 
         {
-            "actionDescription": "[2] Craft",
+            "actionDescription": "Craft",
             "target": "craftItems"
         },
 
         {
-            "actionDescription": "[3] Rumor",
+            "actionDescription": "Rumor",
             "target": "hearRumor"
         },
 
         {
-            "actionDescription": "[4] Leave",
+            "actionDescription": "Leave",
             "target": "Locations/Town1Day/town.json"
         }  
     ],
@@ -47,6 +47,14 @@
 
         {
             "actionDescription": "[3] Back"
+        }
+    ],
+
+    "questEffect":
+    [
+        {
+            "questID": "lightningRabbit",
+            "target": "Quests/lightningRabbit.json"
         }
     ]
 }

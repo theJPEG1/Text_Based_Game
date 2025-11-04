@@ -6,48 +6,78 @@
 #include <vector>
     using std::vector;
 
+struct QuestObjective
+{
+    QuestObjective()
+    {
+        collected = 0;
+        collectedTotal = 1;
+
+        hasItem = false;
+    };
+    QuestObjective(int collectAmt) {collectedTotal = collectAmt;};
+    QuestObjective(bool getItem) {hasItem = getItem;};
+
+    int collected;
+    int collectedTotal;
+
+    bool hasItem;
+};
 
 class Quest
 {
     public: 
-        /// @brief Construsts a quest
-        /// @param questDescriptions The series of descriptions of the quest
-        /// @param questPosition the position you are currently on in the quest
-        /// @param questCompleted have you completed or not
-        Quest(vector<string> questDescriptions, int questPosition)
+        Quest() = default;
+        Quest(string fileName)
         {
-            questDesc = questDescriptions;
-            questPos = questPosition;
-        };
+            ifstream file(fileName);
 
-        /// @brief Gets the current part of the quest
-        /// @return returns a string from the vector of the current questPosition
-        string getQuest()
-        {
-            return questDesc.at(questPos);
-        };
-
-        void completeQuest()
-        {
-            if(static_cast<size_t> (questPos) >= questDesc.size())
+            if (!file.is_open()) 
             {
-                completed = true;
+                cout << "Failed to open " << fileName << "\n";
+            }
+
+            json data;
+            file >> data;
+
+            for(size_t i = 0; i < data["Quest Messages"].size(); i++)
+            {
+                displayMessage.push_back(data["Quest Messages"][i]["message"]);
+            }
+
+            ID = data["id"];
+            status = data["status"];
+            questIndex = data["messageIndex"];
+        };
+
+        string getId() const {return ID;};
+        int getStatus() const {return status;};
+        int getQuestIndex() const {return questIndex;};
+
+        vector<string> getMessages() const {return displayMessage;};
+        void setStatus(int newStatus) {status = newStatus;};
+        void setMessageIndex(int newIndex) 
+        {
+            if(static_cast<size_t>(newIndex) >= displayMessage.size())
+            {
+                questIndex = displayMessage.size() - 1;
+            }
+
+            else
+            {
+                questIndex = newIndex;
             }
         };
 
-        /// @brief Has a quest been completed or not
-        /// @return if the quest is completed
-        bool isCompletedQuest()
-        {
-            return completed;
-        };
-        
-    
-    private:
-        vector<string> questDesc;
-        int questPos;
-        bool completed;
+        void addObjective (QuestObjective qo) {o = qo;};
+        QuestObjective& getObjective() {return o;};
 
+    private:
+        string ID;
+        int status;
+        vector<string> displayMessage;
+        int questIndex;
+        QuestObjective o;
 };
 
 #endif

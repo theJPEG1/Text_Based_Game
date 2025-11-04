@@ -1,0 +1,33 @@
+{
+    "id": "bottomOfTheWell",
+    "type": "Quest",
+    "name": "Town Center Night 1 Quest",
+
+    "status": 0,
+    "messageIndex": 0,
+
+    "QuestID": "bottomOfTheWell",
+
+    "Append Actions":
+    [
+       {
+            "actionDescription": "Swim down the well",
+            "target": "Locations/Town1Well/well.json"
+       }
+    ],
+
+    "Append Inventory":
+    [
+
+    ],
+
+    "Quest Messages":
+    [
+        {
+            "message": "There is something at the bottom of the well!"
+        },
+        {
+            "message": "Find the Key for the bottom of the well."
+        }
+    ]
+}

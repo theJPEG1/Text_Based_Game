@@ -17,6 +17,7 @@ struct GameState
     map<string, CraftingMaterials> mats;
     map<string, Attacks> atks;
     PrettyColors colors;
+    WeightedGen gen;
     //vector<Quest> quests;
 };
 

@@ -9,22 +9,22 @@
     "Actions":
     [
         {
-            "actionDescription": "[1] Buy",
+            "actionDescription": "Buy",
             "target": "buyItems"
         },
 
         {
-            "actionDescription": "[2] Sell",
+            "actionDescription": "Sell",
             "target": "sellItems"
         },
 
         {
-            "actionDescription": "[3] Rumor",
+            "actionDescription": "Rumor",
             "target": "hearRumor"
         },
 
         {
-            "actionDescription": "[4] Leave",
+            "actionDescription": "Leave",
             "target": "Locations/Town1Day/town.json"
         }  
     ],

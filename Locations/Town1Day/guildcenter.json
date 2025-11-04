@@ -7,27 +7,27 @@
     "Actions":
     [
         {
-            "actionDescription": "[1] Guild Card",
+            "actionDescription": "Guild Card",
             "target": "viewGuildCard"
         },
 
         {
-            "actionDescription": "[2] Check Inventory",
+            "actionDescription": "Check Inventory",
             "target": "viewInventory"
         },
 
         {
-            "actionDescription": "[3] View Quests",
+            "actionDescription": "View Quests",
             "target": "viewQuests"
         },
 
         {
-            "actionDescription": "[4] Effect List",
+            "actionDescription": "Effect List",
             "target": "effectView"
         },
 
         {
-            "actionDescription": "[5] Leave",
+            "actionDescription": "Leave",
             "target": "Locations/Town1Day/town.json"
         }
     ]

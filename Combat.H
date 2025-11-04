@@ -32,8 +32,6 @@ class Combat
         vector<vector<Enemy>> regionToUse;
         string region;
         Enemy curEnemy;
-        WeightedGen gen;
-        PrettyColors color;
 
         //action field
         void handleAttack(int& lowestDamage, int strengthBuff, int dexBuff, string type);

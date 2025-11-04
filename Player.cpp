@@ -366,3 +366,70 @@ void Player::printInventory(int rarity)
         }
     }
 };
+
+void Player::addQuest(Quest newQuest)
+{
+    if(questLog.find(newQuest.getId()) == questLog.end())
+    {
+        cout << colors.YELLOW << "\nQuest Log Updated: " << newQuest.getId() << "!\n" << colors.DEFAULT;
+        questLog[newQuest.getId()] = newQuest;
+    }
+
+    questLog.find(newQuest.getId())->second.setStatus(1); //inprogress
+};
+
+bool Player::hasQuest(string ID)
+{
+    bool returnVal = false;
+
+    if(questLog.find(ID) != questLog.end())
+    {
+        if(questLog.find(ID)->second.getStatus() > 0) //inprogress or complete
+        {
+            returnVal = true;
+        }
+    }
+
+    return returnVal;
+}
+
+Quest* Player::getQuest(string ID)
+{
+    Quest* q = nullptr;
+
+    if(questLog.find(ID) != questLog.end())
+    {
+        if(questLog.find(ID)->second.getStatus() > 0) //inprogress or complete
+        {
+            q = &questLog.find(ID)->second;
+        }
+    }
+
+    return q;
+}
+
+void Player::completeQuest(string ID)
+{
+
+    if(questLog.find(ID) != questLog.end())
+    {
+        if(questLog.find(ID)->second.getStatus() < 2) //inprogress or not started
+        {
+            cout << colors.YELLOW << "\nQuest Finished: " << questLog.find(ID)->second.getId() 
+                 << "!\n" << colors.DEFAULT;
+            questLog.find(ID)->second.setStatus(2);
+        }
+    }
+};
+
+void Player::printQuests()
+{
+    for (const auto& [id, quest] : questLog) 
+    {
+        cout << colors.YELLOW << id << ":\n" << colors.DEFAULT;
+        for(int i = 0; i <= quest.getQuestIndex(); i++)
+        {
+            cout << "\t" << quest.getMessages().at(i) << "\n";
+        }
+    }
+};

@@ -1,0 +1,32 @@
+{
+    "id": "forestTempleQuest",
+    "type": "Quest",
+    "name": "Forest Temple Quest",
+
+    "status": 0,
+    "messageIndex": 0,
+
+    "QuestID": "forestTempleQuest",
+
+    "Append Actions":
+    [
+       {
+            
+       }
+    ],
+
+    "Append Inventory":
+    [
+
+    ],
+
+    "Quest Messages":
+    [
+        {
+            "message": "The bar keep told you about a temple hidden in the woods!"
+        },
+        {
+            "message": "The Path for the woods is (Left, Left, Right, Left, Right, Right)"
+        }
+    ]
+}

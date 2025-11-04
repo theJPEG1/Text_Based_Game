@@ -49,8 +49,51 @@ Combat::Combat(GameState* gameState, vector<vector<Enemy>> currentRegionEnemy, s
  */
 void Combat::determineEnemy()
 {   
-    curEnemy = gen.generateEnemy(gs->player.getLevel(), regionToUse);
+    curEnemy = gs->gen.generateEnemy(gs->player.getLevel(), regionToUse);
 };
+
+void Combat::printGui()
+{
+    cout << "You are fighting " << curEnemy.getName() << curEnemy.getType() << "\n\n"
+             << "You have " << gs->colors.CYAN << gs->player.getHealth() << "/" << gs->player.getMaxHealth() << " Health\t" << gs->colors.DEFAULT
+             << "You have " << gs->colors.MAGENTA << gs->player.getMana() << "/" << gs->player.getMaxMana() << " Mana\n" << gs->colors.DEFAULT;
+
+    if(gs->player.getStrength() >= 10)
+    {
+        cout << "You have " << gs->colors.RED << static_cast<double>(gs->player.getStrength() / 10.0) << " Physical Multiplier\n" << gs->colors.DEFAULT;
+    }
+
+    if(gs->player.getMind() >= 10)
+    {
+        cout << "You have " << gs->colors.MAGENTA << static_cast<double>(gs->player.getMind() / 10.0) << " Magical Multiplier\n" << gs->colors.DEFAULT;
+    }
+            
+    cout << "\n";
+//== Display Enemy Info Based on Mind Stat ==
+    if(gs->player.getMind() >= 20 && gs->player.getMind() < 30)
+    {
+        cout << curEnemy.getName() << " has " << gs->colors.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp() 
+                << " Health" << gs->colors.DEFAULT;
+    }
+
+    else if(gs->player.getMind() >= 30 && gs->player.getMind() < 40) 
+    {
+        cout << curEnemy.getName() << " has " << gs->colors.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp()
+                << " Health.\t" << gs->colors.DEFAULT;
+
+        cout << curEnemy.getName() << " has " << gs->colors.RED << curEnemy.getPhysRes() << " Physical Resistance" << gs->colors.DEFAULT;
+    }
+
+    else if(gs->player.getMind() >= 40)
+    {
+        cout << curEnemy.getName() << " has " << gs->colors.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp()
+                << " Health.\t" << gs->colors.DEFAULT;
+
+        cout << curEnemy.getName() << " has " << gs->colors.RED << curEnemy.getPhysRes() << " Physical Resistance\n" << gs->colors.DEFAULT;
+
+        cout << curEnemy.getName() << " has " << gs->colors.MAGENTA << curEnemy.getMagiRes() << " Magical Resistance" << gs->colors.DEFAULT;
+    }
+}
 
 void Combat::newCombatTest()
 {
@@ -61,45 +104,7 @@ void Combat::newCombatTest()
 // == Start Combat Logic ==
     while(isFighting)
     {
-        cout << "You are fighting " << curEnemy.getName() << curEnemy.getType() << "\n\n"
-             << "You have " << color.CYAN << gs->player.getHealth() << "/" << gs->player.getMaxHealth() << " Health\t" << color.DEFAULT
-             << "You have " << color.MAGENTA << gs->player.getMana() << "/" << gs->player.getMaxMana() << " Mana\n" << color.DEFAULT;
-
-        if(gs->player.getStrength() >= 10)
-        {
-            cout << "You have " << color.RED << static_cast<double>(gs->player.getStrength() / 10.0) << " Physical Multiplier\n" << color.DEFAULT;
-        }
-
-        if(gs->player.getMind() >= 10)
-        {
-            cout << "You have " << color.MAGENTA << static_cast<double>(gs->player.getMind() / 10.0) << " Magical Multiplier\n" << color.DEFAULT;
-        }
-             
-        cout << "\n";
-    //== Display Enemy Info Based on Mind Stat ==
-        if(gs->player.getMind() >= 20 && gs->player.getMind() < 30)
-        {
-            cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp() 
-                 << " Health" << color.DEFAULT;
-        }
-
-        else if(gs->player.getMind() >= 30 && gs->player.getMind() < 40) 
-        {
-            cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp()
-                 << " Health.\t" << color.DEFAULT;
-
-            cout << curEnemy.getName() << " has " << color.RED << curEnemy.getPhysRes() << " Physical Resistance" << color.DEFAULT;
-        }
-
-        else if(gs->player.getMind() >= 40)
-        {
-            cout << curEnemy.getName() << " has " << color.CYAN << curEnemy.getHp() << "/" << curEnemy.getMaxHp()
-                 << " Health.\t" << color.DEFAULT;
-
-            cout << curEnemy.getName() << " has " << color.RED << curEnemy.getPhysRes() << " Physical Resistance\n" << color.DEFAULT;
-
-            cout << curEnemy.getName() << " has " << color.MAGENTA << curEnemy.getMagiRes() << " Magical Resistance" << color.DEFAULT;
-        }
+        printGui();
     //== End Enemy Info ==
 
         cout << "\n\nWhat do you want to do\n"
@@ -255,7 +260,7 @@ void Combat::newCombatTest()
 
                     else
                     {
-                        cout << color.RED << "Not enough mana to cast " << gs->player.getAllCombat().at(keyboardInput + 3).name  << "!\n" << color.DEFAULT;
+                        cout << gs->colors.RED << "Not enough mana to cast " << gs->player.getAllCombat().at(keyboardInput + 3).name  << "!\n" << gs->colors.DEFAULT;
                     }
                 }
                 
@@ -263,7 +268,7 @@ void Combat::newCombatTest()
 
             else
             {
-                cout << color.RED << "\nINVALID INPUT!\n" << color.DEFAULT;
+                cout << gs->colors.RED << "\nINVALID INPUT!\n" << gs->colors.DEFAULT;
             }
         }
     // == End Attack / Spell Action ==
@@ -274,9 +279,9 @@ void Combat::newCombatTest()
             int potionHealAmount = gs->player.getMaxHealth() / 3;
             int potionManaAmount = gs->player.getMana() / 10;
 
-            cout << color.CYAN << "\n[1] Health Potions: " << gs->player.getHealthPotionCount() << " (+" << potionHealAmount << ")\t"
-                 << color.MAGENTA << "[2] Mana Potions: " << gs->player.getManaPotionCount() << " (+" << potionManaAmount << ")\n"
-                 << color.DEFAULT;
+            cout << gs->colors.CYAN << "\n[1] Health Potions: " << gs->player.getHealthPotionCount() << " (+" << potionHealAmount << ")\t"
+                 << gs->colors.MAGENTA << "[2] Mana Potions: " << gs->player.getManaPotionCount() << " (+" << potionManaAmount << ")\n"
+                 << gs->colors.DEFAULT;
 
             cout << "-> ";
             cin >> keyboardInput;
@@ -293,7 +298,7 @@ void Combat::newCombatTest()
 
             else
             {
-                cout << color.RED << "\nINVALID INPUT!\n" << color.DEFAULT;
+                cout << gs->colors.RED << "\nINVALID INPUT!\n" << gs->colors.DEFAULT;
             }
         }
     // == End Potion Action
@@ -308,7 +313,7 @@ void Combat::newCombatTest()
 
         else
         {
-            cout << color.RED << "\nINVALID INPUT!\n" << color.DEFAULT;
+            cout << gs->colors.RED << "\nINVALID INPUT!\n" << gs->colors.DEFAULT;
         }
 
     // == End Combat Logic ==
@@ -321,19 +326,19 @@ void Combat::newCombatTest()
         gs->player.increaseMana((gs->player.getMind() / 10) + 5);
 
         keyboardInput = 0;
-        color.pauseTerminal(3);
-        color.clearScreen();
+        gs->colors.pauseTerminal(3);
+        gs->colors.clearScreen();
     }
 
     if(curEnemy.getHp() <= 0 && gs->player.getHealth() > 0 && !ranAway)
     {
-        cout << color.GREEN << "You defeated " << curEnemy.getName() << curEnemy.getType() << "!\n" << color.DEFAULT;
+        cout << gs->colors.GREEN << "You defeated " << curEnemy.getName() << curEnemy.getType() << "!\n" << gs->colors.DEFAULT;
         int xpGained = rand() % (curEnemy.getMaxExp() - curEnemy.getMinExp() + 1) + curEnemy.getMinExp();
 
-        cout << color.YELLOW << "You gained " << xpGained << " XP!\n";
+        cout << gs->colors.YELLOW << "You gained " << xpGained << " XP!\n";
         gs->player.increaseExperience(xpGained);
 
-        cout << gs->player.getExperience() << "/" << gs->player.getXpToNextLevel() << " XP to next level.\n" << color.DEFAULT;
+        cout << gs->player.getExperience() << "/" << gs->player.getXpToNextLevel() << " XP to next level.\n" << gs->colors.DEFAULT;
 
         int dropChance = rand() % 100;
 
@@ -348,6 +353,15 @@ void Combat::newCombatTest()
         }
 
         cout << "\n";
+
+        if(curEnemy.getType() == "Lightning Rabbit")
+        {
+            if(gs->player.hasQuest("lightningRabbit"))
+            {
+                gs->player.completeQuest("lightningRabbit");
+            }
+        }
+        
     }
 
     if(gs->player.getExperience() >= gs->player.getXpToNextLevel())
@@ -394,12 +408,12 @@ void Combat::handleAttack(int actionIndex)
     {
         if(gs->player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0)
         {
-            dodged = gen.dodgeChance(gs->player.getDexterity(), curEnemy.getDexterity(), gs->player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0, "PLAYER");
+            dodged = gs->gen.dodgeChance(gs->player.getDexterity(), curEnemy.getDexterity(), gs->player.getAllCombat().at(actionIndex).thisEffects.at(0).dexModi > 0, "PLAYER");
         }
 
         else
         {
-            dodged = gen.dodgeChance(gs->player.getDexterity(), curEnemy.getDexterity(), "PLAYER");
+            dodged = gs->gen.dodgeChance(gs->player.getDexterity(), curEnemy.getDexterity(), "PLAYER");
         }
 
         if(dodged)
@@ -468,14 +482,14 @@ void Combat::handlePotion(string type)
 
             gs->player.increaseHealth(potionHealAmount);
 
-            cout << "\nYou drank a health potion and healed for " << potionHealAmount << " Health.\n" << color.DEFAULT;
+            cout << "\nYou drank a health potion and healed for " << potionHealAmount << " Health.\n" << gs->colors.DEFAULT;
             
             gs->player.increaseHealthPotionCount(-1);
         }
 
         else
         {
-            cout << color.RED << "\nYou don't have any health potions!\n" << color.DEFAULT;
+            cout << gs->colors.RED << "\nYou don't have any health potions!\n" << gs->colors.DEFAULT;
         }
     }
 
@@ -486,20 +500,20 @@ void Combat::handlePotion(string type)
             int potionManaAmount = gs->player.getMana() / 5;
 
             gs->player.increaseMana(potionManaAmount);
-            cout << "\nYou drank a mana potion and restored " << potionManaAmount << " Mana.\n" << color.DEFAULT;
+            cout << "\nYou drank a mana potion and restored " << potionManaAmount << " Mana.\n" << gs->colors.DEFAULT;
             
             gs->player.increaseManaPotionCount(-1);
         }
 
         else
         {
-            cout << color.RED << "\nYou don't have any mana potions!\n" << color.DEFAULT;
+            cout << gs->colors.RED << "\nYou don't have any mana potions!\n" << gs->colors.DEFAULT;
         }
     }
 
     else
     {
-        cout << color.RED << "\nINVALID INPUT!\n" << color.DEFAULT;
+        cout << gs->colors.RED << "\nINVALID INPUT!\n" << gs->colors.DEFAULT;
     }
 };
 
@@ -513,7 +527,7 @@ void Combat::handleEnemyAttack(int dexBuff)
 
     else
     {
-        bool dodged = gen.dodgeChance(gs->player.getDexterity(), curEnemy.getDexterity(), dexBuff , "ENEMY");
+        bool dodged = gs->gen.dodgeChance(gs->player.getDexterity(), curEnemy.getDexterity(), dexBuff , "ENEMY");
 
         if(!dodged)
         {

@@ -1,0 +1,19 @@
+{
+    "id": "w1",
+    "type": "well",
+    "name": "Well",
+    "header": "As you swimm the light gets brighter! What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Keep Swimming",
+            "target": "swimming"
+        },
+
+        {
+            "actionDescription": "Return to surface",
+            "target": "Locations/Town1Night/towncenter.json"
+        }
+    ]
+}

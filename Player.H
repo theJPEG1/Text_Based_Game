@@ -133,10 +133,15 @@ class Player
             void addCombatAttacks(Attacks atkToAdd) {attackList.push_back(atkToAdd);};
 
         //Player Quest adders
-            void addQuest(Quest newQuest) {questLog.push_back(newQuest);};
+            void addQuest(Quest newQuest);
     
     //MISC
         void printInventory(int rarity);
+        bool hasQuest(string ID);
+        Quest* getQuest(string ID);
+        void completeQuest(string ID);
+
+        void printQuests();
 
     private:
         //Player Information
@@ -167,7 +172,7 @@ class Player
             vector<Attacks> allCombat {8};
         
         //Player Questing
-            vector<Quest> questLog;
+            map<string, Quest> questLog;
 
         //misc
             PrettyColors colors;

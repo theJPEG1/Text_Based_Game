@@ -1,3 +1,36 @@
 {
-   "Attacks": []
+   "Attacks": [
+      {
+         "ID": "Boar Slayer",
+         "Name": "Boar Slayer",
+         "type": "attack",
+         "Effects": [
+            {
+               "ID": "-",
+               "type": "magical",
+               "baseDmg": 18,
+               "dexModi": 8,
+               "critChance": 15
+            },
+            {
+               "ID": "0",
+               "type": "magical"
+            },
+            {
+               "ID": "-",
+               "type": "physical",
+               "baseDmg": 9,
+               "dexModi": 12,
+               "critChance": 15
+            },
+            {
+               "ID": "-",
+               "type": "physical",
+               "baseDmg": 6,
+               "dexModi": 8,
+               "critChance": 10
+            }
+         ]
+      }
+   ]
 }

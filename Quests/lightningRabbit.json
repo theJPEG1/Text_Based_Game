@@ -1,0 +1,38 @@
+{
+    "id": "lightningRabbit",
+    "type": "Quest",
+    "name": "Lightning Rabbit Quest",
+
+    "status": 0,
+    "messageIndex": 0,
+
+    "QuestID": "lightningRabbit",
+
+    "Append Actions":
+    [
+       {
+            "actionDescription": "Give him Lightning rabbits foot! <NOT IMPLIMENTED>",
+            "target": "rabbitsFoot"
+       }
+    ],
+
+    "Append Inventory":
+    [
+
+    ],
+
+    "Quest Rewards":
+    [
+
+    ],
+
+    "Quest Messages":
+    [
+        {
+            "message": "There is some kind of lightning rabbit in the woods!"
+        },
+        {
+            "message": "Collect its foot and bring it to the blacksmith!"
+        }
+    ]
+}

@@ -1,19 +1,19 @@
 {
     "Actions": [
         {
-            "actionDescription": "[1] Talk to the people",
+            "actionDescription": "Talk to the people",
             "target": "wellTalk"
         },
         {
-            "actionDescription": "[2] Toss a coin in the well",
+            "actionDescription": "Toss a coin in the well",
             "target": "tossInACoin"
         },
         {
-            "actionDescription": "[3] Wait till night",
-            "target": "townNight.json"
+            "actionDescription": "Wait till night",
+            "target": "Locations/Town1Night/townCenter.json"
         },
         {
-            "actionDescription": "[4] Leave",
+            "actionDescription": "Leave",
             "target": "Locations/Town1Day/town.json"
         }
     ],

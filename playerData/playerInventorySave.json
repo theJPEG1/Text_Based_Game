@@ -4,7 +4,7 @@
         "id": "bearClaw"
     },
     {
-        "amount": 1,
+        "amount": 7,
         "id": "boarTusk"
     },
     {
@@ -28,11 +28,11 @@
         "id": "lightningRabbitFoot"
     },
     {
-        "amount": 1,
+        "amount": 0,
         "id": "rabbitFoot"
     },
     {
-        "amount": 1,
+        "amount": 0,
         "id": "slimeGoop"
     },
     {
@@ -40,11 +40,11 @@
         "id": "sprigHeart"
     },
     {
-        "amount": 2,
+        "amount": 3,
         "id": "squirelTail"
     },
     {
-        "amount": 1,
+        "amount": 2,
         "id": "wolfHide"
     }
 ]
