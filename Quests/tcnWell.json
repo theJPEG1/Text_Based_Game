@@ -8,11 +8,19 @@
 
     "QuestID": "bottomOfTheWell",
 
-    "Append Actions":
+    "Well Actions":
     [
        {
             "actionDescription": "Swim down the well",
             "target": "Locations/Town1Well/well.json"
+       }
+    ],
+
+    "Tavern Actions":
+    [
+       {
+            "actionDescription": "Ask about the Key",
+            "target": "keyAsk"
        }
     ],
 
@@ -28,6 +36,9 @@
         },
         {
             "message": "Find the Key for the bottom of the well."
+        },
+        {
+            "message": "Use the key for the bottom of the well!"
         }
     ]
 }

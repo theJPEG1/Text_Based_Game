@@ -2,6 +2,96 @@
     "Crafting Materials":
     [
         {
+            "ID": "grass",
+            "Name": "Grass",
+            "Rarity": 0,
+            "Cost": 0,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 0
+                }
+            ]
+        },
+
+        {
+            "ID": "leaf",
+            "Name": "Leaf",
+            "Rarity": 0,
+            "Cost": 0,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 0
+                }
+            ]
+        },
+
+        {
+            "ID": "wood",
+            "Name": "Wood",
+            "Rarity": 0,
+            "Cost": 1,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 1
+                }
+            ]
+        },
+
+        {
+            "ID": "stoneWood",
+            "Name": "Stone Wood",
+            "Rarity": 1,
+            "Cost": 2,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 2
+                }
+            ]
+        },
+
+        {
+            "ID": "stone",
+            "Name": "Stone",
+            "Rarity": 1,
+            "Cost": 2,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 2
+                }
+            ]
+        },
+
+        {
+            "ID": "ironWood",
+            "Name": "Iron Wood",
+            "Rarity": 2,
+            "Cost": 5,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 4
+                }
+            ]
+        },
+
+        {
             "ID": "squirelTail",
             "Name": "Squirel Tail",
             "Rarity": 1,
@@ -62,6 +152,22 @@
                     "type": "physical",
                     "baseDmg": 2,
                     "critChance": 5
+                }
+            ]
+        },
+
+        {
+            "ID": "wolfFang",
+            "Name": "Wolf's Fang",
+            "Rarity": 1,
+            "Cost": 6,
+            "Effects":
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 7
                 }
             ]
         },

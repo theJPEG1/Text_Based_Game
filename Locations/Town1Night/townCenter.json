@@ -18,7 +18,13 @@
     [
         {
             "questID": "bottomOfTheWell",
-            "target": "Quests/tcnWell.json"
+            "target": "Quests/tcnWell.json",
+            "appendedActions":
+            [
+                {
+                    "appendName": "Well Actions"
+                }
+            ]
         }
     ]
 }

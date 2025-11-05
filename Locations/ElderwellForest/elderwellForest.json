@@ -1,0 +1,29 @@
+{
+    "id": "eF1",
+    "type": "forest",
+    "name": "Elderwell Forest",
+    "header": "The trees branch out upwards, blotting out most of the light. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Keep heading north <NOT DONE>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Explore the Woods <NOT DONE>",
+            "target": "efEncounter"
+        },
+
+        {
+            "actionDescription": "Forage for Materials",
+            "target": "efForage"
+        },
+
+        {
+            "actionDescription": "Head South",
+            "target": "Locations/OutsideTowns/outsideElderwell.json"
+        }
+    ]
+}

@@ -23,18 +23,24 @@ Actions::Actions(GameState* gameState)
     actionMap["swimming"] = std::bind(&Actions::wellSwim, this);
     actionMap["seduceDoor"] = std::bind(&Actions::seduceWellDoor, this);
     actionMap["wellKey"] = std::bind(&Actions::wellKey, this);
-    
+
+    actionMap["keyAsk"] = std::bind(&Actions::keyAsk, this);
 
     actionMap["fight"] = std::bind(&Actions::fight, this);
 
     actionMap["healthPotion"] = std::bind(&Actions::addHealthPots, this);
     actionMap["manaPotion"] = std::bind(&Actions::addManaPots, this);
 
-    actionMap["saveQuit"] = std::bind(&Actions::saveQuit, this);
+    actionMap["saveQuit"] = std::bind(&Actions::saveQuit, this);  
+
+    actionMap["efEncounter"] = std::bind(&Actions::efEncounter, this);
+    actionMap["efForage"] = std::bind(&Actions::efForage, this);
+    
 };
 
 void Actions::loadAreaFromJson(string jsonToLoad)
 {
+    vector<string> locationsExtras;
     swimDepth = 0;
     gc->colors.clearScreen();
 
@@ -97,7 +103,11 @@ void Actions::loadAreaFromJson(string jsonToLoad)
             }
 
             append = i + 1;
+
         }
+
+        
+        
 
         json questActions;
         unordered_map<std::string, std::function<void()>> questActionMap;
@@ -113,6 +123,19 @@ void Actions::loadAreaFromJson(string jsonToLoad)
 
                 string targetQuest = data["questEffect"][i]["target"];
 
+                if(!data["questEffect"][i]["appendedActions"].is_null())
+                {
+                    for(size_t l = 0; l < data["questEffect"][i]["appendedActions"].size(); l++)
+                    {
+                        locationsExtras.push_back(data["questEffect"][i]["appendedActions"][l]["appendName"]);
+                    }
+                }
+
+                else
+                {
+                    cout << "data[appendedActions] is null!\n";
+                }
+
                 if(gc->player.hasQuest(idToCheck))
                 {
                     ifstream questFile(targetQuest);
@@ -125,18 +148,19 @@ void Actions::loadAreaFromJson(string jsonToLoad)
                     json qData;
                     questFile >> qData;
 
-                    questActions = qData["Append Actions"];
-                    
-                    for(size_t k = 0; k < questActions.size(); k++)
+                    for(size_t j = 0; j < locationsExtras.size(); j++)
                     {
-                        append++;
-                        string actionPrint = questActions[k]["actionDescription"];
-                        cout <<  "[" << append << "] " << actionPrint;
+                        questActions = qData[locationsExtras.at(j)];
+                    
+                        for(size_t k = 0; k < questActions.size(); k++)
+                        {
+                            append++;
+                            string actionPrint = questActions[k]["actionDescription"];
+                            cout <<  "[" << append << "] " << actionPrint;
+                        }
+                    }   
 
-                        
-
-                        //add the actions to the questActionMap
-                    }
+                    
 
                     questFile.close();
                 }
@@ -778,10 +802,8 @@ void Actions::fight()
     Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
 };
 
-void Actions::drunkenTalk()
+void Actions::keyAsk()
 {
-    gc->colors.clearScreen();
-
     if(gc->player.hasQuest("bottomOfTheWell"))
     {
         Quest* q = gc->player.getQuest("bottomOfTheWell");
@@ -797,14 +819,15 @@ void Actions::drunkenTalk()
             {
                 cout << "heres the key!\n";
                 q->getObjective().hasItem = true;
+                q->setMessageIndex(2);
             }
         }
     }
+}
 
-    else
-    {
-        cout << "no Quest\n";
-    }
+void Actions::drunkenTalk()
+{
+    gc->colors.clearScreen();
 
     if(gc->player.hasQuest("forestTempleQuest"))
     {
@@ -1021,4 +1044,102 @@ void Actions::saveQuit()
     gc->colors.pauseTerminal(1);
 
     exit(0);
-}
+};
+
+void Actions::efEncounter()
+{
+    /*
+        | encounter table |
+        Broken Horse cart (Help, Pillage)
+        Captured Fairy    (Release, leave, Release and kill)
+        Injured Wolf      (Kill, Help)
+        Abandonded Tent (Pillage, Leave)
+        Rose Guarden (Pick flowers, leave)
+        Sword Pedestal (Pull, leave)
+        Temple (Enter, Leave) special logic
+    */
+};
+
+void Actions::efForage()
+{
+    gc->colors.clearScreen();
+    
+    int forageChance = rand() % 101;
+    /*
+        | Forage Table |
+        Leaf            35%
+        Grass           35%
+        Wood            10%
+        Stone Wood      10%
+        Stone            5%
+        Iron Wood        2%
+        Wolf Fang        2%
+        Dragon Scale     1%
+    */
+
+    int randomAmt = 0;
+    CraftingMaterials matPrint;
+
+    if(forageChance > 65)
+    {
+        randomAmt = (rand() % 20) + 1;
+        matPrint = gc->mats.find("grass")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+    else if(forageChance <= 65 && forageChance > 30)
+    {   
+        randomAmt = (rand() % 20) + 1;
+        matPrint = matPrint = gc->mats.find("leaf")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+    else if(forageChance <= 30 && forageChance > 20)
+    {
+        randomAmt = (rand() % 5) + 1;
+        matPrint = gc->mats.find("wood")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+
+    else if(forageChance <= 20 && forageChance > 10)
+    {
+        randomAmt = (rand() % 3) + 1;
+        matPrint = gc->mats.find("stoneWood")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+
+    else if(forageChance <= 10 && forageChance > 5)
+    {
+        randomAmt = (rand() % 3) + 1;
+        matPrint = gc->mats.find("stone")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+
+    else if(forageChance <= 5 && forageChance > 3)
+    {
+        randomAmt = (rand() % 2) + 1;
+        matPrint = gc->mats.find("ironWood")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+
+    else if(forageChance <= 3 && forageChance > 1)
+    {
+        randomAmt = (rand() % 2) + 1;
+        matPrint = gc->mats.find("wolfFang")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+    else
+    {
+        randomAmt = 1;
+        matPrint = gc->mats.find("fDragonScale")->second;
+        gc->player.addToInventory(matPrint, randomAmt);
+    }
+
+    cout << "You were able to forage " << randomAmt << " " << matPrint.name << "\n";
+    gc->colors.pauseTerminal(3);
+};

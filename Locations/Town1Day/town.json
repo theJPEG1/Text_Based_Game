@@ -1,13 +1,13 @@
 {
     "id": "t1",
     "type": "town",
-    "name": "Town",
-    "header": "Welcome to Town. What do you do?",
+    "name": "Elderwell",
+    "header": "Welcome to Elderwell. What do you do?",
 
     "Actions":
     [
         {
-            "actionDescription": "Blacksmith",
+            "actionDescription": "Blackthane's Blacksmith",
             "target": "Locations/Town1Day/blacksmith.json"
         },
 

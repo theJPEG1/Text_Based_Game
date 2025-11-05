@@ -69,31 +69,38 @@ class Actions
         */
         void loadAreaFromJson(string jsonToRead);
 
-        //shopping and blacksmiths
-            void buyItems();
-            void craftItems();
-            void sellItems();
-            void rumors();
-        //guild center
-            void viewGuildCard();
-            void viewInventory();
-            void viewQuests();
-            void printEffectList();
-        //town center
-            void wellTalk();
-            void tossInACoin();
+        //ElderWell Methods
+            //shopping and blacksmiths
+                void buyItems();
+                void craftItems();
+                void sellItems();
+                void rumors();
+            //guild center
+                void viewGuildCard();
+                void viewInventory();
+                void viewQuests();
+                void printEffectList();
+            //town center
+                void wellTalk();
+                void tossInACoin();
+            //tavern
+                void keyAsk();
+                void drunkenTalk();
+                void barKeepTalk();
+                void buyRoom();
+            //quests
+                //well quest
+                    void wellSwim();
+                    void wellKey();
+                    void seduceWellDoor();
+
+        //Elderwell Foreset Methods
+            void fight();
+            void efEncounter();
+            void efForage();
             
-        //quests
-            void wellSwim();
-            void wellKey();
-            void seduceWellDoor();
 
-        //tavern
-            void drunkenTalk();
-            void barKeepTalk();
-            void buyRoom();
-
-        void fight();
+        
 
         //misc to make things run smootehr
             void addHealthPots();

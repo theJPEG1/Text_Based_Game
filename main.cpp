@@ -24,7 +24,6 @@
 
 int main()
 {
-    bool inGame = false;
     PrettyColors color;
     time_t timer;
     srand(time(&timer));
@@ -78,13 +77,26 @@ int main()
 
     else
     {
+        string temp;
+        cout << "A story is much like that of a tree, but with branches that extend forever upwards and roots the burrow forever deeper."
+             << "\nEach story has similar points but with widly differnt outcomes, and it hardly deviates from the origonal.\n"
+             << "<ENTER> ";
+        cin >> temp;
+    
+        cout << "So I ask, Who are you?\n";
+
+        color.pauseTerminal(2);
+
         newPlayer = PlayerFactory::createPlayer();
+
+        color.clearScreen();
+
+        cout << "Very well " << newPlayer.getName() << ", I look forward to seeing how your story plays out.\n";
+        color.pauseTerminal(2);
 
         Saving::saveToFile(newPlayer, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
         playerExists = true;
     }
-
-    inGame = true;
 
     CraftingMaterials load;
     vector<CraftingMaterials> mats = load.loadCraftingMaterialss("GameData/craftingMaterials.json");
@@ -111,15 +123,12 @@ int main()
 
     Actions action(gs);
 
-    while(inGame)
-    {
-        action.loadAreaFromJson("Locations/Town1Day/town.json");
+   
+    action.loadAreaFromJson("Locations/Town1Day/town.json");
 
-        if(newPlayer.getHealth() <= 0)
-        {
-            inGame = false;
-        }
-    }
+    Saving::saveToFile(gs->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+    Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gs->player.getCustomAtks());
+    Saving::saveInventory("playerData/playerInventorySave.json", gs->player);
 
     delete gs;
     
