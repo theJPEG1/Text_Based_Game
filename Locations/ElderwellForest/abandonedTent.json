@@ -1,0 +1,24 @@
+{
+    "id": "efE3",
+    "type": "forestEncounter",
+    "name": "Abandond Tent Encounter",
+    "header": "You come across a campsite with a fire that has long been extinguished. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Make Camp. <Not Done>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Pillage. <Not Done>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        }
+    ]
+}

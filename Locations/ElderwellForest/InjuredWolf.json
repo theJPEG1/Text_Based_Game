@@ -1,0 +1,24 @@
+{
+    "id": "efE4",
+    "type": "forestEncounter",
+    "name": "Hurt Wolf Encounter",
+    "header": "You come across a wolf that lay in a puddle of its own blood. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Give it a health potion. <Not Done>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Put it out of its misery. <Not Done>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        }
+    ]
+}

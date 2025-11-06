@@ -67,7 +67,7 @@ class Actions
          *
          *   @param jsonToRead The file location to read to
         */
-        void loadAreaFromJson(string jsonToRead);
+        string loadAreaFromJson(string jsonToRead);
 
         //ElderWell Methods
             //shopping and blacksmiths
@@ -99,7 +99,13 @@ class Actions
             void efEncounter();
             void efForage();
             
+            void efHorseCartPil();
+            void efHorseCartHelp();
 
+            void fairyRelease();
+
+            void abandonedTentCamp();
+            void pillageAbandonedTent();
         
 
         //misc to make things run smootehr

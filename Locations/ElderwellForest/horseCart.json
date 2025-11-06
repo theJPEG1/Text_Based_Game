@@ -1,0 +1,24 @@
+{
+    "id": "efE1",
+    "type": "forestEncounter",
+    "name": "Horse Cart Encounter",
+    "header": "You notice a horse drawn carriage on the path. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Help them. <Not Done>",
+            "target": "efHorseCartPil"
+        },
+
+        {
+            "actionDescription": "Pillage the cart. <Not Done>",
+            "target": "efHorseCartHelp"
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        }
+    ]
+}

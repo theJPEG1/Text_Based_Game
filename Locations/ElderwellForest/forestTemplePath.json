@@ -1,0 +1,19 @@
+{
+    "id": "efE8",
+    "type": "forestEncounter",
+    "name": "Forest Temple Path Encounter",
+    "header": "The path begins to branch. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Go Right. <Not Done>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Go Left <Not Done>",
+            "target": ""
+        }
+    ]
+}

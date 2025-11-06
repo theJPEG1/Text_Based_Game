@@ -28,7 +28,7 @@
 
         {
             "actionDescription": "Leave Town",
-            "target": "fight"
+            "target": "Locations/OutsideTowns/outsideElderwell.json"
         },
 
         {

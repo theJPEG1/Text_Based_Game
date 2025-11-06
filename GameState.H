@@ -18,6 +18,8 @@ struct GameState
     map<string, Attacks> atks;
     PrettyColors colors;
     WeightedGen gen;
+
+    bool inGame = true;
     //vector<Quest> quests;
 };
 

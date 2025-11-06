@@ -1,0 +1,19 @@
+{
+    "id": "efE5",
+    "type": "forestEncounter",
+    "name": "Rose Guarden Encounter",
+    "header": "You find a grotto full of red roses. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Pick a rose. <Not Done>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        }
+    ]
+}

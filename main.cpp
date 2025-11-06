@@ -123,8 +123,13 @@ int main()
 
     Actions action(gs);
 
-   
-    action.loadAreaFromJson("Locations/Town1Day/town.json");
+    string loadArea = "Locations/Town1Day/town.json";
+
+    while(gs->inGame)
+    {
+        loadArea = action.loadAreaFromJson(loadArea);
+    }
+    
 
     Saving::saveToFile(gs->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
     Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gs->player.getCustomAtks());

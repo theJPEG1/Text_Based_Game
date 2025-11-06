@@ -1,0 +1,19 @@
+{
+    "id": "efE2",
+    "type": "forestEncounter",
+    "name": "Captured Fairy Encounter",
+    "header": "You notice a cage with a fairy and a few men. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Release the Fairy. <Not Done>",
+            "target": "fairyRelease"
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        }
+    ]
+}

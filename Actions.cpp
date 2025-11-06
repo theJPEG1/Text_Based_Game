@@ -38,8 +38,9 @@ Actions::Actions(GameState* gameState)
     
 };
 
-void Actions::loadAreaFromJson(string jsonToLoad)
+string Actions::loadAreaFromJson(string jsonToLoad)
 {
+    string returnVal = "";
     vector<string> locationsExtras;
     swimDepth = 0;
     gc->colors.clearScreen();
@@ -106,9 +107,6 @@ void Actions::loadAreaFromJson(string jsonToLoad)
 
         }
 
-        
-        
-
         json questActions;
         unordered_map<std::string, std::function<void()>> questActionMap;
 
@@ -129,11 +127,6 @@ void Actions::loadAreaFromJson(string jsonToLoad)
                     {
                         locationsExtras.push_back(data["questEffect"][i]["appendedActions"][l]["appendName"]);
                     }
-                }
-
-                else
-                {
-                    cout << "data[appendedActions] is null!\n";
                 }
 
                 if(gc->player.hasQuest(idToCheck))
@@ -187,14 +180,18 @@ void Actions::loadAreaFromJson(string jsonToLoad)
         if(actionToCheck.substr(actionToCheck.length() - 5, 5) == ".json")
         {
             file.close();
-            loadAreaFromJson(actionToCheck);
+            //loadAreaFromJson(actionToCheck);
+            returnVal = actionToCheck;
+
         }
 
         else
         {
+            file.close();
             if(actionMap.find(actionToCheck) != actionMap.end())
             {  
                 actionMap.find(actionToCheck)->second();
+                returnVal = jsonToLoad;
             }
 
             //check the new appended library
@@ -209,13 +206,13 @@ void Actions::loadAreaFromJson(string jsonToLoad)
             }
         }
 
-        keyboardInput = 0;
-        
+        cout << returnVal;
     }
 
-    file.close();
     
     gc->colors.clearScreen();
+    
+    return returnVal;
 };
 
 void Actions::buyItems()
@@ -503,6 +500,7 @@ void Actions::viewGuildCard()
     gc->colors.clearScreen();
     gc->player.printGuildCard();
     cout << "\n";
+    gc->colors.pauseTerminal(2);
 };
 
 void Actions::viewInventory()
@@ -510,6 +508,7 @@ void Actions::viewInventory()
     gc->colors.clearScreen();
     gc->player.printInventory(1000);
     cout << "\n";
+    gc->colors.pauseTerminal(2);
 };
 
 void Actions::printEffectList()
@@ -529,6 +528,7 @@ void Actions::printEffectList()
             std::cout << "\n";
         }
     }
+    gc->colors.pauseTerminal(2);
 };
 
 void Actions::viewQuests()
@@ -536,6 +536,8 @@ void Actions::viewQuests()
     gc->colors.clearScreen();
     gc->player.printQuests();
     cout << "\n";
+
+    gc->colors.pauseTerminal(3);
 };
 
 void Actions::wellTalk()
@@ -582,6 +584,8 @@ void Actions::wellTalk()
     //logic to add as a quest
 
     cout << message;
+
+    gc->colors.pauseTerminal(3);
 };
 
 void Actions::tossInACoin()
@@ -785,7 +789,11 @@ void Actions::tossInACoin()
 
 void Actions::fight()
 {
-    gc->player.increaseHealth(gc->player.getMaxHealth());
+    if(gc->player.getHealth() <= 0)
+    {
+        cout << " You are too weak to fight!\n";
+    }
+    
     vector<vector<Enemy>> forest = EnemyFactory::loadRegionEnemy("Forest");
 
     Combat forestCombat(gc, forest, "Forest");
@@ -823,6 +831,8 @@ void Actions::keyAsk()
             }
         }
     }
+
+    gc->colors.pauseTerminal(1);
 }
 
 void Actions::drunkenTalk()
@@ -878,6 +888,8 @@ void Actions::drunkenTalk()
         int place = rand() % drunkardTalks.size();
         cout << drunkardTalks.at(place);
     }
+
+    gc->colors.pauseTerminal(3);
 };
 
 void Actions::barKeepTalk()
@@ -915,12 +927,15 @@ void Actions::barKeepTalk()
         int place = rand() % innkeeperTalks.size();
         cout << innkeeperTalks.at(place);
     }
+
+    gc->colors.pauseTerminal(3);
 };
 
 void Actions::buyRoom()
 {
     cout << "The room heals you completely!\n";
     gc->player.increaseHealth(gc->player.getMaxHealth());
+    gc->colors.pauseTerminal(1);
 };
 
 void Actions::wellSwim()
@@ -1017,6 +1032,8 @@ void Actions::seduceWellDoor()
     {
         cout << "YOU SEDUCED A DOOR?!\n";
     }
+
+    gc->colors.pauseTerminal(3);
 };
 
 void Actions::addHealthPots()
@@ -1043,6 +1060,8 @@ void Actions::saveQuit()
     Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
     gc->colors.pauseTerminal(1);
 
+    gc->inGame = false;
+
     exit(0);
 };
 
@@ -1050,14 +1069,106 @@ void Actions::efEncounter()
 {
     /*
         | encounter table |
-        Broken Horse cart (Help, Pillage)
-        Captured Fairy    (Release, leave, Release and kill)
-        Injured Wolf      (Kill, Help)
-        Abandonded Tent (Pillage, Leave)
-        Rose Guarden (Pick flowers, leave)
-        Sword Pedestal (Pull, leave)
-        Temple (Enter, Leave) special logic
+        Broken Horse cart (Help, Pillage)                       30%     25%
+        Captured Fairy    (Release, leave, Release and kill)    20%     20%
+        Abandonded Tent   (Pillage, Leave)                      15%     10%
+        Injured Wolf      (Kill, Help)                          10%     10%   
+        Rose Guarden      (Pick flowers, leave)                 10%     10%
+        Sword Pedestal    (Pull, leave)                         10%     10%
+        Temple            (Enter, Leave) special logic           5%     15%
     */
+
+    /*
+        | Other ones |
+        not abandoned tent (friendly or unfriendly), 
+        lumberjack, 
+        fellow adventuring party (in distress or not), 
+        ghost encounters (at night only)
+    */
+
+    gc->colors.clearScreen();
+    
+    int encounterChance = rand() % 101;
+
+    if(gc->player.hasQuest("forestTempleQuest"))
+    {
+        if(encounterChance > 75)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/horseCart.json");
+        }
+
+        else if(encounterChance <= 75 && encounterChance > 55)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/capturedFairy.json");
+        }
+
+        else if(encounterChance <= 55 && encounterChance > 45)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/abandonedTent.json");
+        }
+
+        else if(encounterChance <= 45 && encounterChance > 35)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/InjuredWolf.json");
+        }
+
+        else if(encounterChance <= 35 && encounterChance > 25)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/roseGuarden.json");
+        }
+
+        else if(encounterChance <= 25 && encounterChance > 15)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/SwordPullEncounter/swordPedastal.json");
+
+        }
+
+        else
+        {       
+            loadAreaFromJson("Locations/ElderwellForest/forestTemplePath.json");
+        }
+    }
+ 
+    else //fix encounter chances
+    {
+        if(encounterChance > 70)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/horseCart.json");
+        }
+
+        else if(encounterChance <= 70 && encounterChance > 50)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/capturedFairy.json");
+        }
+
+        else if(encounterChance <= 50 && encounterChance > 35)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/abandonedTent.json");
+        }
+
+        else if(encounterChance <= 35 && encounterChance > 25)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/InjuredWolf.json");
+        }
+
+        else if(encounterChance <= 25 && encounterChance > 15)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/roseGuarden.json");
+        }
+
+        else if(encounterChance <= 15 && encounterChance > 5)
+        {
+            loadAreaFromJson("Locations/ElderwellForest/SwordPullEncounter/swordPedastal.json");
+
+        }
+
+        else
+        {       
+            loadAreaFromJson("Locations/ElderwellForest/forestTemplePath.json");
+        }
+    }
+
+
 };
 
 void Actions::efForage()
