@@ -125,6 +125,8 @@ int main()
 
     string loadArea = "Locations/Town1Day/town.json";
 
+    
+
     while(gs->inGame)
     {
         loadArea = action.loadAreaFromJson(loadArea);

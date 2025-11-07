@@ -29,6 +29,9 @@
 //every Actions possible (Location)
 class Actions
 {
+    protected:
+        GameState* gc = nullptr;
+
     private:
         unordered_map<std::string, std::function<void()>> actionMap;
 
@@ -48,7 +51,7 @@ class Actions
 
         string currentJson;
 
-        GameState* gc = nullptr;
+        
         
         int potionsToAdd;
 
@@ -60,6 +63,7 @@ class Actions
 
             @param p The player object used to run the game
         */
+        Actions() = default;
         Actions(GameState* gameState);
 
         /**
@@ -113,9 +117,6 @@ class Actions
             void addManaPots();
 
             void saveQuit();
-
-    
-
 };
 
 #endif
