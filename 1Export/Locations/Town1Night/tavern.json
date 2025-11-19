@@ -1,0 +1,45 @@
+{
+    "id": "s1",
+    "type": "shop",
+    "name": "Shop",
+    "header": "The tavern is full of life and music! You see a sign that says \"20 Novas for a bed.\"\nWhat do you do?",
+    "buyMessage": "20 Novas for a nice bed. Whatcha say?",
+    "sellMessage": "I'll buy just about any material from you!",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Talk to the bar keep",
+            "target": "barKeepTalk"
+        },
+
+        {
+            "actionDescription": "Talk to the drunkards",
+            "target": "drunkenTalk"
+        },
+
+        {
+            "actionDescription": "Buy a room",
+            "target": "buyRoom"
+        } ,
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/Town1Night/town.json"
+        }  
+    ],
+
+    "questEffect":
+    [
+        {
+            "questID": "bottomOfTheWell",
+            "target": "Quests/tcnWell.json",
+            "appendedActions":
+            [
+                {
+                    "appendName": "Tavern Actions"
+                }
+            ]
+        }
+    ]
+}

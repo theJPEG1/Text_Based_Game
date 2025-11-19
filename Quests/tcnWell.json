@@ -40,5 +40,12 @@
         {
             "message": "Use the key for the bottom of the well!"
         }
+    ],
+
+    "Quest Objectives":
+    [
+        {
+            "keyItem": false
+        }
     ]
 }

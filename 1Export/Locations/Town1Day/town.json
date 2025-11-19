@@ -1,0 +1,39 @@
+{
+    "id": "t1",
+    "type": "town",
+    "name": "Elderwell",
+    "header": "Welcome to Elderwell. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Blackthane's Blacksmith",
+            "target": "Locations/Town1Day/blacksmith.json"
+        },
+
+        {
+            "actionDescription": "Shop",
+            "target": "Locations/Town1Day/shop.json"
+        },
+
+        {
+            "actionDescription": "Guild Center",
+            "target": "Locations/Town1Day/guildcenter.json"
+        },
+
+        {
+            "actionDescription": "Town Center",
+            "target": "Locations/Town1Day/towncenter.json"
+        },
+
+        {
+            "actionDescription": "Leave Town",
+            "target": "Locations/OutsideTowns/outsideElderwell.json"
+        },
+
+        {
+            "actionDescription": "Save + Quit",
+            "target": "saveQuit"
+        }
+    ]
+}

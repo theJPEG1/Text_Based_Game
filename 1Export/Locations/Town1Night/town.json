@@ -1,0 +1,44 @@
+{
+    "id": "t1n",
+    "type": "town",
+    "name": "Town",
+    "header": "Welcome to Town. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Blacksmith",
+            "target": "Locations/Town1Night/blacksmith.json"
+        },
+
+        {
+            "actionDescription": "Shop",
+            "target": "Locations/Town1Night/shop.json"
+        },
+
+        {
+            "actionDescription": "Guild Center",
+            "target": "Locations/Town1Night/guildcenter.json"
+        },
+
+        {
+            "actionDescription": "Town Center",
+            "target": "Locations/Town1Night/towncenter.json"
+        },
+
+        {
+            "actionDescription": "Tavern",
+            "target": "Locations/Town1Night/tavern.json"
+        },
+
+        {
+            "actionDescription": "Leave Town",
+            "target": "fight"
+        },
+
+        {
+            "actionDescription": "Save + Quit",
+            "target": "saveQuit"
+        }
+    ]
+}

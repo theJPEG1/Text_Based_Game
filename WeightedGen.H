@@ -18,8 +18,6 @@ class WeightedGen
 
         bool dodgeChance(int playerDex, int enemyDex, string turn);
         bool dodgeChance(int playerDex, int enemyDex, double modifier, string turn);
-        int determineDamage(int strengthStat);
-        int determineDamage(int strengthStat, double modifier);
 
     private:
         vector<int> level1 {50, 10, 5, 1, 0};

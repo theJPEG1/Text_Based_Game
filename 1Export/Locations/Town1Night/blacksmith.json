@@ -1,0 +1,54 @@
+{
+    "id": "b1n",
+    "type": "blacksmith",
+    "name": "Blackthane's Smithy",
+    "header": "A sharp blue light and flame has replaced the orange one from earlier. What do you do?",
+    "buyMessage": "Sharpest blades around! What do you want?",
+    "craftMessage": "What can I craft for you? I can make you something better than my brother can!",
+    "maxRarity": 4,
+    
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Buy",
+            "target": "buyItems"
+        },
+
+        {
+            "actionDescription": "Craft",
+            "target": "craftItems"
+        },
+
+        {
+            "actionDescription": "Curesed Weapons?",
+            "target": "cusedWeapon"
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/Town1Night/town.json"
+        }  
+    ],
+
+    "Inventory":
+    [
+        {
+            "ID": "woodenSword",
+            "actionDescription": "[1] Wooden Sword",
+            "Cost": 15
+        },
+
+        {
+            "ID": "steelSword",
+            "actionDescription": "[2] Steel Sword",
+            "Cost": 30
+        },
+
+        {
+            "actionDescription": "[3] Back"
+        }
+    ]
+
+   
+}

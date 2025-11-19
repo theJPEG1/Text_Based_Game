@@ -108,8 +108,13 @@ class Actions
 
             void fairyRelease();
 
-            void abandonedTentCamp();
-            void pillageAbandonedTent();
+            void makeCamp();
+            void pillageCamp();
+
+            void healWolf();
+            void killWolf();
+
+            void pickRose();
         
 
         //misc to make things run smootehr

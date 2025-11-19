@@ -35,7 +35,20 @@ Actions::Actions(GameState* gameState)
 
     actionMap["efEncounter"] = std::bind(&Actions::efEncounter, this);
     actionMap["efForage"] = std::bind(&Actions::efForage, this);
-    
+
+    actionMap["efHorseCartPil"] = std::bind(&Actions::efHorseCartPil, this);
+    actionMap["efHorseCartHelp"] = std::bind(&Actions::efHorseCartHelp, this);
+    actionMap["fairyRelease"] = std::bind(&Actions::fairyRelease, this);
+
+    actionMap["makeCamp"] = std::bind(&Actions::makeCamp, this);
+    actionMap["pillageCamp"] = std::bind(&Actions::pillageCamp, this);
+
+    actionMap["healWolf"] = std::bind(&Actions::healWolf, this);
+    actionMap["killWolf"] = std::bind(&Actions::killWolf, this);
+
+    actionMap["pickRose"] = std::bind(&Actions::pickRose, this);
+
+
 };
 
 string Actions::loadAreaFromJson(string jsonToLoad)
@@ -206,7 +219,7 @@ string Actions::loadAreaFromJson(string jsonToLoad)
             }
         }
 
-        cout << returnVal;
+        //cout << returnVal;
     }
 
     
@@ -344,6 +357,7 @@ void Actions::craftItems()
     int count = 0;
     bool matAdded = false;
     cout << "\nPick a material (BACK to go back)";
+    cin.ignore();
     
 
     while(count < 3 && keyboardString != "BACK")
@@ -370,29 +384,58 @@ void Actions::craftItems()
     }
 
     if(keyboardString != "BACK")
-    {
-        Attacks customAtk = customAtk.createAttack(crafting.at(0), crafting.at(1), crafting.at(2));
-    
-        gc->player.addCustomAtk(customAtk);
+    {  
+        int weaponCost = (crafting.at(0).price) + (crafting.at(1).price) + (crafting.at(2).price);
+        cout << "It will cost " << weaponCost << " Novas!\n"
+             << "you have " << gc->player.getNovas() << " Novas,\n"
+             << "Craft or BACK?";
+        cout << "\n-> ";
+        getline(cin, keyboardString);
 
-        if(customAtk.type == "spell")
+        if(keyboardString == "Craft")
         {
-            gc->player.addCombatSpells(customAtk);
-            gc->player.setSpecificSlot(customAtk, 4);
+            if(gc->player.getNovas() >= weaponCost)
+            {
+                Attacks customAtk = customAtk.createAttack(crafting.at(0), crafting.at(1), crafting.at(2));
+        
+                gc->player.addCustomAtk(customAtk);
+
+                if(customAtk.type == "spell")
+                {
+                    gc->player.addCombatSpells(customAtk);
+                    gc->player.setSpecificSlot(customAtk, 4);
+                }
+
+                else if(customAtk.type == "attack")
+                {
+                    gc->player.addCombatAttacks(customAtk);
+                    gc->player.setSpecificSlot(customAtk, 0);
+                }
+
+                cout << "Custom attack created and Slotted\n";
+
+                for(size_t i = 0; i < crafting.size(); i++)
+                {
+                    gc->player.addToInventory(crafting.at(i), -1);
+                }
+
+            
+                Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+                Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc->player.getCustomAtks());
+                Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+            }
+
+            else
+            {
+                cout << "\nYou don't have enough novas!\n";
+            }
         }
 
-        else if(customAtk.type == "attack")
+        else if(keyboardString != "BACK")
         {
-            gc->player.addCombatAttacks(customAtk);
-            gc->player.setSpecificSlot(customAtk, 0);
+            cout << gc->colors.RED << "\n! INVALID INPUT !\n" << gc->colors.DEFAULT;
         }
-
-        cout << "Custom attack created and Slotted\n";
-
-        for(size_t i = 0; i < crafting.size(); i++)
-        {
-            gc->player.addToInventory(cMats.at(i), -1);
-        }
+        
     }
 
     
@@ -489,10 +532,13 @@ void Actions::sellItems()
 
 void Actions::rumors()
 {
+    //add a way for rumors to appear from the json file not hard coded
     cout << "I heard of this wicked fast rabbit in the woods. Go find em and kill it!\n";
 
     Quest lightningRabbit("Quests/lightningRabbit.json");
     gc->player.addQuest(lightningRabbit);
+    
+    gc->colors.pauseTerminal(2);
 };
 
 void Actions::viewGuildCard()
@@ -1069,21 +1115,18 @@ void Actions::efEncounter()
 {
     /*
         | encounter table |
-        Broken Horse cart (Help, Pillage)                       30%     25%
-        Captured Fairy    (Release, leave, Release and kill)    20%     20%
-        Abandonded Tent   (Pillage, Leave)                      15%     10%
-        Injured Wolf      (Kill, Help)                          10%     10%   
-        Rose Guarden      (Pick flowers, leave)                 10%     10%
-        Sword Pedestal    (Pull, leave)                         10%     10%
-        Temple            (Enter, Leave) special logic           5%     15%
-    */
-
-    /*
-        | Other ones |
-        not abandoned tent (friendly or unfriendly), 
-        lumberjack, 
-        fellow adventuring party (in distress or not), 
-        ghost encounters (at night only)
+            Fight Enemies            (2-5 enemies)
+            lumberjack               (Sell, Buy) Better price sell wood
+            Not abandoned tent       (friendly or unfriendly)
+            Adventuring party        (in distress or not)
+            Ghost encounters         (at night only)
+            Broken Horse cart        (Help, Pillage)                       30%     25%     Done
+            Captured Fairy           (Release, leave)                      20%     20%     Done
+            Abandonded Tent          (Pillage, Leave)                      15%     10%     Done
+            Injured Wolf             (Kill, Help)                          10%     10%     Done
+            Rose Guarden             (Pick flowers, leave)                 10%     10%     Done
+            Sword Pedestal           (Pull, leave)                         10%     10%     Inprogress
+            Temple                   (Enter, Leave) special logic           5%     15%     Inprogress
     */
 
     gc->colors.clearScreen();
@@ -1159,7 +1202,6 @@ void Actions::efEncounter()
         else if(encounterChance <= 15 && encounterChance > 5)
         {
             loadAreaFromJson("Locations/ElderwellForest/SwordPullEncounter/swordPedastal.json");
-
         }
 
         else
@@ -1252,5 +1294,287 @@ void Actions::efForage()
     }
 
     cout << "You were able to forage " << randomAmt << " " << matPrint.name << "\n";
+    gc->colors.pauseTerminal(3);
+};
+
+void Actions::efHorseCartPil()
+{
+    //ElderwellHorseCarriage
+
+    int enemyAmt = rand() % 2 + 1;
+    bool ran = false;
+
+    if(gc->player.getHealth() <= 0)
+    {
+        cout << " You are too weak to fight!\n";
+        gc->colors.pauseTerminal(3);
+    }
+
+    else
+    {
+        
+        while(enemyAmt > 0 && gc->player.getHealth() >= 0)
+        {
+            vector<vector<Enemy>> horseCart = EnemyFactory::loadRegionEnemy("ElderwellHorseCarriage");
+
+            Combat forestCombat(gc, horseCart, "ElderwellHorseCarriage");
+
+            forestCombat.determineEnemy();
+            //forestCombat.printGui();
+
+            forestCombat.newCombatTest();
+
+            if(forestCombat.getCurEnemy().getHp() > 0)
+            {
+                ran = true;
+            }
+
+            Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+            Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc->player.getCustomAtks());
+            Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+
+            enemyAmt--;
+            gc->colors.pauseTerminal(2);
+        }
+    }
+
+    if(enemyAmt <= 0 && !ran)
+    {
+        int woodAmt = rand() % 3 + 1;
+        int novaAmt = rand() % 15;
+        int healthPotAmt = rand() % 3;
+
+        cout << "You obtained " << woodAmt << " wood";
+
+        if(novaAmt > 0)
+        {
+            cout << ", " << novaAmt << " Novas";
+        }
+
+        if(healthPotAmt > 0)
+        {
+            cout << ", and " << healthPotAmt << " Health Potions!\n";
+        }
+
+        gc->player.addToInventory(gc->mats.find("wood")->second, woodAmt);
+        gc->player.increaseNovas(novaAmt);
+        gc->player.increaseHealthPotionCount(healthPotAmt);
+
+        Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+
+        gc->colors.pauseTerminal(3);
+    }
+};
+
+void Actions::efHorseCartHelp()
+{
+    cout << "We need " << gc->colors.YELLOW << "5 Wood and 10 Leaves " 
+         << gc->colors.DEFAULT << " to fix the cart!\n";
+
+    if(gc->player.getInventoryAmount(gc->mats.find("wood")->second) >= 5
+       && gc->player.getInventoryAmount(gc->mats.find("leaf")->second) >= 10)
+    {
+        gc->player.addToInventory(gc->mats.find("wood")->second, -5);
+        gc->player.addToInventory(gc->mats.find("leaf")->second, -10);
+
+        int novaAmt = rand() % 20 + 10;
+        int expAmt = rand() % 20 + 5;
+
+        cout << "You got " << gc->colors.YELLOW << novaAmt << " Novas and "
+             << expAmt << " Experience.\n" << gc->colors.DEFAULT;
+
+        gc->player.increaseNovas(novaAmt);
+        gc->player.increaseExperience(expAmt);
+
+        if(gc->player.getExperience() >= gc->player.getXpToNextLevel())
+        {
+            gc->player.levelUp();
+        }
+    }
+
+    else
+    {
+        cout << "You don't have what you need to fix it.\n";
+    }
+
+    gc->colors.pauseTerminal(3);
+};
+
+void Actions::fairyRelease()
+{
+    int enemyAmt = rand() % 3 + 1;
+
+    if(gc->player.getHealth() <= 0)
+    {
+        cout << " You are too weak to fight!\n";
+        gc->colors.pauseTerminal(3);
+    }
+
+    else
+    {
+        bool ran = false;
+
+        while(enemyAmt > 0 && gc->player.getHealth() >= 0)
+        {
+            vector<vector<Enemy>> fairyCaptors = EnemyFactory::loadRegionEnemy("ElderwellFairyCapture");
+            
+            Combat fairyCombat(gc, fairyCaptors, "ElderwellFairyCapture");
+            
+            fairyCombat.determineEnemy();
+
+            //forestCombat.printGui();
+
+            fairyCombat.newCombatTest();
+
+            if(fairyCombat.getCurEnemy().getHp() > 0)
+            {
+                ran = true;
+            }
+
+            Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+            Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc->player.getCustomAtks());
+            Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+
+            enemyAmt--;
+            gc->colors.pauseTerminal(2);
+        }
+
+        if(enemyAmt <= 0 && !ran)
+        {
+            gc->colors.clearScreen();
+            cout << "Thank you for saving me! Take some pixie dust as a reward!\n";
+
+            int pDustAmt = rand() % 3 + 1;
+            cout << "You obtained " << gc->colors.YELLOW << pDustAmt << " Pixie Dust.\n" << gc->colors.DEFAULT;
+
+            gc->player.addToInventory(gc->mats.find("pixieDust")->second, pDustAmt);
+            Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+            gc->colors.pauseTerminal(3);
+        }
+    }
+};
+
+void Actions::makeCamp()
+{
+    int healthHealed = gc->player.getMaxHealth() / 3;
+    cout << "You turn the abandond campsite into a new one with a fire\n";
+    cout << "You healed for " << gc->colors.CYAN << healthHealed  << " Health\n" << gc->colors.DEFAULT;
+
+    gc->player.increaseHealth(healthHealed);
+
+    gc->colors.pauseTerminal(2);
+};
+
+void Actions::pillageCamp()
+{
+    int enemyChance = rand() % 100;
+
+    if(enemyChance >= 80)
+    {
+        if(gc->player.getHealth() <= 0)
+        {
+            cout << " You are too weak to fight!\n";
+        }
+
+        else
+        {
+            vector<vector<Enemy>> forest = EnemyFactory::loadRegionEnemy("Forest");
+
+            Combat forestCombat(gc, forest, "Forest");
+
+            forestCombat.determineEnemy();
+            //forestCombat.printGui();
+
+            cout << "A " << forestCombat.getCurEnemy().getType() << " jumped out from the tent!\n";
+            gc->colors.pauseTerminal(2);
+
+            forestCombat.newCombatTest();
+
+            Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+            Saving::saveAttacks("playerData/PlayerAction/customAttacks.json", gc->player.getCustomAtks());
+            Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+        }
+    }
+
+    else
+    {
+        int novaAmt = rand() % 15;
+        int healthPotAmt = rand() % 2;
+        int manPotAmt = rand() % 2;
+
+        if(novaAmt <= 0 && healthPotAmt <= 0 && manPotAmt <= 0)
+        {
+            cout << "Everything except for the tent was wiped clean from the camp!\n";
+        }
+
+        else
+        {
+            cout << "You found ";
+        }
+
+        if(novaAmt > 0)
+        {
+            cout << novaAmt << " Novas " << gc->colors.DEFAULT;
+        }
+
+        if(healthPotAmt > 0)
+        {
+            cout << gc->colors.CYAN << healthPotAmt << " Health Potions " << gc->colors.DEFAULT;
+        }
+
+        if(manPotAmt > 0)
+        {
+            cout << gc->colors.MAGENTA << manPotAmt << " Mana Potinos " << gc->colors.DEFAULT;
+        }
+
+        gc->player.increaseNovas(novaAmt);
+        gc->player.increaseHealthPotionCount(healthPotAmt);
+        gc->player.increaseManaPotionCount(manPotAmt);
+
+        Saving::saveToFile(gc->player, "playerData/playerStatsSave.json", "playerData/playerCombatBook.json");
+        gc->colors.pauseTerminal(2);
+    }
+
+};
+
+void Actions::healWolf()
+{
+    if(gc->player.getHealthPotionCount() > 0)
+    {
+        cout << "The wolf stands back up and spits out a fang before running into the woods.\n";
+        gc->player.increaseHealthPotionCount(-1);
+        gc->player.addToInventory(gc->mats.find("wolfFang")->second, 1);
+        Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+
+        gc->colors.pauseTerminal(2);
+    }
+};
+
+void Actions::killWolf()
+{
+    cout << "Aftering killing the wolf you obtained its fang, hide, and tail.\n";
+    gc->player.addToInventory(gc->mats.find("wolfFang")->second, 1);
+    gc->player.addToInventory(gc->mats.find("wolfHide")->second, 1);
+    gc->player.addToInventory(gc->mats.find("wolfTail")->second, 1);
+    Saving::saveInventory("playerData/playerInventorySave.json", gc->player);
+
+    gc->colors.pauseTerminal(3);
+};
+
+void Actions::pickRose()
+{
+    if(gc->player.getHealth() > 3)
+    {
+        cout << "You took " << gc->colors.RED << "2 Damage " << gc->colors.DEFAULT << "as you picked the rose.\n";
+
+        gc->player.addToInventory(gc->mats.find("rose")->second, 1);
+        gc->player.takeDamage(2);
+    }
+
+    else
+    {
+        cout << "You feel like the thorns might kill you.\n";
+    }
+
     gc->colors.pauseTerminal(3);
 };

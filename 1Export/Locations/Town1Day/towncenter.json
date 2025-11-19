@@ -1,0 +1,25 @@
+{
+    "Actions": [
+        {
+            "actionDescription": "Talk to the people",
+            "target": "wellTalk"
+        },
+        {
+            "actionDescription": "Toss a coin in the well",
+            "target": "tossInACoin"
+        },
+        {
+            "actionDescription": "Wait till night",
+            "target": "Locations/Town1Night/townCenter.json"
+        },
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/Town1Day/town.json"
+        }
+    ],
+    "coinAmt": 20,
+    "header": "People are walking around, talking, and sitting at a well. What do you do?",
+    "id": "tc1",
+    "name": "Town Center",
+    "type": "townCenter"
+}

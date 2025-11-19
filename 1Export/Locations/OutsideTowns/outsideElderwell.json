@@ -1,0 +1,24 @@
+{
+    "id": "ot1",
+    "type": "outsideTown",
+    "name": "outside Elderwell",
+    "header": "At the crossroads outside the town there is a path north into the forest and south into the plains\nWhat do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "North towards the Woods",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        },
+
+        {
+            "actionDescription": "South towards the Plains <NOT DONE>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Enter Town",
+            "target": "Locations/Town1Day/town.json"
+        }
+    ]
+}

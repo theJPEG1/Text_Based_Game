@@ -1,0 +1,19 @@
+{
+    "id": "efE6",
+    "type": "forestEncounter",
+    "name": "Sword Pedastal Encounter",
+    "header": "You come upon a grotto with a sword resting inside an overgrown pedastal. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Pull the sword.",
+            "target": "Locations/ElderwellForest/SwordPullEncounter/keepPulling.json"
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        }
+    ]
+}

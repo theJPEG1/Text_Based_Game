@@ -16,11 +16,14 @@ struct GameState
     Player player;
     map<string, CraftingMaterials> mats;
     map<string, Attacks> atks;
+
     PrettyColors colors;
     WeightedGen gen;
 
     bool inGame = true;
     //vector<Quest> quests;
+
+    
 };
 
 #endif

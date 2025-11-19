@@ -1,0 +1,599 @@
+{
+    "Attacks": 
+    [
+        {
+            "ID": "dragonsBite",
+            "Name": "Dragon Bite Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A dragons! bite attack."
+        },
+
+        {
+            "ID": "dragonsFire",
+            "Name": "Dragon fire Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 9,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A dragons! bite attack."
+        },
+
+        {
+            "ID": "dragonWingAttack",
+            "Name": "Dragon wing Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 7,
+                    "critChance": 20
+                }
+            ],
+
+            "desc": "A dragons! bite attack."
+        },
+
+        {
+            "ID": "bite",
+            "Name": "Bite Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 15
+                }
+            ],
+
+            "desc": "A bite attack."
+        },
+
+        {
+            "ID": "bigBite",
+            "Name": "Bite Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 5,
+                    "critChance": 15
+                }
+            ],
+
+            "desc": "A bite attack."
+        },
+
+        {
+            "ID": "tackle",
+            "Name": "Tackle Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 10
+                }
+            ],
+
+            "desc": "A Tackle attack."
+        },
+
+        {
+            "ID": "charge",
+            "Name": "Charge Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 6,
+                    "critChance": 10
+                }
+            ],
+
+            "desc": "A Tackle attack."
+        },
+
+        {
+            "ID": "tailWhip",
+            "Name": "Tail Whip Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 2,
+                    "critChance": 0
+                }
+            ],
+
+            "desc": "A bite attack."
+        },
+
+        {
+            "ID": "scratchSmal",
+            "Name": "Scratch Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A small aniaml scratch attack."
+        },
+
+        {
+            "ID": "scratchBig",
+            "Name": "Scratch Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 5,
+                    "critChance": 40
+                }
+            ],
+
+            "desc": "A big aniaml scratch attack."
+        },
+
+        {
+            "ID": "normal",
+            "Name": "Normal Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                }
+            ],
+
+            "desc": "A normal attack."
+        },
+
+        {
+            "ID": "light",
+            "Name": "Light Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "dexModi": 3,
+                    "critChance": 30
+                }
+            ],
+
+            "desc": "A light attack. (+Dexterity, -Damage)"
+        },
+
+        {
+            "ID": "percisionStrike",
+            "Name": "Percision Strike",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 3,
+                    "dexModi": 5,
+                    "critChance": 50
+                }
+            ],
+
+            "desc": "High crit, High dex, low damage"
+        },
+
+        {
+            "ID": "heavy",
+            "Name": "Heavy Attack",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "dexModi": -3,
+                    "critChance": 30
+                }
+            ],
+
+            "desc": "A heavy attack. (-Dexterity, +Damage)"
+        },
+
+        {
+            "ID": "kShield",
+            "Name": "Knights Shield",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "0",
+                    "type": "physical",
+                    "shieldDuration": 2
+                }
+            ],
+
+            "desc": "Nullifies physical enemy Damage"
+        },
+
+        {
+            "ID": "steelSword",
+            "Name": "Steel Sword",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 8,
+                    "critChance": 20
+                }
+            ],
+
+            "desc": "An attack with a steel sword."
+        },
+
+        {
+            "ID": "woodenSword",
+            "Name": "Wooden Sword",
+            "type": "attack",
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 6,
+                    "critChance": 20
+                }
+            ],
+
+            "desc": "An attack with a wooden sword."
+        },
+
+        {
+            "ID": "WLS",
+            "Name": "Wizards's Last Stand",
+            "type": "spell",
+            "Mana": 1,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 100
+                },
+
+                {
+                    "ID": "<-",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 30,
+                    "selfDamage": true
+                }
+            ],
+
+            "desc": "A spell explosion using all mana and leaving you one 1 hp. Destroys all in que"
+        },
+
+        {
+            "ID": "MLS",
+            "Name": "Mage's Last Stand",
+            "type": "spell",
+            "Mana": 1,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "physical",
+                    "baseDmg": 2,
+                    "critChance": 100
+                }
+            ],
+
+            "desc": "Wait this is just brass knuckles"
+        },
+
+        {
+            "ID": "magicPunch",
+            "Name": "Magic Punch",
+            "type": "spell",
+            "Mana": 5,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                }
+            ],
+
+            "desc": "A punch imbueded with magic"
+        },
+
+        {
+            "ID": "fireBall",
+            "Name": "Fire Ball",
+            "type": "spell",
+            "Mana": 10,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                }
+            ],
+
+            "desc": "I CAST FIREBALL"
+        },
+
+        {
+            "ID": "iceSpike",
+            "Name": "Ice Spike",
+            "type": "spell",
+            "Mana": 10,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 5,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "@",
+                    "type": "magical",
+                    "freezeChance": 30
+                }
+            ],
+
+            "desc": "Small chance to freeze enemies"
+        },
+
+        {
+            "ID": "vindBind",
+            "Name": "Vine Bind",
+            "type": "spell",
+            "Mana": 15,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 3,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "&",
+                    "type": "magical",
+                    "bindChance": 50
+                }
+            ],
+
+            "desc": "Moderate chance to bind enemies"
+        },
+
+        {
+            "ID": "lightningBlast",
+            "Name": "Lightning Blast",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 8,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "<-",
+                    "type": "magical",
+                    "baseDmg": 8,
+                    "critChance": 30,
+                    "selfDamage": true
+                }
+            ],
+
+            "desc": "High damage to enemies and recoil to you"
+        },
+
+        {
+            "ID": "lightningNuke",
+            "Name": "Lightning Nuke",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 12,
+                    "critChance": 40
+                },
+
+                {
+                    "ID": "<-",
+                    "type": "magical",
+                    "baseDmg": 12,
+                    "critChance": 40,
+                    "selfDamage": true
+                }
+            ],
+
+            "desc": "A spell only known by Nuker"
+        },
+
+       
+
+        {
+            "ID": "siphon",
+            "Name": "Siphon",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 4,
+                    "critChance": 30
+                },
+
+                {
+                    "ID": "+",
+                    "type": "magical",
+                    "baseHealing": 4
+                }
+            ],
+
+            "desc": "Steal enemy hp"
+        },
+
+        {
+            "ID": "pushBack",
+            "Name": "Push Back",
+            "type": "spell",
+            "Mana": 20,
+            "Effects": 
+            [
+                {
+                    "ID": "|>",
+                    "type": "magical",
+                    "pushBack": true
+                }
+            ],
+
+            "desc": "Pushes and enemy backwards in the que"
+        },
+
+        {
+            "ID": "fireSplatter",
+            "Name": "Fire Splatter",
+            "type": "spell",
+            "Mana": 25,
+            "Effects": 
+            [
+                {
+                    "ID": "-",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 70
+                },
+
+                {
+                    "ID": "*",
+                    "type": "magical",
+                    "baseDmg": 2,
+                    "critChance": 70,
+                    "enemyJump": 3
+                }
+            ],
+
+            "desc": "Hight crit, low damage, can damage other enemies in the que"
+        },
+
+        {
+            "ID": "counter",
+            "Name": "Counter",
+            "type": "spell",
+            "Mana": 30,
+            "Effects": 
+            [
+                {
+                    "ID": "->",
+                    "type": "physical",
+                    "counter": true
+                }
+            ],
+
+            "desc": "Reverses all enemy damage"
+        },
+
+        {
+            "ID": "mShield",
+            "Name": "Magic Shield",
+            "type": "spell",
+            "Mana": 30,
+            "Effects": 
+            [
+                {
+                    "ID": "0",
+                    "type": "magical",
+                    "shieldDuration": 2
+                }
+            ],
+
+            "desc": "Nullifies magical enemy Damage"
+        },
+
+        {
+            "ID": "multiCast",
+            "Name": "???",
+            "type": "spell",
+            "Mana": 30,
+            "Effects": 
+            [
+                {
+                    "ID": "#",
+                    "type": "magical",
+                    "spellCount": 2
+                }
+            ],
+
+            "desc": "Randomly casts 2 more spells"
+        }
+
+        
+
+        
+    ]
+}

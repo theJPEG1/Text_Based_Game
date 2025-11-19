@@ -1,0 +1,34 @@
+{
+    "id": "gc1",
+    "type": "guildcenter",
+    "name": "Guild Center",
+    "header": "Welcome to Guild Cemter. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Guild Card",
+            "target": "viewGuildCard"
+        },
+
+        {
+            "actionDescription": "Check Inventory",
+            "target": "viewInventory"
+        },
+
+        {
+            "actionDescription": "View Quests",
+            "target": "viewQuests"
+        },
+
+        {
+            "actionDescription": "Effect List",
+            "target": "effectView"
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/Town1Day/town.json"
+        }
+    ]
+}

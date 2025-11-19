@@ -199,6 +199,9 @@ void Player::levelUp()
 
         if(!mindAllocated)
         {
+            cout << "The rest of your points are allocated to " << colors.MAGENTA << "Mind\n" << colors.DEFAULT;
+            colors.pauseTerminal(3);
+            
             mindAllocated = true;
             mindStat += allocationPoints;
             allocationPoints -= allocationPoints;
@@ -310,7 +313,7 @@ void Player::printInventory(int rarity)
     int count = 0;
     for (const auto& [material, amount] : inventory) 
     {
-        if(material.rarity <= rarity)
+        if(material.rarity <= rarity && material.rarity >= 0)
         {
             if (amount > 0) 
             {

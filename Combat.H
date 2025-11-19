@@ -24,6 +24,8 @@ class Combat
 
         void newCombatTest();
 
+        Enemy& getCurEnemy () {return curEnemy;};
+
     private:
         
 

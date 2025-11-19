@@ -42,7 +42,7 @@ int main()
         inFile >> j;
     
     bool playerExists = false;
-    if(!j.empty())
+    if(!j.is_null() && !j.empty())
     {
         cout << "[1] Load from File (" << color.YELLOW << j["name"] << " | Level: " << j["level"] << " | " << color.YELLOW << "Exp: " << j["xp"] << "/" << j["xpToNextLevel"] << " | " << color.CYAN << "Health: " << j["hp"] << "/" << j["maxHp"] << color.DEFAULT << ")"
             <<"\n[2] New Player\n-> ";
@@ -79,10 +79,9 @@ int main()
     {
         string temp;
         cout << "A story is much like that of a tree, but with branches that extend forever upwards and roots the burrow forever deeper."
-             << "\nEach story has similar points but with widly differnt outcomes, and it hardly deviates from the origonal.\n"
-             << "<ENTER> ";
-        cin >> temp;
+             << "\nEach story has similar points but with widly differnt outcomes, and it hardly deviates from the origonal.\n";
     
+        color.pauseTerminal(1);
         cout << "So I ask, Who are you?\n";
 
         color.pauseTerminal(2);

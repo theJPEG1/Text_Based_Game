@@ -1,0 +1,30 @@
+{
+    "Actions": [
+        {
+            "actionDescription": "Wait till day",
+            "target": "Locations/Town1Day/towncenter.json"
+        },
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/Town1Night/town.json"
+        }
+    ],
+    "header": "The once loud streets are now quiet and the well sits unguarded with a soft sparkling light. What do you do?",
+    "id": "tc1",
+    "name": "Town Center",
+    "type": "townCenter",
+
+    "questEffect":
+    [
+        {
+            "questID": "bottomOfTheWell",
+            "target": "Quests/tcnWell.json",
+            "appendedActions":
+            [
+                {
+                    "appendName": "Well Actions"
+                }
+            ]
+        }
+    ]
+}

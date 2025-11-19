@@ -1,6 +1,9 @@
 #ifndef QUESTS_H
 #define QUESTS_H
 
+#include "attacksEffects.H"
+#include "Enemy.h"
+
 #include <string>
     using std::string;
 #include <vector>
@@ -8,19 +11,14 @@
 
 struct QuestObjective
 {
-    QuestObjective()
-    {
-        collected = 0;
-        collectedTotal = 1;
+    QuestObjective() = default;
+    QuestObjective(bool getItem); 
+    QuestObjective(CraftingMaterials itemToGet, int amt); 
 
-        hasItem = false;
-    };
-    QuestObjective(int collectAmt) {collectedTotal = collectAmt;};
-    QuestObjective(bool getItem) {hasItem = getItem;};
-
-    int collected;
+    int collected = 0;
     int collectedTotal;
 
+    CraftingMaterials item;
     bool hasItem;
 };
 
@@ -69,15 +67,15 @@ class Quest
             }
         };
 
-        void addObjective (QuestObjective qo) {o = qo;};
-        QuestObjective& getObjective() {return o;};
+        void addObjective (QuestObjective qo) {o.push_back(qo);};
+        vector<QuestObjective>& getObjective() {return o;};
 
     private:
         string ID;
         int status;
         vector<string> displayMessage;
         int questIndex;
-        QuestObjective o;
+        vector<QuestObjective> o;
 };
 
 #endif

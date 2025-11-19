@@ -1,0 +1,18 @@
+{
+   "name": "PEG",
+   "month": "Felixmen",
+   "time": "Day",
+   "day": 13,
+   "hp": 15,
+   "maxHp": 15,
+   "strength": 10,
+   "dexterity": 10,
+   "mind": 10,
+   "luck": 2,
+   "level": 1,
+   "xp": 0,
+   "xpToNextLevel": 50,
+   "healthPotions": 6,
+   "manaPotions": 6,
+   "novas": 20000
+}

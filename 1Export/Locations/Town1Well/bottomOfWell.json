@@ -1,0 +1,24 @@
+{
+    "id": "bow1",
+    "type": "well",
+    "name": "Well",
+    "header": "At the bottom of the well there is a door with a lock!\nWhat do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Put in the key",
+            "target": "wellKey"
+        },
+
+        {
+            "actionDescription": "Seduce the Door",
+            "target": "seduceDoor"
+        },
+
+        {
+            "actionDescription": "Return to surface",
+            "target": "Locations/Town1Night/towncenter.json"
+        }
+    ]
+}

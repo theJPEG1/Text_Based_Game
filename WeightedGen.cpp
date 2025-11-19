@@ -33,42 +33,67 @@ Enemy WeightedGen::generateEnemy(int playerLevel, vector<vector<Enemy>> enemiesT
     Enemy determinedEnemy;
     int enemyIndex = 0;
 
-    double rarityChance = rand() % 100 + 1;
-
-    //low to high are the chances
-    if(rarityChance >= enemyGen.find(playerLevel)->second.at(0))
+    bool enemySelected = false;
+    
+    while(!enemySelected)
     {
-        //lowest level
-        enemyIndex = rand() % enemiesToUse.at(0).size();
-        determinedEnemy = enemiesToUse.at(0).at(enemyIndex);
-    }
+        double rarityChance = rand() % 100 + 1;
 
-    else if(rarityChance < enemyGen.find(playerLevel)->second.at(0) && rarityChance >= enemyGen.find(playerLevel)->second.at(1))
-    {
-        //second
-        enemyIndex = rand() % enemiesToUse.at(1).size();
-        determinedEnemy = enemiesToUse.at(1).at(enemyIndex);
-    }
+        //low to high are the chances
+        if(rarityChance >= enemyGen.find(playerLevel)->second.at(0))
+        {
+            //lowest level
+            if(enemiesToUse.at(0).size() > 0)
+            {
+                enemyIndex = rand() % enemiesToUse.at(0).size();
+                determinedEnemy = enemiesToUse.at(0).at(enemyIndex);
+                enemySelected = true;
+            }
+        }
 
-    else if(rarityChance < enemyGen.find(playerLevel)->second.at(1) && rarityChance >= enemyGen.find(playerLevel)->second.at(2))
-    {
-        //Third
-        enemyIndex = rand() % enemiesToUse.at(2).size();
-        determinedEnemy = enemiesToUse.at(2).at(enemyIndex);
-    }
+        else if(rarityChance < enemyGen.find(playerLevel)->second.at(0) && rarityChance >= enemyGen.find(playerLevel)->second.at(1))
+        {
+            //second
+            if(enemiesToUse.at(1).size() > 0)
+            {
+                enemyIndex = rand() % enemiesToUse.at(1).size();
+                determinedEnemy = enemiesToUse.at(1).at(enemyIndex);
+                enemySelected = true;
+            }
+        }
 
-    else if(rarityChance < enemyGen.find(playerLevel)->second.at(2) && rarityChance > enemyGen.find(playerLevel)->second.at(3))
-    {
-        //Fourth
-        enemyIndex = rand() % enemiesToUse.at(3).size();
-        determinedEnemy = enemiesToUse.at(3).at(enemyIndex);
-    }
+        else if(rarityChance < enemyGen.find(playerLevel)->second.at(1) && rarityChance >= enemyGen.find(playerLevel)->second.at(2))
+        {
+            //Third
+            if(enemiesToUse.at(2).size() > 0)
+            {
+                enemyIndex = rand() % enemiesToUse.at(2).size();
+                determinedEnemy = enemiesToUse.at(2).at(enemyIndex);
+                enemySelected = true;
+            }
+        }
 
-    else if(rarityChance < enemyGen.find(playerLevel)->second.at(3))
-    {
-        //Fifth
-        enemyIndex = rand() % enemiesToUse.at(4).size();
-        determinedEnemy = enemiesToUse.at(4).at(enemyIndex);
+        else if(rarityChance < enemyGen.find(playerLevel)->second.at(2) && rarityChance > enemyGen.find(playerLevel)->second.at(3))
+        {
+            //Fourth
+            if(enemiesToUse.at(3).size() > 0)
+            {
+                enemyIndex = rand() % enemiesToUse.at(3).size();
+                determinedEnemy = enemiesToUse.at(3).at(enemyIndex);
+                enemySelected = true;
+            }
+        }
+
+        else if(rarityChance < enemyGen.find(playerLevel)->second.at(3))
+        {
+            //Fifth
+            if(enemiesToUse.at(4).size() > 0)
+            {
+                enemyIndex = rand() % enemiesToUse.at(4).size();
+                determinedEnemy = enemiesToUse.at(4).at(enemyIndex);
+                enemySelected = true;
+            }
+        }
     }
     
 
@@ -166,41 +191,4 @@ bool WeightedGen::dodgeChance(int playerDex, int enemyDex, double modifier, stri
     }
 
     return didDodge;
-};
-
-/**
- * @brief       Uses an object strength stat to determine damage.
- *
- * @param        strengthStat   Strength stat of the object
- * 
- * @return      A number between 1 and strengthStat
- *
-**/
-int WeightedGen::determineDamage(int strengthStat)
-{
-    return (rand() % strengthStat) + 1;
-};
-
-/**
- * @brief       Uses an object strength stat to determine damage.
- *
- * @param        strengthStat   Strength stat of the object
- * @param        modifier       - or + modifier (-1, 1)
- * 
- * @return      A number between 1 and strengthStat with a minimum of (strengthStat / 3)
- *
-**/
-int WeightedGen::determineDamage(int strengthStat, double modifier)
-{
-    modifier *= static_cast<int>(strengthStat * 1.5) - strengthStat;
-    int lowestDamage = strengthStat / 3;
-
-    int damage = ((rand() % strengthStat) + modifier) + 1;
-
-    if(damage < lowestDamage)
-    {
-        damage = lowestDamage;
-    }
-
-    return damage;
 };

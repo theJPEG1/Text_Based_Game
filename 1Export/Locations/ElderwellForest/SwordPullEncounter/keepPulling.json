@@ -1,0 +1,19 @@
+{
+    "id": "efE7",
+    "type": "forestEncounter",
+    "name": "Sword Pedastal Encounter",
+    "header": "A dense fog starts to roll in, covering the forest floor. What do you do?",
+
+    "Actions":
+    [
+        {
+            "actionDescription": "Keep Pulling. <Not Done>",
+            "target": ""
+        },
+
+        {
+            "actionDescription": "Leave",
+            "target": "Locations/ElderwellForest/elderwellForest.json"
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+[
+    {
+        "amount": 1,
+        "id": ""
+    },
+    {
+        "amount": 1,
+        "id": "bearClaw"
+    },
+    {
+        "amount": 0,
+        "id": "boarTusk"
+    },
+    {
+        "amount": 1,
+        "id": "fDragonClaw"
+    },
+    {
+        "amount": 1,
+        "id": "fDragonScale"
+    },
+    {
+        "amount": 1,
+        "id": "fairyWings"
+    },
+    {
+        "amount": 1,
+        "id": "grass"
+    },
+    {
+        "amount": 1,
+        "id": "heartWood"
+    },
+    {
+        "amount": 1,
+        "id": "ironWood"
+    },
+    {
+        "amount": 1,
+        "id": "leaf"
+    },
+    {
+        "amount": 1,
+        "id": "lightningRabbitFoot"
+    },
+    {
+        "amount": 1,
+        "id": "pixieDust"
+    },
+    {
+        "amount": 1,
+        "id": "rabbitFoot"
+    },
+    {
+        "amount": 1,
+        "id": "rose"
+    },
+    {
+        "amount": 1,
+        "id": "slimeGoop"
+    },
+    {
+        "amount": 1,
+        "id": "sprigHeart"
+    },
+    {
+        "amount": 1,
+        "id": "squirrelTail"
+    },
+    {
+        "amount": 1,
+        "id": "stone"
+    },
+    {
+        "amount": 1,
+        "id": "stoneWood"
+    },
+    {
+        "amount": 99,
+        "id": "trollSnot"
+    },
+    {
+        "amount": 98,
+        "id": "wolfFang"
+    },
+    {
+        "amount": 1,
+        "id": "wolfHide"
+    },
+    {
+        "amount": 1,
+        "id": "wolfTail"
+    },
+    {
+        "amount": -3,
+        "id": "wood"
+    }
+]

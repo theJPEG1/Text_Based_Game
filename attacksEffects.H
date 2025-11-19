@@ -403,7 +403,7 @@ struct Attacks
                         else
                         {
                              customEffects.push_back(mats.at(i).matEffects.at(k));
-                        }   
+                        }   //update if you have a bool instead of modifying while searching. Shopping cart homework to cheat
                     }
                 }
             }
