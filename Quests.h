@@ -11,7 +11,6 @@
 
 struct QuestObjective
 {
-    QuestObjective() = default;
     QuestObjective(bool getItem); 
     QuestObjective(CraftingMaterials itemToGet, int amt); 
 
