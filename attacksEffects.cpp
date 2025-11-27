@@ -1,6 +1,6 @@
-#include "Player.H"
-#include "Enemy.H"
-#include "attacksEffects.H"
+#include "Player.h"
+#include "Enemy.h"
+#include "attacksEffects.h"
 
 PrettyColors color;
 

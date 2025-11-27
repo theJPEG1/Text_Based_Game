@@ -1,6 +1,6 @@
-#include "PrettyColors.H"
-#include "Enemy.H"
-#include "Player.H"
+#include "PrettyColors.h"
+#include "Enemy.h"
+#include "Player.h"
 
 /**
  * @brief Constructs an Enemy object with specified stats and attributes.

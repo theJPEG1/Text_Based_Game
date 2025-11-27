@@ -1,7 +1,7 @@
 #ifndef WEIGHTEDGEN_H
 #define WEIGHTEDGEN_H
 
-#include "Enemy.H"
+#include "Enemy.h"
 #include <string>
     using std::string;
 #include <map>

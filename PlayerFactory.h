@@ -1,9 +1,9 @@
 #ifndef PLAYERFACTORY_H
 #define PLAYERFACTORY_H
 
-#include "Player.H"
-#include "PrettyColors.H"
-#include "attacksEffects.H"
+#include "Player.h"
+#include "PrettyColors.h"
+#include "attacksEffects.h"
 #include "include/json.hpp"
     using json = nlohmann::json;
     using ordered_json = nlohmann::ordered_json;

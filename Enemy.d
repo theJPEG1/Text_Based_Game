@@ -1,8 +1,8 @@
-Enemy.o: Enemy.cpp PrettyColors.H Enemy.H attacksEffects.H \
- include/json.hpp Player.H Quests.H
-PrettyColors.H:
-Enemy.H:
-attacksEffects.H:
+Enemy.o: Enemy.cpp PrettyColors.h Enemy.h attacksEffects.h \
+ include/json.hpp Player.h Quests.h
+PrettyColors.h:
+Enemy.h:
+attacksEffects.h:
 include/json.hpp:
-Player.H:
-Quests.H:
+Player.h:
+Quests.h:

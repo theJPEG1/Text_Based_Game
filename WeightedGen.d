@@ -1,6 +1,6 @@
-WeightedGen.o: WeightedGen.cpp WeightedGen.H Enemy.H attacksEffects.H \
+WeightedGen.o: WeightedGen.cpp WeightedGen.h Enemy.h attacksEffects.h \
  include/json.hpp
-WeightedGen.H:
-Enemy.H:
-attacksEffects.H:
+WeightedGen.h:
+Enemy.h:
+attacksEffects.h:
 include/json.hpp:

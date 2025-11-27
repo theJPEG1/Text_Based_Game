@@ -19,12 +19,12 @@
 
 #include "include/json.hpp"
     using json = nlohmann::json;
-#include "attacksEffects.H"
-#include "EnemyFactory.H"
-#include "Combat.H"
-#include "Saving.H"
+#include "attacksEffects.h"
+#include "EnemyFactory.h"
+#include "Combat.h"
+#include "Saving.h"
 
-#include "GameState.H"
+#include "GameState.h"
 
 //every Actions possible (Location)
 class Actions

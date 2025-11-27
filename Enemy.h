@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "attacksEffects.H"
+#include "attacksEffects.h"
 
 #include <string>
     using std::string;

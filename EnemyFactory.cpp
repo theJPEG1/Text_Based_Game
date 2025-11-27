@@ -1,4 +1,4 @@
-#include "EnemyFactory.H"
+#include "EnemyFactory.h"
 
 /**
  * @brief       Constructs an enemy object.

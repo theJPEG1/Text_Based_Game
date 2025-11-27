@@ -1,4 +1,4 @@
-#include "Combat.H"
+#include "Combat.h"
 
 //time for funky math and a weird explaniation
 /*  
