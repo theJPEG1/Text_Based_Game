@@ -1,7 +1,7 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
-#include "Player.H"
+#include "Player.h"
 
 struct GameState
 {

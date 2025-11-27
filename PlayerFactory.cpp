@@ -1,4 +1,4 @@
-#include "PlayerFactory.H"
+#include "PlayerFactory.h"
 
 
 PrettyColors PlayerFactory::colors;

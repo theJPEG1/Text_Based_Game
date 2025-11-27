@@ -1,6 +1,6 @@
 # config
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -O2 -MMD -MP
+CXXFLAGS := -std=c++17 -Wall -Wextra -O2 -MMD -MP -g
 
 # Change this to whatever you want your binary to be called
 TARGET := main

@@ -1,6 +1,6 @@
-EnemyFactory.o: EnemyFactory.cpp EnemyFactory.H Enemy.H attacksEffects.H \
+EnemyFactory.o: EnemyFactory.cpp EnemyFactory.h Enemy.h attacksEffects.h \
  include/json.hpp
-EnemyFactory.H:
-Enemy.H:
-attacksEffects.H:
+EnemyFactory.h:
+Enemy.h:
+attacksEffects.h:
 include/json.hpp:

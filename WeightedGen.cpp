@@ -1,5 +1,5 @@
-#include "WeightedGen.H"
-#include "Enemy.H"
+#include "WeightedGen.h"
+#include "Enemy.h"
 
 #include <string>
     using std::string;

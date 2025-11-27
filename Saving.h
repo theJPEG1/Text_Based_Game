@@ -1,11 +1,11 @@
 #ifndef SAVING_H
 #define SAVING_H
 
-#include "Player.H"
+#include "Player.h"
 #include "include/json.hpp"
     using json = nlohmann::json;
     
-#include "attacksEffects.H"
+#include "attacksEffects.h"
 
 #include <string>
     using std::string;

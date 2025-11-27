@@ -1,4 +1,4 @@
-#include "Actions.H"
+#include "Actions.h"
 
 Actions::Actions(GameState* gameState)
 {
@@ -869,10 +869,10 @@ void Actions::keyAsk()
 
         else
         {
-            if(!q->getObjective().hasItem)
+            if(!q->getObjective()[0].hasItem)
             {
                 cout << "heres the key!\n";
-                q->getObjective().hasItem = true;
+                q->getObjective()[0].hasItem = true;
                 q->setMessageIndex(2);
             }
         }
@@ -1019,7 +1019,7 @@ void Actions::wellKey()
 {
     Quest* q = gc->player.getQuest("bottomOfTheWell");
     
-    if(q->getObjective().hasItem)
+    if(q->getObjective()[0].hasItem)
     {
         cout << "You unlocked the door!\n";
     }

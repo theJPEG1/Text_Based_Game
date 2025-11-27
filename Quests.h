@@ -1,7 +1,7 @@
 #ifndef QUESTS_H
 #define QUESTS_H
 
-#include "attacksEffects.H"
+#include "attacksEffects.h"
 #include "Enemy.h"
 
 #include <string>
@@ -11,7 +11,6 @@
 
 struct QuestObjective
 {
-    QuestObjective() = default;
     QuestObjective(bool getItem); 
     QuestObjective(CraftingMaterials itemToGet, int amt); 
 

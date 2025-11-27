@@ -1,15 +1,15 @@
-Actions.o: Actions.cpp Actions.H include/json.hpp attacksEffects.H \
- EnemyFactory.H Enemy.H Combat.H WeightedGen.H GameState.H Player.H \
- PrettyColors.H Quests.H Saving.H
-Actions.H:
+Actions.o: Actions.cpp Actions.h include/json.hpp attacksEffects.h \
+ EnemyFactory.h Enemy.h Combat.h WeightedGen.h GameState.h Player.h \
+ PrettyColors.h Quests.h Saving.h
+Actions.h:
 include/json.hpp:
-attacksEffects.H:
-EnemyFactory.H:
-Enemy.H:
-Combat.H:
-WeightedGen.H:
-GameState.H:
-Player.H:
-PrettyColors.H:
-Quests.H:
-Saving.H:
+attacksEffects.h:
+EnemyFactory.h:
+Enemy.h:
+Combat.h:
+WeightedGen.h:
+GameState.h:
+Player.h:
+PrettyColors.h:
+Quests.h:
+Saving.h:

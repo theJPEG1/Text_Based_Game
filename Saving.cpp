@@ -1,10 +1,10 @@
-#include "Saving.H"
-#include "Player.H"
+#include "Saving.h"
+#include "Player.h"
 #include "include/json.hpp"
     using json = nlohmann::json;
     using ordered_json = nlohmann::ordered_json;
-#include "PrettyColors.H"
-#include "attacksEffects.H"
+#include "PrettyColors.h"
+#include "attacksEffects.h"
 
 #include <fstream>
     using std::ofstream;   

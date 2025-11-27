@@ -2,10 +2,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "attacksEffects.H"
-#include "PrettyColors.H"
-#include "Enemy.H"
-#include "Quests.H"
+#include "attacksEffects.h"
+#include "PrettyColors.h"
+#include "Enemy.h"
+#include "Quests.h"
 
 #include<string>
     using std::string;

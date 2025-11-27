@@ -1,9 +1,9 @@
 #ifndef COMBAT_H
 #define COMBAT_H
 
-#include "Enemy.H"
-#include "WeightedGen.H"
-#include "GameState.H"
+#include "Enemy.h"
+#include "WeightedGen.h"
+#include "GameState.h"
 
 #include <vector>
     using std::vector;

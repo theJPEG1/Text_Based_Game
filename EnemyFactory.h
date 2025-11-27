@@ -1,8 +1,8 @@
 #ifndef ENEMYFACTORY_H
 #define ENEMYFACTORY_H
 
-#include "Enemy.H"
-#include "attacksEffects.H"
+#include "Enemy.h"
+#include "attacksEffects.h"
 #include "include/json.hpp"
     using json = nlohmann::json;
 
